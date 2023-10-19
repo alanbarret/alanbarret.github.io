@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webpage Generator</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 100%;
+            padding: 20px;
+        }
+        .input-field {
+            margin-bottom: 10px;
+        }
+        .response {
+            margin-top: 20px;
+        }
+        .preview-iframe {
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 1500px; /* Set the desired height for the iframe */
+        }
+        .loader {
+            display: none;
+            font-size: 24px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Webpage Generator</h1>
+                <!-- Add the <form> element to wrap the input fields and button -->
+                <form id="webpage-form">
+                    <div class="input-field">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" id="title" placeholder="Enter title" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="description">Description:</label>
+                        <input type="text" class="form-control" id="description" placeholder="Enter description" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="features">Features:</label>
+                        <input type="text" class="form-control" id="features" placeholder="Enter features" required>
+                    </div>
+                    <!-- Add input elements for image uploads with the 'required' attribute -->
+                    <div class="input-field">
+                        <label for="image1">Hero Image:</label>
+                        <input type="file" class="form-control" id="image1" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="image2">Feature1 Image:</label>
+                        <input type="file" class="form-control" id="image2" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="image3">Feature2 Image:</label>
+                        <input type="file" class="form-control" id="image3" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="image4">Feature3 Image:</label>
+                        <input type="file" class="form-control" id="image4" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="language">Select Language:</label>
+                        <select class="form-control" id="language">
+                            <option value="english">English</option>
+                            <option value="arabic">Arabic</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="generateWebpage()">Generate Webpage</button>
+                </form>
+                <div class="response" id="response"></div>
+                <button class="btn btn-secondary" id="download-button" onclick="downloadZip()">Download ZIP</button>
+            </div>
+            <div class="col-md-6">
+                <div class="loader" id="loader">Loading...</div> 
+                <iframe class="preview-iframe" id="preview-iframe"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function generateWebpage() {
+            const language = document.getElementById("language").value;
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+            const features = document.getElementById("features").value;
+            const image1 = document.getElementById("image1").files[0];
+            const image2 = document.getElementById("image2").files[0];
+            const image3 = document.getElementById("image3").files[0];
+            const image4 = document.getElementById("image4").files[0];
+        
+            // Show the loader while the API call is ongoing
+            const loader = document.getElementById("loader");
+            loader.style.display = "block";
+        
+            // Read and encode files as base64
+            function readFileAsBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        resolve(reader.result.split(",")[1]);
+                    };
+                    reader.onerror = (error) => reject(error);
+                    reader.readAsDataURL(file);
+                });
+            }
+        
+            Promise.all([
+                readFileAsBase64(image1),
+                readFileAsBase64(image2),
+                readFileAsBase64(image3),
+                readFileAsBase64(image4),
+            ])
+            .then((base64Images) => {
+                // Create a JSON object with all the data
+                const requestData = {
+                    language: language,
+                    title: title,
+                    description: description,
+                    features: features,
+                    image1: base64Images[0],
+                    image2: base64Images[1],
+                    image3: base64Images[2],
+                    image4: base64Images[3],
+                };
+        
+                // Send a POST request with the JSON data
+                fetch('http://arabyai-app-test.me-south-1.elasticbeanstalk.com/generate_webpage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData),
+                })
+                .then(response => response.json()) // Convert response to JSON
+                .then(data => {
+                    // Hide the loader when the API call is complete
+                    loader.style.display = "none";
+        
+                    // Set the HTML content of the iframe
+                    const previewIframe = document.getElementById("preview-iframe");
+                    previewIframe.srcdoc = data.modified_html; // Load HTML from the JSON response
+        
+                    // Update the "Download ZIP" button to open the URL from the JSON response
+                    const downloadButton = document.getElementById("download-button");
+                    downloadButton.href = data.zip_url; // Set the URL for downloading the ZIP
+                    downloadButton.style.display = "block"; // Show the button
+                })
+                .catch(error => {
+                    // Hide the loader and handle errors
+                    loader.style.display = "none";
+                    console.error('Error:', error);
+                });
+            })
+            .catch(error => {
+                // Hide the loader and handle errors
+                loader.style.display = "none";
+                console.error('Error reading files:', error);
+            });
+        }
+
+        // Show the "Download ZIP" button after the page is load
+        function downloadZip() {
+            const downloadButton = document.getElementById("download-button");
+            const zipUrl = downloadButton.href; // Get the ZIP URL from the data attribute
+            console.log(zipUrl,"jhsdjiahsd")
+            if (zipUrl) {
+                window.open(zipUrl, '_blank');
+            }
+        }
+    
+    </script>
+</body>
+</html>
