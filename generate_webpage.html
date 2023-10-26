@@ -23,7 +23,7 @@
         .preview-iframe {
             border: 1px solid #ccc;
             width: 100%;
-            height: 1500px; /* Set the desired height for the iframe */
+            height: 800px; /* Set the desired height for the iframe */
         }
         .loader {
             display: none;
@@ -56,7 +56,7 @@
                         <input type="text" class="form-control" id="features" placeholder="Enter features" required>
                     </div>
                     <!-- Add input elements for image uploads with the 'required' attribute -->
-                    <div class="input-field">
+                   <!-- <div class="input-field">
                         <label for="image1">Hero Image:</label>
                         <input type="file" class="form-control" id="image1" required>
                     </div>
@@ -71,7 +71,7 @@
                     <div class="input-field">
                         <label for="image4">Feature3 Image:</label>
                         <input type="file" class="form-control" id="image4" required>
-                    </div>
+                    </div>-->
                     <div class="input-field">
                         <label for="language">Select Language:</label>
                         <select class="form-control" id="language">
@@ -102,44 +102,48 @@
             const title = document.getElementById("title").value;
             const description = document.getElementById("description").value;
             const features = document.getElementById("features").value;
-            const image1 = document.getElementById("image1").files[0];
-            const image2 = document.getElementById("image2").files[0];
-            const image3 = document.getElementById("image3").files[0];
-            const image4 = document.getElementById("image4").files[0];
+            // const image1 = document.getElementById("image1").files[0];
+            // const image2 = document.getElementById("image2").files[0];
+            // const image3 = document.getElementById("image3").files[0];
+            // const image4 = document.getElementById("image4").files[0];
         
             // Show the loader while the API call is ongoing
             const loader = document.getElementById("loader");
             loader.style.display = "block";
         
             // Read and encode files as base64
-            function readFileAsBase64(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                        resolve(reader.result.split(",")[1]);
-                    };
-                    reader.onerror = (error) => reject(error);
-                    reader.readAsDataURL(file);
-                });
-            }
+            // function readFileAsBase64(file) {
+            //     return new Promise((resolve, reject) => {
+            //         const reader = new FileReader();
+            //         reader.onload = () => {
+            //             resolve(reader.result.split(",")[1]);
+            //         };
+            //         reader.onerror = (error) => reject(error);
+            //         reader.readAsDataURL(file);
+            //     });
+            // }
         
-            Promise.all([
-                readFileAsBase64(image1),
-                readFileAsBase64(image2),
-                readFileAsBase64(image3),
-                readFileAsBase64(image4),
-            ])
-            .then((base64Images) => {
+            // Promise.all([
+            //     readFileAsBase64(image1),
+            //     readFileAsBase64(image2),
+            //     readFileAsBase64(image3),
+            //     readFileAsBase64(image4),
+            // ])
+            // .then((base64Images) => {  })            .catch(error => {
+                // Hide the loader and handle errors
+            //     loader.style.display = "none";
+            //     console.error('Error reading files:', error);
+            // });
                 // Create a JSON object with all the data
                 const requestData = {
                     language: language,
                     title: title,
                     description: description,
                     features: features,
-                    image1: base64Images[0],
-                    image2: base64Images[1],
-                    image3: base64Images[2],
-                    image4: base64Images[3],
+                    // image1: base64Images[0],
+                    // image2: base64Images[1],
+                    // image3: base64Images[2],
+                    // image4: base64Images[3],
                 };
         
                 // Send a POST request with the JSON data
@@ -169,12 +173,8 @@
                     loader.style.display = "none";
                     console.error('Error:', error);
                 });
-            })
-            .catch(error => {
-                // Hide the loader and handle errors
-                loader.style.display = "none";
-                console.error('Error reading files:', error);
-            });
+          
+
         }
 
         // Show the "Download ZIP" button after the page is load
