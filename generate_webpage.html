@@ -179,11 +179,11 @@
         
                     // Set the HTML content of the iframe
                     const previewIframe = document.getElementById("preview-iframe");
-                    previewIframe.srcdoc = data.modified_html; // Load HTML from the JSON response
+                    previewIframe.srcdoc = data.data.modified_html; // Load HTML from the JSON response
         
                     // Update the "Download ZIP" button to open the URL from the JSON response
                     const downloadButton = document.getElementById("download-button");
-                    downloadButton.href = data.zip_url; // Set the URL for downloading the ZIP
+                    downloadButton.href = data.data.zip_url; // Set the URL for downloading the ZIP
                     downloadButton.style.display = "block"; // Show the button
                 })
                 .catch(error => {
