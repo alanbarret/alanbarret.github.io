@@ -57,15 +57,19 @@
                     </div>
                     <div class="input-field">
                         <label for="address">Contact Address:</label>
-                        <input type="text" class="form-control" id="address" placeholder="Enter Address">
+                        <input type="text" class="form-control" id="address" placeholder="Enter Address" required>
                     </div>
                     <div class="input-field">
                         <label for="mob_no">Contact Mobile number:</label>
-                        <input type="text" class="form-control" id="mob_no" placeholder="Enter Mobile Number">
+                        <input type="text" class="form-control" id="mob_no" placeholder="Enter Mobile Number" required>
                     </div>
                     <div class="input-field">
                         <label for="email">Contact Email:</label>
-                        <input type="text" class="form-control" id="email" placeholder="Enter Email Address">
+                        <input type="text" class="form-control" id="email" placeholder="Enter Email Address" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="baseColor">Base Color:</label>
+                        <input type="color" class="form-control" id="baseColor" value="#FFFFFF">
                     </div>
                     <!-- Add input elements for image uploads with the 'required' attribute -->
                    <!-- <div class="input-field">
@@ -117,6 +121,8 @@
             const address = document.getElementById("address").value;
             const mob_no = document.getElementById("mob_no").value;
             const email = document.getElementById("email").value;
+            const baseColor = document.getElementById("baseColor").value;
+
             // const image1 = document.getElementById("image1").files[0];
             // const image2 = document.getElementById("image2").files[0];
             // const image3 = document.getElementById("image3").files[0];
@@ -158,6 +164,7 @@
                     address:address,
                     mobile_no:mob_no,
                     email:email,
+                    base_color: baseColor,
                     // image1: base64Images[0],
                     // image2: base64Images[1],
                     // image3: base64Images[2],
@@ -180,7 +187,7 @@
                     // Set the HTML content of the iframe
                     const previewIframe = document.getElementById("preview-iframe");
                     previewIframe.srcdoc = data.data.modified_html; // Load HTML from the JSON response
-        
+                    console.log(data)
                     // Update the "Download ZIP" button to open the URL from the JSON response
                     const downloadButton = document.getElementById("download-button");
                     downloadButton.href = data.data.zip_url; // Set the URL for downloading the ZIP
