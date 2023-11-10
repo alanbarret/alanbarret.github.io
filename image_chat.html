@@ -6,65 +6,76 @@
     <title>Image Chat</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 5%;
         }
 
         #upload-container {
-            border: 2px dashed #ccc;
+            border: 2px dashed #4CAF50;
             padding: 20px;
             text-align: center;
             cursor: pointer;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
         #upload-input {
             display: none;
         }
 
-        #question-textarea {
-            width: 100%;
-            margin-top: 20px;
-            padding: 10px;
-        }
-
-        #image-url-input {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-        }
-
-        #response-textview {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            height: 200px;
-            overflow-y: auto;
-        }
-
-        #submit-btn {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
         #image-preview {
             max-width: 100%;
             max-height: 300px;
             margin-top: 10px;
+            border-radius: 10px;
+        }
+
+        #remove-btn,
+        #submit-btn {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #fff;
+            transition: background-color 0.3s ease;
         }
 
         #remove-btn {
+            background-color: #ff4c4c;
+            display: none;
+        }
+
+        #remove-btn:hover {
+            background-color: #ff6666;
+        }
+
+        #submit-btn {
+            background-color: #4CAF50;
+        }
+
+        #submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        #image-url-input,
+        #question-textarea {
+            width: 100%;
             margin-top: 10px;
             padding: 10px;
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            cursor: pointer;
-            display: none; /* Initially hide the remove button */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
         }
 
         #loader {
@@ -78,6 +89,20 @@
             margin: 20px auto;
         }
 
+        #response-textview {
+            width: 100%;
+            margin-top: 10px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -89,7 +114,7 @@
     <div id="upload-container" onclick="openFileUploader()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
         <p>Drag and drop an image here or click to upload.</p>
         <input type="file" id="upload-input" accept="image/*" onchange="handleFileSelect(event)">
-        <img id="image-preview" >
+        <img id="image-preview" alt="Image Preview">
     </div>
 
     <button id="remove-btn" onclick="removeImage()">Remove Image</button>
@@ -98,12 +123,11 @@
 
     <textarea id="question-textarea" placeholder="Ask a question..."></textarea>
 
-    <div id="loader"></div>
-
-    <div id="response-textview"></div></div>
-
     <button id="submit-btn" onclick="submitQuestion()">Submit</button>
 
+    <div id="loader"></div>
+
+    <div id="response-textview"></div>
 
 
     <script>
@@ -227,7 +251,7 @@
             }
 
             // API request
-            const apiUrl = 'http://arabyai-app-test.me-south-1.elasticbeanstalk.com/image_chat';
+            const apiUrl = 'http://192.168.0.129:8001/image_chat';
             const requestBody = {
                 "chat_text": question,
             };
