@@ -137,12 +137,12 @@
                 redirect: 'follow'
             };
             addLoader();
-            fetch("http://192.168.100.175:8001/tradegpt", requestOptions)
+            fetch("https://v1.test.socket.araby.ai/demo/gpt-trade", requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     removeLoader();
-                    if (result && result.Assistant) {
-                        addMessage(result.Assistant, 'bot');
+                    if (result && result.data.Assistant) {
+                        addMessage(result.data.Assistant, 'bot');
                     } else {
                         addMessage("No response from the assistant.", 'bot');
                     }
