@@ -170,10 +170,10 @@
           .then((response) => response.json())
           .then((result) => {
             removeLoader();
-            if (result && result.Assistant) {
-              addMessage(result.Assistant, "bot");
-              if (result.thread_id)
-                saveThreadIdToLocalStorage(result.thread_id);
+            if (result && result.data.Assistant) {
+              addMessage(result.data.Assistant, "bot");
+              if (result.data.thread_id)
+                saveThreadIdToLocalStorage(result.data.thread_id);
             } else {
               addMessage("No response from the assistant.", "bot");
             }
