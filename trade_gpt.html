@@ -137,7 +137,7 @@
                 redirect: 'follow'
             };
             addLoader();
-            fetch("https://v1.test.socket.araby.ai/demo/gpt-trade", requestOptions)
+            fetch("http://arabyai-app-test.me-south-1.elasticbeanstalk.com/tradegpt", requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     removeLoader();
