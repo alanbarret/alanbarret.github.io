@@ -44,12 +44,25 @@
       }
 
       .chat-form-container {
-        display: flex;
+        display: block;
         padding: 15px;
         background-color: #333; /* Match container color */
       }
 
       #user-input {
+        width: calc(100% - 100px); /* Adjust width as needed */
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #555;
+        border-radius: 5px;
+        background-color: #222;
+        color: #fff;
+        resize: none; /* Prevent manual resizing */
+        overflow: hidden; /* Hide scrollbar */
+        min-height: 20px; /* Minimum height */
+      }
+
+      #user-instruction {
         width: calc(100% - 100px); /* Adjust width as needed */
         padding: 10px;
         margin-right: 10px;
@@ -135,26 +148,60 @@
         <!-- Chat messages will be added here -->
       </div>
       <div class="chat-form-container">
+        <textarea
+          id="user-instruction"
+          placeholder="Type your instruction..."
+        ></textarea>
         <textarea id="user-input" placeholder="Type your message..."></textarea>
         <button id="send-button">Send</button>
       </div>
     </div>
 
     <script>
-      // Function to save the thread_id to localStorage
-      document
-        .getElementById("user-input")
-        .addEventListener("input", function () {
-          this.style.height = "auto";
-          this.style.height = this.scrollHeight + "px";
+           // Function to dynamically resize textarea
+           function adjustTextAreaHeight(textArea) {
+            textArea.style.height = "auto";
+            textArea.style.height = textArea.scrollHeight + "px";
+        }
+
+        // Event listeners for text area adjustments
+        document.getElementById("user-input")
+            .addEventListener("input", function () {
+                adjustTextAreaHeight(this);
+            });
+
+        document.getElementById("user-instruction")
+            .addEventListener("input", function () {
+                adjustTextAreaHeight(this);
+            });
+
+        // Function to handle sending message
+        function handleMessageSend() {
+            var userInput = document.getElementById("user-input").value.trim();
+            var userInstruction = document.getElementById("user-instruction").value.trim();
+            
+            if (userInput) {
+                addMessage(userInput, "user", userInstruction);
+                sendToServer(userInput, userInstruction);
+                document.getElementById("user-input").value = "";
+                // document.getElementById("user-instruction").value = "";
+                adjustTextAreaHeight(document.getElementById("user-input"));
+                adjustTextAreaHeight(document.getElementById("user-instruction"));
+            }
+        }
+
+        // Event listener for 'Send' button
+        document.getElementById("send-button").addEventListener("click", handleMessageSend);
+
+        // Event listener for Enter key in user input
+        document.getElementById("user-input").addEventListener("keyup", function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                handleMessageSend();
+            }
         });
 
-      // Reset height on form submission or message send
-      document
-        .getElementById("send-button")
-        .addEventListener("click", function () {
-          document.getElementById("user-input").style.height = "20px"; // Reset to initial height
-        });
+
       function saveThreadIdToLocalStorage(threadId) {
         localStorage.setItem("thread_id", threadId);
       }
@@ -167,32 +214,6 @@
           return "";
         }
       }
-
-      document
-        .getElementById("send-button")
-        .addEventListener("click", function () {
-          var userInput = document.getElementById("user-input").value.trim();
-          if (userInput) {
-            addMessage(userInput, "user");
-            sendToServer(userInput);
-            document.getElementById("user-input").value = "";
-          }
-        });
-
-      document
-        .getElementById("user-input")
-        .addEventListener("keyup", function (event) {
-          if (event.key === "Enter") {
-            event.preventDefault(); // Prevent default behavior of Enter key in a textarea
-            var userInput = this.value.trim();
-            if (userInput) {
-              addMessage(userInput, "user");
-              sendToServer(userInput);
-              this.value = ""; // Reset the text in the textarea
-              this.style.height = "20px"; // Reset the height of the textarea
-            }
-          }
-        });
 
       function addMessage(message, sender, file = null, fileType = null) {
         var chatMessages = document.getElementById("chat-messages");
@@ -257,14 +278,27 @@
         return `<a href="${url}" download="${filename}">Download CSV</a>`;
       }
 
-      function sendToServer(message) {
+      // Retrieve the value of user_instruction
+      var userInstruction = document
+        .getElementById("user-instruction")
+        .value.trim();
+
+      function sendToServer(message, instruction) {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
           user_message: message,
+          user_instruction: instruction, // Include user instruction
           thread_id: getThreadIdFromLocalStorage(),
         });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
 
         var requestOptions = {
           method: "POST",
@@ -283,7 +317,7 @@
               var file = result.data.file || null;
               var fileType = result.data.file_type || null;
               addMessage(result.data.assistant, "bot", file, fileType);
-              if (result.data.thread_id) {
+              if (result.thread_id) {
                 saveThreadIdToLocalStorage(result.data.thread_id);
               }
             } else {
