@@ -7,7 +7,8 @@
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: #f4f4f4;
+        background-color: #2d2d2d; /* Updated to dark grey */
+        color: #f4f4f4;
         margin: 0;
         padding: 0;
         display: flex;
@@ -18,10 +19,10 @@
 
       .chat-container {
         width: 80%;
-        max-width: 600px;
-        background-color: #fff;
+        max-width: 1000px; /* Increased width for better readability */
+        background-color: #333;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
         display: flex;
         flex-direction: column;
       }
@@ -38,31 +39,38 @@
       .chat-messages {
         height: 400px;
         overflow-y: auto;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        flex-grow: 1;
+        padding: 15px;
+        background-color: #262626;
       }
 
       .chat-form-container {
         display: flex;
-        padding: 10px;
+        padding: 15px;
+        background-color: #333; /* Match container color */
       }
 
       #user-input {
-        width: 100%;
+        width: calc(100% - 100px); /* Adjust width as needed */
         padding: 10px;
         margin-right: 10px;
-        border: 1px solid #ddd;
+        border: 1px solid #555;
         border-radius: 5px;
+        background-color: #222;
+        color: #fff;
+        resize: none; /* Prevent manual resizing */
+        overflow: hidden; /* Hide scrollbar */
+        min-height: 5px; /* Minimum height */
       }
 
       #send-button {
-        padding: 10px 15px;
+        width: 80px; /* Fixed width for consistency */
+        padding: 10px 0;
         background-color: #007bff;
         color: #fff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        transition: background-color 0.3s;
       }
 
       #send-button:hover {
@@ -74,12 +82,47 @@
         padding: 10px;
         border-radius: 5px;
         background-color: #f1f1f1;
+        color: #333;
         white-space: pre-wrap;
       }
 
       .message.user {
         background-color: #dcf8c6;
         align-self: flex-end;
+      }
+      /* CSV Table Styling */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto; /* For responsive tables */
+      }
+
+      table th,
+      table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      /* Responsive Table */
+      @media screen and (max-width: 600px) {
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+
+      /* Image Styling */
+      img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        padding: 4px;
+        border-radius: 4px;
       }
     </style>
   </head>
@@ -92,13 +135,26 @@
         <!-- Chat messages will be added here -->
       </div>
       <div class="chat-form-container">
-        <input type="text" id="user-input" placeholder="Type your message..." />
+        <textarea id="user-input" placeholder="Type your message..."></textarea>
         <button id="send-button">Send</button>
       </div>
     </div>
 
     <script>
       // Function to save the thread_id to localStorage
+      document
+        .getElementById("user-input")
+        .addEventListener("input", function () {
+          this.style.height = "auto";
+          this.style.height = this.scrollHeight + "px";
+        });
+
+      // Reset height on form submission or message send
+      document
+        .getElementById("send-button")
+        .addEventListener("click", function () {
+          document.getElementById("user-input").style.height = "5px"; // Reset to initial height
+        });
       function saveThreadIdToLocalStorage(threadId) {
         localStorage.setItem("thread_id", threadId);
       }
@@ -136,7 +192,7 @@
           }
         });
 
-      function addMessage(message, sender) {
+      function addMessage(message, sender, file = null, fileType = null) {
         var chatMessages = document.getElementById("chat-messages");
         var messageDiv = document.createElement("div");
         messageDiv.classList.add("message");
@@ -144,10 +200,59 @@
           messageDiv.classList.add("user");
         }
 
-        // Convert Markdown to HTML (simple conversion)
-        messageDiv.innerHTML = convertMarkdownToHTML(message);
+        if (file && fileType) {
+          if (fileType === "file") {
+            var base64EncodedCSV = file.split("base64,")[1];
+            var csvContent = atob(base64EncodedCSV);
+            var tableHtml = csvToTable(csvContent);
+            var downloadLink = createDownloadLink(csvContent, "data.csv");
+            messageDiv.innerHTML = `${message}<br/>${tableHtml}<br/>${downloadLink}`;
+          } else if (fileType === "image") {
+            var imgTag = `<img src="${file}" alt="Image" style="max-width: 100%; height: auto;">`;
+            messageDiv.innerHTML = `${message}<br/>${imgTag}`;
+          }
+        } else {
+          messageDiv.innerHTML = convertMarkdownToHTML(message);
+        }
+
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function csvToTable(csvContent) {
+        var rows = csvContent.split("\n");
+        var table = "<table style='width:100%; border-collapse: collapse;'>";
+
+        rows.forEach((row, index) => {
+          var cells = row.split(",");
+          var htmlRow = "<tr>";
+
+          cells.forEach((cell) => {
+            if (index === 0) {
+              htmlRow +=
+                "<th style='border: 1px solid #ddd; padding: 8px;'>" +
+                cell +
+                "</th>";
+            } else {
+              htmlRow +=
+                "<td style='border: 1px solid #ddd; padding: 8px;'>" +
+                cell +
+                "</td>";
+            }
+          });
+
+          htmlRow += "</tr>";
+          table += htmlRow;
+        });
+
+        table += "</table>";
+        return table;
+      }
+
+      function createDownloadLink(csvContent, filename) {
+        var blob = new Blob([csvContent], { type: "text/csv" });
+        var url = URL.createObjectURL(blob);
+        return `<a href="${url}" download="${filename}">Download CSV</a>`;
       }
 
       function sendToServer(message) {
@@ -165,15 +270,20 @@
           body: raw,
           redirect: "follow",
         };
+
         addLoader();
+
         fetch("https://v1.test.socket.araby.ai/demo/gpt-trade", requestOptions)
           .then((response) => response.json())
           .then((result) => {
             removeLoader();
-            if (result && result.data.Assistant) {
-              addMessage(result.data.Assistant, "bot");
-              if (result.data.thread_id)
+            if (result && result.data.assistant) {
+              var file = result.data.file || null;
+              var fileType = result.data.file_type || null;
+              addMessage(result.data.assistant, "bot", file, fileType);
+              if (result.data.thread_id) {
                 saveThreadIdToLocalStorage(result.data.thread_id);
+              }
             } else {
               addMessage("No response from the assistant.", "bot");
             }
@@ -209,7 +319,8 @@
           .replace(/^# (.*$)/gim, "<h1>$1</h1>") // H1
           .replace(/\*\*(.*)\*\*/gim, "<strong>$1</strong>") // Bold
           .replace(/\*(.*)\*/gim, "<em>$1</em>") // Italic
-          .replace(/`(.*)`/gim, "<code>$1</code>") // Inline Code
+          .replace(/```([\s\S]*?)```/gim, "<pre><code>$1</code></pre>") // Code block
+          .replace(/`(.+?)`/gim, "<code>$1</code>") // Inline Code
           .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2">$1</a>') // Links
           .replace(/^\* (.*$)/gim, "<ul><li>$1</li></ul>") // Unordered Lists
           .replace(/\n$/gim, "<br />"); // New Line
