@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trade GPT Chatbot</title>
+    <!-- Highlight.js Library -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+    <!-- Initialize Highlight.js -->
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
     <style>
       body {
         font-family: "Arial", sans-serif;
@@ -158,49 +168,56 @@
     </div>
 
     <script>
-           // Function to dynamically resize textarea
-           function adjustTextAreaHeight(textArea) {
-            textArea.style.height = "auto";
-            textArea.style.height = textArea.scrollHeight + "px";
-        }
+      // Function to dynamically resize textarea
+      function adjustTextAreaHeight(textArea) {
+        textArea.style.height = "auto";
+        textArea.style.height = textArea.scrollHeight + "px";
+      }
 
-        // Event listeners for text area adjustments
-        document.getElementById("user-input")
-            .addEventListener("input", function () {
-                adjustTextAreaHeight(this);
-            });
-
-        document.getElementById("user-instruction")
-            .addEventListener("input", function () {
-                adjustTextAreaHeight(this);
-            });
-
-        // Function to handle sending message
-        function handleMessageSend() {
-            var userInput = document.getElementById("user-input").value.trim();
-            var userInstruction = document.getElementById("user-instruction").value.trim();
-            
-            if (userInput) {
-                addMessage(userInput, "user", userInstruction);
-                sendToServer(userInput, userInstruction);
-                document.getElementById("user-input").value = "";
-                // document.getElementById("user-instruction").value = "";
-                adjustTextAreaHeight(document.getElementById("user-input"));
-                adjustTextAreaHeight(document.getElementById("user-instruction"));
-            }
-        }
-
-        // Event listener for 'Send' button
-        document.getElementById("send-button").addEventListener("click", handleMessageSend);
-
-        // Event listener for Enter key in user input
-        document.getElementById("user-input").addEventListener("keyup", function (event) {
-            if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault();
-                handleMessageSend();
-            }
+      // Event listeners for text area adjustments
+      document
+        .getElementById("user-input")
+        .addEventListener("input", function () {
+          adjustTextAreaHeight(this);
         });
 
+      document
+        .getElementById("user-instruction")
+        .addEventListener("input", function () {
+          adjustTextAreaHeight(this);
+        });
+
+      // Function to handle sending message
+      function handleMessageSend() {
+        var userInput = document.getElementById("user-input").value.trim();
+        var userInstruction = document
+          .getElementById("user-instruction")
+          .value.trim();
+
+        if (userInput) {
+          addMessage(userInput, "user", userInstruction);
+          sendToServer(userInput, userInstruction);
+          document.getElementById("user-input").value = "";
+          // document.getElementById("user-instruction").value = "";
+          adjustTextAreaHeight(document.getElementById("user-input"));
+          adjustTextAreaHeight(document.getElementById("user-instruction"));
+        }
+      }
+
+      // Event listener for 'Send' button
+      document
+        .getElementById("send-button")
+        .addEventListener("click", handleMessageSend);
+
+      // Event listener for Enter key in user input
+      document
+        .getElementById("user-input")
+        .addEventListener("keyup", function (event) {
+          if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            handleMessageSend();
+          }
+        });
 
       function saveThreadIdToLocalStorage(threadId) {
         localStorage.setItem("thread_id", threadId);
@@ -215,7 +232,13 @@
         }
       }
 
-      function addMessage(message, sender, file = null, fileType = null) {
+      function addMessage(
+        message,
+        sender,
+        file = null,
+        fileType = null,
+        runSteps = null
+      ) {
         var chatMessages = document.getElementById("chat-messages");
         var messageDiv = document.createElement("div");
         messageDiv.classList.add("message");
@@ -229,10 +252,10 @@
             var csvContent = atob(base64EncodedCSV);
             var tableHtml = csvToTable(csvContent);
             var downloadLink = createDownloadLink(csvContent, "data.csv");
-            messageDiv.innerHTML = `${message}<br/>${tableHtml}<br/>${downloadLink}`;
+            messageDiv.innerHTML = `${message}<br/><pre><code class="language-python">${runSteps}</code></pre><br/>${tableHtml}<br/>${downloadLink}`;
           } else if (fileType === "image") {
             var imgTag = `<img src="${file}" alt="Image" style="max-width: 100%; height: auto;">`;
-            messageDiv.innerHTML = `${message}<br/>${imgTag}`;
+            messageDiv.innerHTML = `${message}<br/><pre><code class="language-python">${runSteps}</code></pre><br/>${imgTag}`;
           }
         } else {
           messageDiv.innerHTML = convertMarkdownToHTML(message);
@@ -240,6 +263,12 @@
 
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Apply syntax highlighting
+        var codeBlocks = messageDiv.querySelectorAll("pre code");
+        codeBlocks.forEach((block) => {
+          hljs.highlightElement(block);
+        });
       }
 
       function csvToTable(csvContent) {
@@ -309,14 +338,15 @@
 
         addLoader();
 
-        fetch("https://v1.test.socket.araby.ai/demo/gpt-trade", requestOptions)
+        fetch(" https://v1.test.socket.araby.ai/demo/gpt-trade", requestOptions)
           .then((response) => response.json())
           .then((result) => {
             removeLoader();
             if (result && result.data.assistant) {
               var file = result.data.file || null;
               var fileType = result.data.file_type || null;
-              addMessage(result.data.assistant, "bot", file, fileType);
+              var runSteps = result.data.run_steps;
+              addMessage(result.data.assistant, "bot", file, fileType, runSteps);
               if (result.data.thread_id) {
                 saveThreadIdToLocalStorage(result.data.thread_id);
               }
