@@ -59,7 +59,7 @@
         color: #fff;
         resize: none; /* Prevent manual resizing */
         overflow: hidden; /* Hide scrollbar */
-        min-height: 5px; /* Minimum height */
+        min-height: 20px; /* Minimum height */
       }
 
       #send-button {
@@ -153,7 +153,7 @@
       document
         .getElementById("send-button")
         .addEventListener("click", function () {
-          document.getElementById("user-input").style.height = "5px"; // Reset to initial height
+          document.getElementById("user-input").style.height = "20px"; // Reset to initial height
         });
       function saveThreadIdToLocalStorage(threadId) {
         localStorage.setItem("thread_id", threadId);
