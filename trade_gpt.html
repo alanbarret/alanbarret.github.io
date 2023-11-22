@@ -317,7 +317,7 @@
               var file = result.data.file || null;
               var fileType = result.data.file_type || null;
               addMessage(result.data.assistant, "bot", file, fileType);
-              if (result.thread_id) {
+              if (result.data.thread_id) {
                 saveThreadIdToLocalStorage(result.data.thread_id);
               }
             } else {
