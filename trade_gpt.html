@@ -342,6 +342,7 @@
           .then((response) => response.json())
           .then((result) => {
             removeLoader();
+            console.log(result)
             if (result && result.data.assistant) {
               var file = result.data.file || null;
               var fileType = result.data.file_type || null;
