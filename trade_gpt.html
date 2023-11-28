@@ -168,7 +168,7 @@
     </div>
 
     <script>
-      var file_ids = []
+    var file_ids = []
       // Function to dynamically resize textarea
       function adjustTextAreaHeight(textArea) {
         textArea.style.height = "auto";
@@ -247,7 +247,7 @@
           messageDiv.classList.add("user");
         }
 
-        if (file && fileType) {
+       if (file && fileType) {
           if (fileType === "file") {
             var base64EncodedCSV = file.split("base64,")[1];
             var csvContent = atob(base64EncodedCSV);
@@ -259,8 +259,8 @@
             messageDiv.innerHTML = `${message}<br/><pre><code class="language-python">${runSteps}</code></pre><br/>${imgTag}`;
           }
         } else {
-          messageDiv.innerHTML = convertMarkdownToHTML(message);
-        }
+          messageDiv.innerHTML =  convertMarkdownToHTML(message) + (runSteps ? `<br/><pre><code class="language-python">${runSteps}</code></pre>` : '');
+        } 
 
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -344,13 +344,12 @@
           .then((response) => response.json())
           .then((result) => {
             removeLoader();
-            console.log(result)
             if (result && result.data.assistant) {
               var file = result.data.file || null;
               var fileType = result.data.file_type || null;
               var runSteps = result.data.run_steps;
-              file_ids = result.file_ids
-              addMessage(result.data.assistant, "bot", file, fileType, runSteps);
+              file_ids = result.data.file_ids
+              addMessage(result.data.assistant, "bot", file, fileType, runSteps,file_ids);
               if (result.data.thread_id) {
                 saveThreadIdToLocalStorage(result.data.thread_id);
               }
