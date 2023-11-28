@@ -168,6 +168,7 @@
     </div>
 
     <script>
+      var file_ids = []
       // Function to dynamically resize textarea
       function adjustTextAreaHeight(textArea) {
         textArea.style.height = "auto";
@@ -320,6 +321,7 @@
           user_message: message,
           user_instruction: instruction, // Include user instruction
           thread_id: getThreadIdFromLocalStorage(),
+          file_ids:file_ids
         });
 
         var requestOptions = {
@@ -347,6 +349,7 @@
               var file = result.data.file || null;
               var fileType = result.data.file_type || null;
               var runSteps = result.data.run_steps;
+              file_ids = result.file_ids
               addMessage(result.data.assistant, "bot", file, fileType, runSteps);
               if (result.data.thread_id) {
                 saveThreadIdToLocalStorage(result.data.thread_id);
