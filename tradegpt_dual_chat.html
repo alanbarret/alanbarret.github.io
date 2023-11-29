@@ -352,7 +352,7 @@ img {
 
         addLoader(chatNumber);
 
-        fetch(`http://127.0.0.1:8001/tradegpt`, requestOptions)
+        fetch(`https://v1.test.socket.araby.ai/demo/gpt-trade`, requestOptions)
           .then((response) => response.json())
           .then((result) => handleServerResponse(result.data, chatNumber))
           .catch((error) => {
