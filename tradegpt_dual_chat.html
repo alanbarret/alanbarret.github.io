@@ -15,7 +15,7 @@
       hljs.initHighlightingOnLoad();
     </script>
     <style>
-     /* Overall Styles */
+/* Common Styles */
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #121212;
@@ -28,7 +28,6 @@ body {
   height: 100vh;
 }
 
-/* Chat Container Styles */
 .chat-container {
   width: 45%;
   max-width: 500px;
@@ -41,9 +40,7 @@ body {
   overflow: hidden;
 }
 
-/* Chat Header Styles */
 .chat-header {
-  background-color: #007bff;
   background: linear-gradient(45deg, #0062cc, #0096ff);
   color: #fff;
   padding: 20px;
@@ -51,7 +48,6 @@ body {
   font-size: 1.2em;
 }
 
-/* Chat Messages Styles */
 .chat-messages {
   height: 400px;
   overflow-y: auto;
@@ -59,7 +55,6 @@ body {
   background-color: #262626;
 }
 
-/* Chat Form Container Styles */
 .chat-form-container {
   padding: 15px;
   background-color: #333;
@@ -68,7 +63,6 @@ body {
   gap: 10px;
 }
 
-/* Textarea Styles */
 textarea {
   flex-grow: 1;
   padding: 10px;
@@ -82,7 +76,6 @@ textarea {
   min-height: 50px;
 }
 
-/* Button Styles */
 button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -98,7 +91,6 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* Message Styles */
 .message {
   margin-bottom: 15px;
   padding: 15px;
@@ -107,8 +99,9 @@ button:hover {
   color: #333;
 }
 
+/* User Messages Background Color (Light Orange) */
 .message.user {
-  background-color: #dcf8c6;
+  background-color: #ffe0b2; /* Light Orange */
   align-self: flex-end;
 }
 
@@ -141,11 +134,50 @@ img {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* AutoGPT Creator Styles */
+#chat-container-1 .chat-header {
+  background: linear-gradient(45deg, #4e8cff, #76a5ff);
+}
+
+#chat-container-1 .chat-messages {
+  background-color: #2d2d2d;
+  color: #333;
+}
+
+#chat-container-1 button {
+  background-color: #4e8cff;
+}
+
+#chat-container-1 button:hover {
+  background-color: #3a6fcb;
+}
+
+/* AutoGPT Editor Styles */
+#chat-container-2 .chat-header {
+  background: linear-gradient(45deg, #ff8c4e, #ffab76);
+}
+
+#chat-container-2 .chat-messages {
+  background-color: #2d2d2d;
+  color: #333;
+}
+
+#chat-container-2 button {
+  background-color: #ff8c4e;
+}
+
+#chat-container-2 button:hover {
+  background-color: #cb6f3a;
+}
+#chat-container-1 .message.user {
+  background-color: #e6e6ff; /* Light Purple */
+  align-self: flex-end;
+}
   </style>
   </head>
   <body>
     <div class="chat-container" id="chat-container-1">
-      <header class="chat-header"><h1>Trade GPT Chatbot 1</h1></header>
+      <header class="chat-header"><h1>AutoGPT Creator</h1></header>
       <div class="chat-messages" id="chat-messages-1"></div>
       <div class="chat-form-container">
         <textarea
@@ -161,7 +193,7 @@ img {
     </div>
 
     <div class="chat-container" id="chat-container-2">
-      <header class="chat-header"><h1>Trade GPT Chatbot 2</h1></header>
+      <header class="chat-header"><h1>AutoGPT Editor</h1></header>
       <div class="chat-messages" id="chat-messages-2"></div>
       <div class="chat-form-container">
         <textarea
@@ -352,7 +384,7 @@ img {
 
         addLoader(chatNumber);
 
-        fetch(`https://v1.test.socket.araby.ai/demo/gpt-trade`, requestOptions)
+        fetch(` https://v1.test.socket.araby.ai/demo/gpt-trade`, requestOptions)
           .then((response) => response.json())
           .then((result) => handleServerResponse(result.data, chatNumber))
           .catch((error) => {
