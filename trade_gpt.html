@@ -1,1 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trade GPT Chatbot</title>
+    <!-- Highlight.js Library -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+    <!-- Initialize Highlight.js -->
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #2d2d2d; /* Updated to dark grey */
+        color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
 
+      .chat-container {
+        width: 80%;
+        max-width: 1000px; /* Increased width for better readability */
+        background-color: #333;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .chat-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .chat-messages {
+        height: 400px;
+        overflow-y: auto;
+        padding: 15px;
+        background-color: #262626;
+      }
+
+      .chat-form-container {
+        display: block;
+        padding: 15px;
+        background-color: #333; /* Match container color */
+      }
+
+      #user-input {
+        width: calc(100% - 100px); /* Adjust width as needed */
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #555;
+        border-radius: 5px;
+        background-color: #222;
+        color: #fff;
+        resize: none; /* Prevent manual resizing */
+        overflow: hidden; /* Hide scrollbar */
+        min-height: 20px; /* Minimum height */
+      }
+
+      #user-instruction {
+        width: calc(100% - 100px); /* Adjust width as needed */
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #555;
+        border-radius: 5px;
+        background-color: #222;
+        color: #fff;
+        resize: none; /* Prevent manual resizing */
+        overflow-y: auto; /* Enable vertical scroll */
+        max-height: 200px; /* Set maximum height to 200px */
+      }
+
+      #send-button {
+        width: 80px; /* Fixed width for consistency */
+        padding: 10px 0;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      #send-button:hover {
+        background-color: #0056b3;
+      }
+
+      .message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+        color: #333;
+        white-space: pre-wrap;
+      }
+
+      .message.user {
+        background-color: #dcf8c6;
+        align-self: flex-end;
+      }
+      /* CSV Table Styling */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto; /* For responsive tables */
+      }
+
+      table th,
+      table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      /* Responsive Table */
+      @media screen and (max-width: 600px) {
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+
+      /* Image Styling */
+      img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        padding: 4px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <header class="chat-header">
+        <h1>Trade GPT Chatbot</h1>
+      </header>
+      <div class="chat-messages" id="chat-messages">
+        <!-- Chat messages will be added here -->
+      </div>
+      <div class="chat-form-container">
+        <textarea
+          id="user-instruction"
+          placeholder="Type your instruction..."
+        ></textarea>
+        <textarea id="user-input" placeholder="Type your message..."></textarea>
+        <button id="send-button">Send</button>
+      </div>
+    </div>
+
+    <script>
+    var file_ids = []
+      // Function to dynamically resize textarea
+      function adjustTextAreaHeight(textArea) {
+        textArea.style.height = "auto";
+        textArea.style.height = textArea.scrollHeight + "px";
+      }
+
+      // Event listeners for text area adjustments
+      document
+        .getElementById("user-input")
+        .addEventListener("input", function () {
+          adjustTextAreaHeight(this);
+        });
+
+      document
+        .getElementById("user-instruction")
+        .addEventListener("input", function () {
+          adjustTextAreaHeight(this);
+        });
+
+      // Function to handle sending message
+      function handleMessageSend() {
+        var userInput = document.getElementById("user-input").value.trim();
+        var userInstruction = document
+          .getElementById("user-instruction")
+          .value.trim();
+
+        if (userInput) {
+          addMessage(userInput, "user", userInstruction);
+          sendToServer(userInput, userInstruction);
+          document.getElementById("user-input").value = "";
+          // document.getElementById("user-instruction").value = "";
+          adjustTextAreaHeight(document.getElementById("user-input"));
+          adjustTextAreaHeight(document.getElementById("user-instruction"));
+        }
+      }
+
+      // Event listener for 'Send' button
+      document
+        .getElementById("send-button")
+        .addEventListener("click", handleMessageSend);
+
+      // Event listener for Enter key in user input
+      document
+        .getElementById("user-input")
+        .addEventListener("keyup", function (event) {
+          if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            handleMessageSend();
+          }
+        });
+
+      function saveThreadIdToLocalStorage(threadId) {
+        localStorage.setItem("thread_id", threadId);
+      }
+
+      // Function to retrieve the thread_id from localStorage
+      function getThreadIdFromLocalStorage() {
+        if (localStorage.getItem("thread_id")) {
+          return localStorage.getItem("thread_id");
+        } else {
+          return "";
+        }
+      }
+
+      function addMessage(
+        message,
+        sender,
+        file = null,
+        fileType = null,
+        runSteps = null
+      ) {
+        var chatMessages = document.getElementById("chat-messages");
+        var messageDiv = document.createElement("div");
+        messageDiv.classList.add("message");
+        if (sender === "user") {
+          messageDiv.classList.add("user");
+        }
+
+       if (file && fileType) {
+          if (fileType === "file") {
+            var base64EncodedCSV = file.split("base64,")[1];
+            var csvContent = atob(base64EncodedCSV);
+            var tableHtml = csvToTable(csvContent);
+            var downloadLink = createDownloadLink(csvContent, "data.csv");
+            messageDiv.innerHTML = `${message}<br/><pre><code class="language-python">${runSteps}</code></pre><br/>${tableHtml}<br/>${downloadLink}`;
+          } else if (fileType === "image") {
+            var imgTag = `<img src="${file}" alt="Image" style="max-width: 100%; height: auto;">`;
+            messageDiv.innerHTML = `${message}<br/><pre><code class="language-python">${runSteps}</code></pre><br/>${imgTag}`;
+          }
+        } else {
+          messageDiv.innerHTML =  convertMarkdownToHTML(message) + (runSteps ? `<br/><pre><code class="language-python">${runSteps}</code></pre>` : '');
+        } 
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Apply syntax highlighting
+        var codeBlocks = messageDiv.querySelectorAll("pre code");
+        codeBlocks.forEach((block) => {
+          hljs.highlightElement(block);
+        });
+      }
+
+      function csvToTable(csvContent) {
+        var rows = csvContent.split("\n");
+        var table = "<table style='width:100%; border-collapse: collapse;'>";
+
+        rows.forEach((row, index) => {
+          var cells = row.split(",");
+          var htmlRow = "<tr>";
+
+          cells.forEach((cell) => {
+            if (index === 0) {
+              htmlRow +=
+                "<th style='border: 1px solid #ddd; padding: 8px;'>" +
+                cell +
+                "</th>";
+            } else {
+              htmlRow +=
+                "<td style='border: 1px solid #ddd; padding: 8px;'>" +
+                cell +
+                "</td>";
+            }
+          });
+
+          htmlRow += "</tr>";
+          table += htmlRow;
+        });
+
+        table += "</table>";
+        return table;
+      }
+
+      function createDownloadLink(csvContent, filename) {
+        var blob = new Blob([csvContent], { type: "text/csv" });
+        var url = URL.createObjectURL(blob);
+        return `<a href="${url}" download="${filename}">Download CSV</a>`;
+      }
+
+      // Retrieve the value of user_instruction
+      var userInstruction = document
+        .getElementById("user-instruction")
+        .value.trim();
+
+      function sendToServer(message, instruction) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+          user_message: message,
+          user_instruction: instruction, // Include user instruction
+          thread_id: getThreadIdFromLocalStorage(),
+          file_ids:file_ids
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        addLoader();
+
+        fetch("https://v1.test.socket.araby.ai/demo/gpt-trade", requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            removeLoader();
+            if (result && result.data.assistant) {
+              var file = result.data.file || null;
+              var fileType = result.data.file_type || null;
+              var runSteps = result.data.run_steps;
+              file_ids = result.data.file_ids
+              addMessage(result.data.assistant, "bot", file, fileType, runSteps,file_ids);
+              if (result.data.thread_id) {
+                saveThreadIdToLocalStorage(result.data.thread_id);
+              }
+            } else {
+              addMessage("No response from the assistant.", "bot");
+            }
+          })
+          .catch((error) => {
+            removeLoader();
+            console.log("error", error);
+            addMessage("Error: Could not connect to the server.", "bot");
+          });
+      }
+
+      function addLoader() {
+        var chatMessages = document.getElementById("chat-messages");
+        var loaderDiv = document.createElement("div");
+        loaderDiv.id = "message-loader";
+        loaderDiv.classList.add("message");
+        loaderDiv.textContent = "Loading...";
+        chatMessages.appendChild(loaderDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function removeLoader() {
+        var loaderDiv = document.getElementById("message-loader");
+        if (loaderDiv) {
+          loaderDiv.remove();
+        }
+      }
+
+      function convertMarkdownToHTML(markdownText) {
+        return markdownText
+          .replace(/^### (.*$)/gim, "<h3>$1</h3>") // H3
+          .replace(/^## (.*$)/gim, "<h2>$1</h2>") // H2
+          .replace(/^# (.*$)/gim, "<h1>$1</h1>") // H1
+          .replace(/\*\*(.*)\*\*/gim, "<strong>$1</strong>") // Bold
+          .replace(/\*(.*)\*/gim, "<em>$1</em>") // Italic
+          .replace(/```([\s\S]*?)```/gim, "<pre><code>$1</code></pre>") // Code block
+          .replace(/`(.+?)`/gim, "<code>$1</code>") // Inline Code
+          .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2">$1</a>') // Links
+          .replace(/^\* (.*$)/gim, "<ul><li>$1</li></ul>") // Unordered Lists
+          .replace(/\n$/gim, "<br />"); // New Line
+      }
+      // Clear localStorage on page reload
+      window.onbeforeunload = function () {
+        localStorage.removeItem("thread_id");
+      };
+    </script>
+  </body>
+</html>
