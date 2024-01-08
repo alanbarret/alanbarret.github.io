@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Video Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        #uploadButton {
+            background-color: #007bff;
+        }
+
+        #uploadButton:hover {
+            background-color: #0056b3;
+        }
+
+        #generateButton {
+            background-color: #28a745;
+            margin-top: 20px;
+        }
+
+        #generateButton:hover {
+            background-color: #218838;
+        }
+
+        #videoOutput {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        #loader {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #uploadedImage {
+            display: none; /* Added display: none to hide it initially */
+            max-width: 50%;
+            margin-top: 20px;
+        }
+
+        #progressContainer {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #progressBar {
+            width: 100%;
+            height: 20px;
+            background-color: #ddd;
+        }
+
+        #progress {
+            width: 0;
+            height: 100%;
+            background-color: #007bff;
+        }
+
+        #dropArea {
+            border: 2px dashed #007bff;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            min-height: 150px;
+            line-height: 150px;
+            color: #999;
+            cursor: pointer; /* Add cursor style to indicate it's clickable */
+        }
+
+        .slider-container {
+            margin-top: 20px;
+        }
+
+        .slider-label {
+            font-weight: bold;
+        }
+
+        .slider {
+            width: 100%;
+        }
+
+        /* Request card styling */
+        .request-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .request-card h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image to Video Converter</h1>
+    
+    <input type="file" id="fileInput">
+    
+    <div id="dropArea" onclick="document.getElementById('fileInput').click();">
+        Click or Drag and drop your image here
+    </div>
+    
+    <div class="slider-container">
+        <label class="slider-label">Scale (cfg_scale)</label>
+        <input type="range" id="scaleSlider" class="slider" min="1" max="10" value="6">
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label">Motion Bucket ID (motion_bucket_id)</label>
+        <input type="range" id="motionBucketSlider" class="slider" min="1" max="255" value="150">
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label">Seed (seed)</label>
+        <input type="range" id="seedSlider" class="slider" min="0" max="100" value="0">
+    </div>
+    
+    <button id="generateButton" class="button" onclick="generateVideo()">Generate Video</button>
+    
+    <div id="requestsQueue"></div>
+    
+    <div id="progressContainer">
+        <div id="progressBar">
+            <div id="progress"></div>
+        </div>
+    </div>
+
+    <div id="loader">
+        <p>Loading...</p>
+    </div>
+
+    <script>
+        const requestsQueue = [];
+        const imageQueue = [];
+
+        function showLoading() {
+            document.getElementById("loader").style.display = "block";
+        }
+
+        function hideLoading() {
+            document.getElementById("loader").style.display = "none";
+        }
+
+        function generateVideo() {
+            var fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length === 0) {
+                alert("Please select a file.");
+                return;
+            }
+            var selectedFile = fileInput.files[0];
+            showLoading();
+            resizeAndUpload(selectedFile);
+        }
+
+        function resizeAndUpload(file) {
+    // Get slider values
+    var scale = document.getElementById("scaleSlider").value;
+    var motionBucketId = document.getElementById("motionBucketSlider").value;
+    var seed = document.getElementById("seedSlider").value;
+
+    // Create the request card element
+    var requestCard = document.createElement("div");
+    requestCard.classList.add("request-card");
+    requestCard.innerHTML = `
+        <h2>Generating Video</h2>
+        <p>Scale (cfg_scale): ${scale}</p>
+        <p>Motion Bucket ID (motion_bucket_id): ${motionBucketId}</p>
+        <p>Seed (seed): ${seed}</p>
+        <p class="status">Status: Queued</p>
+        <div style="display:flex;gap:10px;align-items:center">
+            <img id="uploadedImage" src="" alt="Uploaded Image" style="max-width: 30%; display: none; border-radius:10px">
+            <video id="videoOutput" controls autoplay loop style="max-width:50%; border-radius:10px">
+                Your browser does not support the video tag.
+                </video>
+                </div>
+    `;
+    document.getElementById("requestsQueue").appendChild(requestCard);
+
+    // Add the request card to the requestsQueue array
+    requestsQueue.push(requestCard);
+
+    // Create form data
+    var formdata = new FormData();
+    formdata.append("file", file, file.name);
+    formdata.append("cfg_scale", scale);
+    formdata.append("motion_bucket_id", motionBucketId);
+    formdata.append("seed", seed);
+
+    // Send the request and update the request card when done
+    var requestOptions = {
+        method: 'POST',
+        headers: new Headers({
+            "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDEwOTU2MWYxNmZlZjdkMzI5Y2FjYzkiLCJpYXQiOjE3MDIzODgyOTJ9.D4ckmX4zjMDf0odoTilXJmzHryJvuJw70JtJtq1Mm44"
+        }),
+        body: formdata,
+        redirect: 'follow'
+    };
+
+    fetch("https://v1.test.socket.araby.ai/media-generation/image-to-video", requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            // Get the corresponding request card
+            var requestCard = requestsQueue.pop();
+
+            // Update the request card with the result
+            var statusElement = requestCard.querySelector(".status");
+            var videoElement = requestCard.querySelector("video");
+
+            if (data.status === "success") {
+                statusElement.innerHTML = "Completed";
+
+                // Set the video source and display it
+                videoElement.src = data.data.urls[0];
+                videoElement.style.display = "block";
+
+                // Display the uploaded image
+                var uploadedImageElement = requestCard.querySelector("#uploadedImage");
+                uploadedImageElement.src = URL.createObjectURL(file);
+                uploadedImageElement.style.display = "block";
+            } else {
+                statusElement.innerHTML = "Failed";
+            }
+
+            hideLoading();
+        })
+        .catch(error => {
+            // Handle errors
+            var requestCard = requestsQueue.pop();
+            var statusElement = requestCard.querySelector(".status");
+            statusElement.textContent = "Failed";
+            console.error(error);
+            hideLoading();
+        });
+}
+    </script>
+</body>
+</html>
