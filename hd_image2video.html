@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Araby AI Image to Video Generator</title>
+    <style>
+      /* Reset default margin and padding for all elements */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Set a background color for the body */
+      body {
+        background-color: #f0f0f0; /* You can change this color to match your brand */
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+      }
+
+      /* Style the h1 heading */
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333; /* You can customize the text color */
+      }
+
+      /* Style labels and input fields */
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #666; /* Label text color */
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      /* Style range sliders and their values */
+      input[type="range"] {
+        width: 100%;
+        margin: 5px 0;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #ddd; /* Slider track color */
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #007bff; /* Slider thumb color */
+        cursor: pointer;
+      }
+
+      span[id$="_value"] {
+        display: inline-block;
+        margin-left: 10px;
+        font-weight: bold;
+        color: #007bff; /* Slider value color */
+      }
+
+      /* Style the generate button */
+      button {
+        background-color: #007bff; /* Button background color */
+        color: #fff; /* Button text color */
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3; /* Button background color on hover */
+      }
+
+      /* Style the result display */
+      #result {
+        margin-top: 20px;
+      }
+
+      /* Style the video element */
+      video {
+        max-width: 100%;
+        height: auto;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      /* Loading indicator style */
+      .loading {
+        font-size: 18px;
+        color: #007bff;
+        margin-top: 20px;
+      }
+
+      /* Error message style */
+      .error {
+        font-size: 18px;
+        color: #ff0000; /* Red color for error messages */
+        margin-top: 20px;
+      }
+      .queued-request-card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Araby AI Image to Video Generator</h1>
+
+    <!-- Input field for Prompt -->
+    <label for="prompt">Prompt:</label>
+    <input
+      type="text"
+      id="prompt"
+      name="prompt"
+      placeholder="Enter a prompt..."
+    />
+
+    <!-- Input field for Image Upload -->
+    <label for="image_upload">Image Upload:</label>
+    <input
+      type="file"
+      id="image_upload"
+      name="image_upload"
+    />
+
+    <!-- Slider for Max Frames -->
+    <label for="max_frames">Max Frames:</label>
+    <input
+        type="range"
+        id="max_frames"
+        name="max_frames"
+        min="1"
+        max="50"
+        value="16"
+        oninput="updateSliderValue('max_frames', 'max_frames_value')"
+    />
+    <span id="max_frames_value">16</span>
+
+    <!-- Slider for Num Inference Steps -->
+    <label for="num_inference_steps">Num Inference Steps:</label>
+    <input
+        type="range"
+        id="num_inference_steps"
+        name="num_inference_steps"
+        min="1"
+        max="100"
+        value="50"
+        oninput="updateSliderValue('num_inference_steps', 'num_inference_steps_value')"
+    />
+    <span id="num_inference_steps_value">50</span>
+
+    <!-- Slider for Guidance Scale -->
+    <label for="guidance_scale">Guidance Scale:</label>
+    <input
+        type="range"
+        id="guidance_scale"
+        name="guidance_scale"
+        min="1"
+        max="20"
+        value="9"
+        oninput="updateSliderValue('guidance_scale', 'guidance_scale_value')"
+    />
+    <span id="guidance_scale_value">9</span>
+
+    <!-- Button to Submit -->
+    <button
+      onclick="queueImageAndGenerateVideo()"
+    >
+      Generate Video
+    </button>
+
+    <!-- Queued Requests Section -->
+    <div id="queued-requests"></div>
+
+    <!-- Result Display -->
+    <div id="result">
+      <!-- Loading indicator or error message will be displayed here -->
+    </div>
+
+    <script>
+        // Function to update slider values
+        function updateSliderValue(sliderId, spanId) {
+            const slider = document.getElementById(sliderId);
+            const span = document.getElementById(spanId);
+            span.textContent = slider.value;
+        }
+      
+        // Update slider values on page load
+        updateSliderValue("max_frames", "max_frames_value");
+        updateSliderValue("num_inference_steps", "num_inference_steps_value");
+        updateSliderValue("guidance_scale", "guidance_scale_value");
+      
+        // Function to create a queued request card
+        function createQueuedRequestCard(prompt) {
+          const cardDiv = document.createElement("div");
+          cardDiv.className = "queued-request-card";
+      
+          const cardContentDiv = document.createElement("div");
+          cardContentDiv.className = "card-content";
+      
+          const promptPara = document.createElement("p");
+          promptPara.innerHTML = `<strong>Prompt:</strong> ${prompt}`;
+      
+          const configPara = document.createElement("p");
+          const imageUploadInput = document.getElementById("image_upload");
+          const maxFrames = document.getElementById("max_frames").value;
+          const numInferenceSteps = document.getElementById(
+            "num_inference_steps"
+          ).value;
+          const guidanceScale = document.getElementById("guidance_scale").value;
+          configPara.innerHTML = `<strong>Config:</strong> </br> max_frames : ${maxFrames} </br> num_inference_steps : ${numInferenceSteps} </br> guidance_scale : ${guidanceScale}`; // You can fill in the config details
+      
+          const statusPara = document.createElement("p");
+          statusPara.innerHTML = "<strong>Status:</strong> Queued"; // Initial status is queued
+      
+          cardContentDiv.appendChild(promptPara);
+          cardContentDiv.appendChild(configPara);
+          cardContentDiv.appendChild(statusPara);
+      
+          cardDiv.appendChild(cardContentDiv);
+      
+          const queuedRequestsDiv = document.getElementById("queued-requests");
+          queuedRequestsDiv.appendChild(cardDiv);
+        }
+      
+        // Function to show a loading indicator
+        function showLoading() {
+          const resultDiv = document.getElementById("result");
+          resultDiv.innerHTML =
+            '<div class="loading">Generating video...</div>';
+        }
+      
+        // Function to hide the loading indicator
+        function hideLoading() {
+          const resultDiv = document.getElementById("result");
+          resultDiv.innerHTML = ""; // Clear the loading indicator
+        }
+      
+  // Function to handle image upload and video generation for queued requests
+  function createQueuedRequestCard(prompt) {
+  // Generate a unique ID for the card
+  const cardId = Date.now();
+
+  const cardDiv = document.createElement("div");
+  cardDiv.className = "queued-request-card";
+  cardDiv.id = `card-${cardId}`;
+
+  const cardContentDiv = document.createElement("div");
+  cardContentDiv.className = "card-content";
+
+  const promptPara = document.createElement("p");
+  promptPara.innerHTML = `<strong>Prompt:</strong> ${prompt}`;
+
+  const configPara = document.createElement("p");
+  const imageUploadInput = document.getElementById("image_upload");
+  const maxFrames = document.getElementById("max_frames").value;
+  const numInferenceSteps = document.getElementById(
+    "num_inference_steps"
+  ).value;
+  const guidanceScale = document.getElementById("guidance_scale").value;
+  configPara.innerHTML = `<strong>Config:</strong> </br> max_frames : ${maxFrames} </br> num_inference_steps : ${numInferenceSteps} </br> guidance_scale : ${guidanceScale}`; // You can fill in the config details
+
+  const statusPara = document.createElement("p");
+  statusPara.innerHTML = "<strong>Status:</strong> Queued"; // Initial status is queued
+
+  cardContentDiv.appendChild(promptPara);
+  cardContentDiv.appendChild(configPara);
+  cardContentDiv.appendChild(statusPara);
+
+  cardDiv.appendChild(cardContentDiv);
+
+  const queuedRequestsDiv = document.getElementById("queued-requests");
+  queuedRequestsDiv.appendChild(cardDiv);
+
+  // Return the unique card ID
+  return cardId;
+}
+
+// Function to handle image upload and video generation for queued requests
+async function queueImageAndGenerateVideo() {
+  // Get values from input fields and sliders
+  const prompt = document.getElementById("prompt").value;
+  const imageUploadInput = document.getElementById("image_upload");
+  const maxFrames = document.getElementById("max_frames").value;
+  const numInferenceSteps = document.getElementById(
+    "num_inference_steps"
+  ).value;
+  const guidanceScale = document.getElementById("guidance_scale").value;
+
+  // Check if an image file has been selected
+  if (!imageUploadInput.files[0]) {
+    // Display an error message
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML =
+      '<div class="error">Please select an image file.</div>';
+    return;
+  }
+
+  // Create a queued request card and get the unique card ID
+  const cardId = createQueuedRequestCard(prompt);
+
+  const formdata = new FormData();
+  formdata.append("file", imageUploadInput.files[0]);
+
+  try {
+    const response = await fetch(
+      "https://v1.test.socket.araby.ai/upload-user-images",
+      {
+        method: "POST",
+        headers: {
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDEwOTU2MWYxNmZlZjdkMzI5Y2FjYzkiLCJpYXQiOjE3MDIzODgyOTJ9.D4ckmX4zjMDf0odoTilXJmzHryJvuJw70JtJtq1Mm44", // Replace with your authorization token
+        },
+        body: formdata,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data); // You can handle the response data here
+
+    // Construct the API request payload with the selected image file
+    const formDataObject = {
+      prompt,
+      image_url: data.url,
+      max_frames: parseInt(maxFrames),
+      num_inference_steps: parseInt(numInferenceSteps),
+      guidance_scale: parseInt(guidanceScale),
+    };
+    const jsonPayload = JSON.stringify(formDataObject);
+
+    // Make an API request to upload the image
+    const video_resp = await fetch(
+      "http://araby-ai-test.me-south-1.elasticbeanstalk.com/i2vgen_xl",
+      {
+        method: "POST",
+        body: jsonPayload,
+      }
+    );
+
+    if (video_resp.ok) {
+      const uploadData = await video_resp.json();
+      const videoUrl = uploadData.video_url;
+
+      // Update the status of the specific queued request card to "Completed" and display the video
+      const cardDiv = document.getElementById(`card-${cardId}`);
+      const cardContentDiv = cardDiv.querySelector(".card-content");
+      cardContentDiv.querySelector(
+        "p:nth-child(3)"
+      ).innerHTML = "<strong>Status:</strong> Completed";
+
+      // Add a link to the generated video
+      const videoLink = document.createElement("a");
+      videoLink.href = videoUrl;
+      videoLink.textContent = "View Video";
+      cardContentDiv.appendChild(videoLink);
+
+      // Display the video inside its respective card
+      const videoDiv = document.createElement("div");
+      videoDiv.innerHTML = `<video controls autoplay><source src="${videoUrl}" type="video/mp4"></video>`;
+      cardContentDiv.appendChild(videoDiv);
+
+      // Hide the loading indicator
+      hideLoading();
+    } else {
+      console.error("Failed to upload image.");
+
+      // Update the status of the specific queued request card to "Failed"
+      const cardDiv = document.getElementById(`card-${cardId}`);
+      const cardContentDiv = cardDiv.querySelector(".card-content");
+      cardContentDiv.querySelector(
+        "p:nth-child(3)"
+      ).innerHTML = "<strong>Status:</strong> Failed";
+
+      // Hide the loading indicator and display an error message
+      hideLoading();
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML =
+        '<div class="error">Failed to upload image. Please try again later.</div>';
+    }
+  } catch (uploadError) {
+    console.error("An error occurred during image upload:", uploadError);
+
+    // Update the status of the specific queued request card to "Failed"
+    const cardDiv = document.getElementById(`card-${cardId}`);
+    const cardContentDiv = cardDiv.querySelector(".card-content");
+    cardContentDiv.querySelector(
+      "p:nth-child(3)"
+    ).innerHTML = "<strong>Status:</strong> Failed";
+
+    // Hide the loading indicator and display an error message
+    hideLoading();
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML =
+      '<div class="error">An error occurred during image upload. Please try again later.</div>';
+  }
+}
+      </script>
+      
+  </body>
+</html>
