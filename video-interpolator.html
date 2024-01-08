@@ -145,7 +145,7 @@
             requestCard.classList.add("request-card");
             requestCard.innerHTML = `
                 <h2>Interpolating Frames</h2>
-                <p>MP4 Video URL: ${uploadData.url}</p>
+                <p>Input Video URL: ${uploadData.url}</p>
                 <p>Playback Frames Per Second: ${fps}</p>
                 <p>Number of Interpolation Steps: ${interpolationSteps}</p>
                 <p class="status">Status: In Progress</p>
@@ -156,7 +156,6 @@
             // Add the request card to the requestQueue array
             requestQueue.push(requestCard);
 
-            // Make an API request to the video interpolation endpoint
             fetch("http://araby-ai-test.me-south-1.elasticbeanstalk.com/film_frame", {
                 method: "POST",
                 headers: {
@@ -175,6 +174,15 @@
                     const videoOutput = requestCard.querySelector("#videoOutput");
                     videoOutput.innerHTML = `<video controls src="${data.video_url}" style="max-width:100%;"></video>`;
                     statusElement.innerHTML = "Completed";
+
+                    // Add the completed video to the list
+                    const completedVideo = document.createElement("div");
+                    completedVideo.classList.add("completed-video");
+                    completedVideo.innerHTML = `
+                        <h2>Completed Video</h2>
+                        <video controls src="${data.video_url}" style="max-width:100%;"></video>
+                    `;
+                    // document.getElementById("output").appendChild(completedVideo);
                 } else {
                     // Display an error message
                     statusElement.innerHTML = "Failed: Unable to process the request.";
