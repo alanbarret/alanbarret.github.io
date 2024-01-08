@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frame Interpolation App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        button[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+            width: 50%;
+            margin: 20px auto;
+        }
+
+        .request-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: left;
+            border-radius: 5px;
+        }
+
+        .request-card h2 {
+            margin: 0;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        #videoOutput {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Frame Interpolation App</h1>
+    <form id="interpolation-form">
+        <label for="mp4-file">MP4 Video URL:</label>
+        <input type="file" id="video_upload" name="video_upload" required><br><br>
+        <label for="fps">Playback Frames Per Second:</label>
+        <input type="number" id="fps" name="fps" value="24" required><br><br>
+        <label for="interpolation-steps">Number of Interpolation Steps:</label>
+        <input type="number" id="interpolation-steps" name="interpolation-steps" value="3" required><br><br>
+        <button type="button" onclick="interpolateFrames()">Interpolate Frames</button>
+    </form>
+    <div id="output">
+        <!-- Output will be displayed here -->
+    </div>
+
+    <script>
+        const requestQueue = [];
+
+        async function interpolateFrames() {
+            // Get input values
+            const fps = document.getElementById("fps").value;
+            const interpolationSteps = document.getElementById("interpolation-steps").value;
+            const imageUploadInput = document.getElementById("video_upload");
+
+            // Construct the JSON payload
+            const formdata = new FormData();
+            formdata.append("file", imageUploadInput.files[0]);
+
+
+            const uploadResponse = await fetch(
+                "https://v1.test.socket.araby.ai/upload-user-images",
+                {
+                    method: "POST",
+                    headers: {
+                  Authorization:
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDEwOTU2MWYxNmZlZjdkMzI5Y2FjYzkiLCJpYXQiOjE3MDIzODgyOTJ9.D4ckmX4zjMDf0odoTilXJmzHryJvuJw70JtJtq1Mm44", // Replace with your authorization token
+                },
+                    body: formdata
+                }
+            );
+
+            if (!uploadResponse.ok) {
+                throw new Error(
+                    `Image upload failed with status ${uploadResponse.status}`
+                );
+            }
+
+            const uploadData = await uploadResponse.json();
+            console.log(uploadData); // You can handle the upload response data here
+
+            // Make an API request to the specified endpoint with the uploaded image URL
+            const videoPayload = {
+                "mp4": uploadData.url,
+                "playback_frames_per_second": parseInt(fps),
+                "num_interpolation_steps": parseInt(interpolationSteps)
+            };
+
+            // Create a request card element
+            const requestCard = document.createElement("div");
+            requestCard.classList.add("request-card");
+            requestCard.innerHTML = `
+                <h2>Interpolating Frames</h2>
+                <p>MP4 Video URL: ${uploadData.url}</p>
+                <p>Playback Frames Per Second: ${fps}</p>
+                <p>Number of Interpolation Steps: ${interpolationSteps}</p>
+                <p class="status">Status: In Progress</p>
+                <div id="videoOutput"></div>
+            `;
+            document.getElementById("output").appendChild(requestCard);
+
+            // Add the request card to the requestQueue array
+            requestQueue.push(requestCard);
+
+            // Make an API request to the video interpolation endpoint
+            fetch("http://araby-ai-test.me-south-1.elasticbeanstalk.com/film_frame", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(videoPayload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Get the corresponding request card
+                const requestCard = requestQueue.shift();
+                const statusElement = requestCard.querySelector(".status");
+
+                if (data.video_url) {
+                    // Display the video output
+                    const videoOutput = requestCard.querySelector("#videoOutput");
+                    videoOutput.innerHTML = `<video controls src="${data.video_url}" style="max-width:100%;"></video>`;
+                    statusElement.innerHTML = "Completed";
+                } else {
+                    // Display an error message
+                    statusElement.innerHTML = "Failed: Unable to process the request.";
+                }
+            })
+            .catch(error => {
+                // Handle API errors
+                console.error("API Error:", error);
+                const requestCard = requestQueue.shift();
+                const statusElement = requestCard.querySelector(".status");
+                statusElement.innerHTML = "Failed: " + error.message;
+            });
+        }
+    </script>
+</body>
+</html>
