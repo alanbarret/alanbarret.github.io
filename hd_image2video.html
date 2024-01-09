@@ -353,6 +353,9 @@ async function queueImageAndGenerateVideo() {
       "https://v1.test.socket.araby.ai/demo/image-to-video",
       {
         method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
         body: jsonPayload,
       }
     );
