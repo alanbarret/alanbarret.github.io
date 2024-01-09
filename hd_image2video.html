@@ -376,7 +376,7 @@ async function queueImageAndGenerateVideo() {
 
       // Display the video inside its respective card
       const videoDiv = document.createElement("div");
-      videoDiv.innerHTML = `<video controls autoplay><source src="${videoUrl}" type="video/mp4"></video>`;
+      videoDiv.innerHTML = `<video controls autoplay loop><source src="${videoUrl}" type="video/mp4"></video>`;
       cardContentDiv.appendChild(videoDiv);
 
       // Hide the loading indicator
