@@ -172,7 +172,7 @@
                 if (data.video_url) {
                     // Display the video output
                     const videoOutput = requestCard.querySelector("#videoOutput");
-                    videoOutput.innerHTML = `<video controls loop src="${data.video_url}" style="max-width:100%;"></video>`;
+                    videoOutput.innerHTML = `<video controls autoplay loop src="${data.video_url}" style="max-width:100%;"></video>`;
                     statusElement.innerHTML = "Completed";
 
                     // Add the completed video to the list
@@ -180,7 +180,7 @@
                     completedVideo.classList.add("completed-video");
                     completedVideo.innerHTML = `
                         <h2>Completed Video</h2>
-                        <video controls loop src="${data.video_url}" style="max-width:100%;"></video>
+                        <video controls autoplay loop src="${data.video_url}" style="max-width:100%;"></video>
                     `;
                     // document.getElementById("output").appendChild(completedVideo);
                 } else {
