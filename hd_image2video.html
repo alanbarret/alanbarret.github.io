@@ -350,7 +350,7 @@ async function queueImageAndGenerateVideo() {
 
     // Make an API request to upload the image
     const video_resp = await fetch(
-      "http://araby-ai-test.me-south-1.elasticbeanstalk.com/i2vgen_xl",
+      "https://v1.test.socket.araby.ai/demo/image-to-video",
       {
         method: "POST",
         body: jsonPayload,
