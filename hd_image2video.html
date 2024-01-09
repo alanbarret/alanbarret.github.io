@@ -362,7 +362,7 @@ async function queueImageAndGenerateVideo() {
 
     if (video_resp.ok) {
       const uploadData = await video_resp.json();
-      const videoUrl = uploadData.video_url;
+      const videoUrl = uploadData.data.video_url;
 
       // Update the status of the specific queued request card to "Completed" and display the video
       const cardDiv = document.getElementById(`card-${cardId}`);
