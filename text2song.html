@@ -82,7 +82,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while generating the audio.');
+                alert('An error occurred while generating the audio.',error);
             })
             .finally(() => {
                 loadingIndicator.hidden = true;
