@@ -91,8 +91,8 @@
                 promptLink.style.display = 'block';
             })
             .catch(error => {
-                console.error(`An error occurred while generating the audio. ${error}`);
-                alert(`An error occurred while generating the audio.${error}`);
+                console.error(`An error occurred while generating the audio.`);
+                alert(`An error occurred while generating the audio.`);
             })
             .finally(() => {
                 loadingIndicator.hidden = true;
