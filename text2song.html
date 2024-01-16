@@ -35,6 +35,10 @@
         .slider-container {
             margin: 10px;
         }
+        #prompt-link {
+            margin-top: 10px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -51,6 +55,7 @@
         <button id="generate-button">Generate</button>
         <div id="loading-indicator" hidden>Loading...</div>
         <audio id="audio-player" controls hidden></audio>
+        <a id="prompt-link" href="#" download="prompt_npz.zip">Download Prompt NPZ</a>
     </div>
 
     <script>
@@ -60,6 +65,7 @@
             var waveformTemp = document.getElementById('waveform-temp-slider').value;
             var loadingIndicator = document.getElementById('loading-indicator');
             var audioPlayer = document.getElementById('audio-player');
+            var promptLink = document.getElementById('prompt-link');
 
             loadingIndicator.hidden = false;
             audioPlayer.hidden = true;
@@ -79,10 +85,14 @@
             .then(data => {
                 audioPlayer.src = data.data.audio_out;
                 audioPlayer.hidden = false;
+
+                // Set the link to download the prompt_npz file
+                promptLink.href = data.data.prompt_npz;
+                promptLink.style.display = 'block';
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while generating the audio.',error);
+                alert('An error occurred while generating the audio.', error);
             })
             .finally(() => {
                 loadingIndicator.hidden = true;
