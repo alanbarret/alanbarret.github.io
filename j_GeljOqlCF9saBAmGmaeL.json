@@ -16,6 +16,9 @@
       "id": 1,
       "name": "Python",
       "key": "Python",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/Python.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless Python code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة Python عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -31,6 +34,9 @@
       "id": 2,
       "name": "Javascript",
       "key": "Javascript",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/Javascript.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless Javascript code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة Javascript عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -46,6 +52,9 @@
       "id": 3,
       "name": "Java",
       "key": "Java",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/Java.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless Java code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة Java عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -61,6 +70,9 @@
       "id": 4,
       "name": "C++",
       "key": "C++",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/C++.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless C++ code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة C++ عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -76,6 +88,9 @@
       "id": 5,
       "name": "C#",
       "key": "C#",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/C#.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless C# code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة C# عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -91,6 +106,9 @@
       "id": 6,
       "name": "C",
       "key": "C",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/C.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless C code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة C عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -106,6 +124,9 @@
       "id": 7,
       "name": "HTML",
       "key": "HTML",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/HTML.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless HTML code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة HTML عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -121,6 +142,9 @@
       "id": 8,
       "name": "CSS",
       "key": "CSS",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/CSS.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless CSS code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة CSS عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -136,6 +160,9 @@
       "id": 9,
       "name": "Ruby",
       "key": "Ruby",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/Ruby.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless Ruby code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة Ruby عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -151,6 +178,9 @@
       "id": 10,
       "name": "PHP",
       "key": "PHP",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/PHP.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless PHP code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة PHP عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -166,6 +196,9 @@
       "id": 11,
       "name": "Dart",
       "key": "Dart",
+      "element_icon": "https://features-icons.s3.me-south-1.amazonaws.com/Dart.png",
+      "description": "Effortlessly streamline your programming prowess by crafting flawless Dart code",
+      "arabic_description": "بسهولة، قم بتبسيط إتقانك للبرمجة بلغة Dart عن طريق صياغة كود خالي من العيوب",
       "inputs": [
         {
           "id": 1,
@@ -308,6 +341,325 @@
     }
   ],
   "use_cases": [
+    {
+      "id": 157,
+      "name": "Article",
+      "arabic_name": "مقالة",
+      "description": "Improve article creation with state-of-the-art writing tech.",
+      "arabic_description": "قم بتحسين إنشاء المقالات باستخدام تقنية الكتابة الحديثة.",
+      "key": "Article",
+      "category_name": "Write Documents",
+      "arabic_category_name": " كتابة النصوص",
+      "category": "long_documents",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/Main+Category/Ecommerce.png",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/article.svg",
+      "inputs": [
+        {
+          "id": 160,
+          "name": "Enter the topic for your Article",
+          "arabic_name": "أكتب عنوان المقالة التي تريد كتباتها",
+          "key": "topic",
+          "placeholder": "The secret to achieving maximum productivity",
+          "arabic_placeholder": "السر وراء تحقيق أعلى إنتاجية",
+          "text_type": "text"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "name": "Summarize Text",
+      "arabic_name": "تلخيص النص",
+      "description": "Summarize your text and get concise insights instantly",
+      "arabic_description": "استخلاص الأفكار الجوهرية بكفاءة من النصوص",
+      "key": "SummarizeText",
+      "category_name": "Long Documents",
+      "arabic_category_name": "كتابة النصوص",
+      "category": "long_documents",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/longDoc.svg",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/summarizeText.svg",
+      "inputs": [
+        {
+          "id": 62,
+          "name": "Enter the content to be summarized",
+          "arabic_name": "ادخل النص المراد  تلخيصة",
+          "key": "content",
+          "placeholder": "If you are looking for an engaging read, then I highly recommend the book I'm currently reading. From the first page, I was hooked, and I can't seem to put it down. The story is captivating, the characters are multi-dimensional and the writing is absolutely superb. Every page brings something new to the table, and I'm loving every minute of it. What I love most about this book is the way it captures the small moments in life",
+          "arabic_placeholder": "إذا كنت تبحث عن قراءة جذابة ، فأنا أوصي بشدة بالكتاب الذي أقرأه حاليًا. من الصفحة الأولى ، كنت مدمن مخدرات ، ولا يبدو أنه لا يمكنني تركها. القصة آسرة ، والشخصيات متعددة الأبعاد والكتابة رائعة للغاية. كل صفحة تجلب شيئًا جديدًا إلى الطاولة ، وأنا أحب كل دقيقة فيه. أكثر ما أحبه في هذا الكتاب هو الطريقة التي يلتقط بها اللحظات الصغيرة في الحياة",
+          "text_type": "textarea"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Freestyle Essay",
+      "arabic_name": "مقال حر",
+      "description": "Get your essay done faster and Simplify essay writing process",
+      "arabic_description": "إبداع لا حدود له في كتابة مقالات حرة ومتنوعة",
+      "key": "FreestyleEssay",
+      "category_name": "Write Documents",
+      "arabic_category_name": " كتابة النصوص",
+      "category": "long_documents",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/Main+Category/Long+Documents.png",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/freestyleEssay.svg",
+      "inputs": [
+        {
+          "id": 14,
+          "name": "Enter the topic for your essay",
+          "arabic_name": " ادخل موضوع مقالتك",
+          "key": "topic",
+          "placeholder": "Advantages of exercising",
+          "arabic_placeholder": "مزايا التمرين",
+          "text_type": "text"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "name": "Rewrite General Content",
+      "arabic_name": "إعادة كتابة النص",
+      "description": "Revamp your content with AI-powered rewriting seconds",
+      "arabic_description": "أعد كتابة المحتوى الخاص بك بأدوات الكتابة المدعومة بالـAI في ثوانٍ",
+      "key": "RewriteGeneralContent",
+      "category_name": "Long Documents",
+      "arabic_category_name": "كتابة النصوص",
+      "category": "long_documents",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/longDoc.svg",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/rewriteGeneralContent.svg",
+      "inputs": [
+        {
+          "id": 56,
+          "name": "Enter the content to be rewritten",
+          "arabic_name": "اكتب المحتوى المراد إعادة صياغته ",
+          "key": "content",
+          "placeholder": "I like to take walks in the park with my friends",
+          "arabic_placeholder": "أحب المشي في الحديقة مع أصدقائي",
+          "text_type": "textarea"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Cover Letter",
+      "arabic_name": "خطاب التقديم على وظيفة",
+      "description": "Enhance your job application with a professional cover letter.",
+      "arabic_description": "قم بتعزيز طلب الوظيفة الخاص بك بخطاب توظيفي احترافي",
+      "key": "CoverLetter",
+      "category_name": "Write Documents",
+      "arabic_category_name": " كتابة النصوص",
+      "category": "long_documents",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/Main+Category/Long+Documents.png",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/coverLetter.svg",
+      "inputs": [
+        {
+          "id": 12,
+          "name": "What is the job role you're applying for?",
+          "arabic_name": "ماهو الدور الوظيفي الذي تتقدم له؟",
+          "key": "jobRole",
+          "placeholder": "AI Developer",
+          "arabic_placeholder": "مطور الذكاء الاصطناعي",
+          "text_type": "text"
+        },
+        {
+          "id": 13,
+          "name": "What are your skills and qualifications?",
+          "arabic_name": "ماهي مهاراتك و مؤهلاتك ",
+          "key": "jobSkills",
+          "placeholder": "communication skills, fast learner",
+          "arabic_placeholder": "مهارات الاتصال والمتعلم السريع",
+          "text_type": "text"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "name": "Product Features",
+      "arabic_name": "مميزات منتجك",
+      "description": "Enhance your product's appeal with expertly crafted feature descriptions",
+      "arabic_description": "وصف مميزات منتجك باحتراف.",
+      "key": "ProductFeatures",
+      "category_name": "Company Content Writing",
+      "arabic_category_name": "كتابة المحتوى للشركات",
+      "category": "company",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/productFeatures.svg",
+      "inputs": [
+        {
+          "id": 70,
+          "name": "What is the name of your product/service?",
+          "arabic_name": "ماهو اسم منتجك / خدمتك؟",
+          "key": "name",
+          "placeholder": "Name",
+          "arabic_placeholder": "اسم",
+          "text_type": "text"
+        },
+        {
+          "id": 71,
+          "name": "Describe your product/service",
+          "arabic_name": "وصف المنتج",
+          "key": "description",
+          "placeholder": "Fastest food delivery application in Middle East",
+          "arabic_placeholder": "أسرع تطبيق توصيل طعام في الشرق الأوسط",
+          "text_type": "textarea"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "name": "Product Description",
+      "arabic_name": "وصف المنتج",
+      "description": "High-quality descriptions that sell your products for you",
+      "arabic_description": "وصف دقيق وجذاب لمميزات المنتج",
+      "key": "ProductDescription",
+      "category_name": "Company Content Writing",
+      "arabic_category_name": "كتابة المحتوى للشركات",
+      "category": "company",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/productDescription.svg",
+      "inputs": [
+        {
+          "id": 68,
+          "name": "What is the name of your product/service?",
+          "arabic_name": "ماهو اسم منتجك / خدمتك؟",
+          "key": "name",
+          "placeholder": "Name",
+          "arabic_placeholder": "اسم",
+          "text_type": "text"
+        },
+        {
+          "id": 69,
+          "name": "What are the features of your product/service?",
+          "arabic_name": "ما هي ميزات منتجك / خدمتك",
+          "key": "features",
+          "placeholder": "Fastest food delivery application in Middle East",
+          "arabic_placeholder": "أسرع تطبيق توصيل طعام في الشرق الأوسط",
+          "text_type": "textarea"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "name": "Real Estate Listing",
+      "arabic_name": "وصف العقارات",
+      "description": "Effortlessly create compelling real estate listings",
+      "arabic_description": "إنشاء قوائم عقارية مقنعة بسهولة",
+      "key": "RealEstateListing",
+      "category_name": "Company Content Writing",
+      "arabic_category_name": "كتابة المحتوى للشركات",
+      "category": "company",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/toCharger.svg",
+      "inputs": [
+        {
+          "id": 63,
+          "name": "What is the name of the property?",
+          "arabic_name": " ما هو نوع العقار",
+          "key": "name",
+          "placeholder": "Al Aryam Tower",
+          "arabic_placeholder": "برج الأريام",
+          "text_type": "text"
+        },
+        {
+          "id": 64,
+          "name": "Give a description of the property your listing",
+          "arabic_name": "عطي وصف للعقار",
+          "key": "description",
+          "placeholder": "20 storey apartment, located at the centre of the city",
+          "arabic_placeholder": "شقة من 20 طابقا تقع في قلب المدينة",
+          "text_type": "textarea"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "name": "Company Vision",
+      "arabic_name": "رؤية الشركة",
+      "description": "Create a captivating vision for your company",
+      "arabic_description": "وضع رؤية شركتك بدقة باستخدام الذكاء الاصطناعي",
+      "key": "CompanyVision",
+      "category_name": "Company Content Writing",
+      "arabic_category_name": "كتابة المحتوى للشركات",
+      "category": "company",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyVision.svg",
+      "inputs": [
+        {
+          "id": 44,
+          "name": "What is the name of your company?",
+          "arabic_name": "ماهو اسم شركتك",
+          "key": "name",
+          "placeholder": "Axel",
+          "arabic_placeholder": "اكسل",
+          "text_type": "text"
+        },
+        {
+          "id": 45,
+          "name": "Describe your company",
+          "arabic_name": "صف شركتك ",
+          "key": "description",
+          "placeholder": "Developing new technology",
+          "arabic_placeholder": "تطوير تكنولوجيا جديدة",
+          "text_type": "textarea"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Company Mission",
+      "arabic_name": "مهمة الشركة",
+      "description": "Craft a winning company mission using artificial intellagence",
+      "arabic_description": "صياغة رسالة شركتك بأسلوب محترف وملهم",
+      "key": "CompanyMission",
+      "category_name": "Company Content Writing",
+      "arabic_category_name": "كتابة المحتوى للشركات",
+      "category": "company",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyMission.svg",
+      "inputs": [
+        {
+          "id": 42,
+          "name": "What is the name of your company?",
+          "arabic_name": "ماهو اسم شركتك",
+          "key": "name",
+          "placeholder": "Name",
+          "arabic_placeholder": "اسم",
+          "text_type": "text"
+        },
+        {
+          "id": 43,
+          "name": "Describe your company",
+          "arabic_name": "صف شركتك ",
+          "key": "description",
+          "placeholder": "Specializing in data analysis for business giants",
+          "arabic_placeholder": "متخصصة في تحليل البيانات لعمالقة الأعمال",
+          "text_type": "textarea"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "name": "Job Description",
+      "arabic_name": "وصف الوظيفة",
+      "description": "Effortlessly create and craft better job descriptions",
+      "arabic_description": "صياغة الوصف الوظيفي بدقة",
+      "key": "JobDescription",
+      "category_name": "Company Content Writing",
+      "arabic_category_name": "كتابة المحتوى للشركات",
+      "category": "company",
+      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
+      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/JobDescription.svg",
+      "inputs": [
+        {
+          "id": 59,
+          "name": "What role are you hiring for?",
+          "arabic_name": "ماهو الدور الذي توظف من أجله؟",
+          "key": "jobRole",
+          "placeholder": "Marketing manager",
+          "arabic_placeholder": "مدير تسويق",
+          "text_type": "text"
+        }
+      ]
+    },
+
     {
       "id": 60,
       "name": "Test",
@@ -1315,72 +1667,7 @@
         }
       ]
     },
-    {
-      "id": 50,
-      "name": "Product Description",
-      "arabic_name": "وصف المنتج",
-      "description": "High-quality descriptions that sell your products for you",
-      "arabic_description": "وصف دقيق وجذاب لمميزات المنتج",
-      "key": "ProductDescription",
-      "category_name": "Company Content Writing",
-      "arabic_category_name": "كتابة المحتوى للشركات",
-      "category": "company",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/productDescription.svg",
-      "inputs": [
-        {
-          "id": 68,
-          "name": "What is the name of your product/service?",
-          "arabic_name": "ماهو اسم منتجك / خدمتك؟",
-          "key": "name",
-          "placeholder": "Name",
-          "arabic_placeholder": "اسم",
-          "text_type": "text"
-        },
-        {
-          "id": 69,
-          "name": "What are the features of your product/service?",
-          "arabic_name": "ما هي ميزات منتجك / خدمتك",
-          "key": "features",
-          "placeholder": "Fastest food delivery application in Middle East",
-          "arabic_placeholder": "أسرع تطبيق توصيل طعام في الشرق الأوسط",
-          "text_type": "textarea"
-        }
-      ]
-    },
-    {
-      "id": 51,
-      "name": "Product Features",
-      "arabic_name": "مميزات منتجك",
-      "description": "Enhance your product's appeal with expertly crafted feature descriptions",
-      "arabic_description": "وصف مميزات منتجك باحتراف.",
-      "key": "ProductFeatures",
-      "category_name": "Company Content Writing",
-      "arabic_category_name": "كتابة المحتوى للشركات",
-      "category": "company",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/productFeatures.svg",
-      "inputs": [
-        {
-          "id": 70,
-          "name": "What is the name of your product/service?",
-          "arabic_name": "ماهو اسم منتجك / خدمتك؟",
-          "key": "name",
-          "placeholder": "Name",
-          "arabic_placeholder": "اسم",
-          "text_type": "text"
-        },
-        {
-          "id": 71,
-          "name": "Describe your product/service",
-          "arabic_name": "وصف المنتج",
-          "key": "description",
-          "placeholder": "Fastest food delivery application in Middle East",
-          "arabic_placeholder": "أسرع تطبيق توصيل طعام في الشرق الأوسط",
-          "text_type": "textarea"
-        }
-      ]
-    },
+
     {
       "id": 49,
       "name": "Product Name",
@@ -1405,30 +1692,7 @@
         }
       ]
     },
-    {
-      "id": 157,
-      "name": "Article",
-      "arabic_name": "مقالة",
-      "description": "Improve article creation with state-of-the-art writing tech.",
-      "arabic_description": "قم بتحسين إنشاء المقالات باستخدام تقنية الكتابة الحديثة.",
-      "key": "Article",
-      "category_name": "Write Documents",
-      "arabic_category_name": " كتابة النصوص",
-      "category": "long_documents",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/Main+Category/Ecommerce.png",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/article.svg",
-      "inputs": [
-        {
-          "id": 160,
-          "name": "Enter the topic for your Article",
-          "arabic_name": "أكتب عنوان المقالة التي تريد كتباتها",
-          "key": "topic",
-          "placeholder": "The secret to achieving maximum productivity",
-          "arabic_placeholder": "السر وراء تحقيق أعلى إنتاجية",
-          "text_type": "text"
-        }
-      ]
-    },
+
     {
       "id": 8,
       "name": "Blog Body",
@@ -1549,63 +1813,7 @@
         }
       ]
     },
-    {
-      "id": 12,
-      "name": "Cover Letter",
-      "arabic_name": "خطاب التقديم على وظيفة",
-      "description": "Enhance your job application with a professional cover letter.",
-      "arabic_description": "قم بتعزيز طلب الوظيفة الخاص بك بخطاب توظيفي احترافي",
-      "key": "CoverLetter",
-      "category_name": "Write Documents",
-      "arabic_category_name": " كتابة النصوص",
-      "category": "long_documents",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/Main+Category/Long+Documents.png",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/coverLetter.svg",
-      "inputs": [
-        {
-          "id": 12,
-          "name": "What is the job role you're applying for?",
-          "arabic_name": "ماهو الدور الوظيفي الذي تتقدم له؟",
-          "key": "jobRole",
-          "placeholder": "AI Developer",
-          "arabic_placeholder": "مطور الذكاء الاصطناعي",
-          "text_type": "text"
-        },
-        {
-          "id": 13,
-          "name": "What are your skills and qualifications?",
-          "arabic_name": "ماهي مهاراتك و مؤهلاتك ",
-          "key": "jobSkills",
-          "placeholder": "communication skills, fast learner",
-          "arabic_placeholder": "مهارات الاتصال والمتعلم السريع",
-          "text_type": "text"
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "name": "Freestyle Essay",
-      "arabic_name": "مقال حر",
-      "description": "Get your essay done faster and Simplify essay writing process",
-      "arabic_description": "إبداع لا حدود له في كتابة مقالات حرة ومتنوعة",
-      "key": "FreestyleEssay",
-      "category_name": "Write Documents",
-      "arabic_category_name": " كتابة النصوص",
-      "category": "long_documents",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/Main+Category/Long+Documents.png",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/freestyleEssay.svg",
-      "inputs": [
-        {
-          "id": 14,
-          "name": "Enter the topic for your essay",
-          "arabic_name": " ادخل موضوع مقالتك",
-          "key": "topic",
-          "placeholder": "Advantages of exercising",
-          "arabic_placeholder": "مزايا التمرين",
-          "text_type": "text"
-        }
-      ]
-    },
+
     {
       "id": 39,
       "name": "Analogy Generator",
@@ -1630,39 +1838,7 @@
         }
       ]
     },
-    {
-      "id": 33,
-      "name": "Company Mission",
-      "arabic_name": "مهمة الشركة",
-      "description": "Craft a winning company mission using artificial intellagence",
-      "arabic_description": "صياغة رسالة شركتك بأسلوب محترف وملهم",
-      "key": "CompanyMission",
-      "category_name": "Company Content Writing",
-      "arabic_category_name": "كتابة المحتوى للشركات",
-      "category": "company",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyMission.svg",
-      "inputs": [
-        {
-          "id": 42,
-          "name": "What is the name of your company?",
-          "arabic_name": "ماهو اسم شركتك",
-          "key": "name",
-          "placeholder": "Name",
-          "arabic_placeholder": "اسم",
-          "text_type": "text"
-        },
-        {
-          "id": 43,
-          "name": "Describe your company",
-          "arabic_name": "صف شركتك ",
-          "key": "description",
-          "placeholder": "Specializing in data analysis for business giants",
-          "arabic_placeholder": "متخصصة في تحليل البيانات لعمالقة الأعمال",
-          "text_type": "textarea"
-        }
-      ]
-    },
+
     {
       "id": 36,
       "name": "Company Name Generator",
@@ -1687,39 +1863,7 @@
         }
       ]
     },
-    {
-      "id": 34,
-      "name": "Company Vision",
-      "arabic_name": "رؤية الشركة",
-      "description": "Create a captivating vision for your company",
-      "arabic_description": "وضع رؤية شركتك بدقة باستخدام الذكاء الاصطناعي",
-      "key": "CompanyVision",
-      "category_name": "Company Content Writing",
-      "arabic_category_name": "كتابة المحتوى للشركات",
-      "category": "company",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyVision.svg",
-      "inputs": [
-        {
-          "id": 44,
-          "name": "What is the name of your company?",
-          "arabic_name": "ماهو اسم شركتك",
-          "key": "name",
-          "placeholder": "Axel",
-          "arabic_placeholder": "اكسل",
-          "text_type": "text"
-        },
-        {
-          "id": 45,
-          "name": "Describe your company",
-          "arabic_name": "صف شركتك ",
-          "key": "description",
-          "placeholder": "Developing new technology",
-          "arabic_placeholder": "تطوير تكنولوجيا جديدة",
-          "text_type": "textarea"
-        }
-      ]
-    },
+
     {
       "id": 130,
       "name": "Generate Suggestion",
@@ -1793,30 +1937,7 @@
         }
       ]
     },
-    {
-      "id": 44,
-      "name": "Job Description",
-      "arabic_name": "وصف الوظيفة",
-      "description": "Effortlessly create and craft better job descriptions",
-      "arabic_description": "صياغة الوصف الوظيفي بدقة",
-      "key": "JobDescription",
-      "category_name": "Company Content Writing",
-      "arabic_category_name": "كتابة المحتوى للشركات",
-      "category": "company",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/JobDescription.svg",
-      "inputs": [
-        {
-          "id": 59,
-          "name": "What role are you hiring for?",
-          "arabic_name": "ماهو الدور الذي توظف من أجله؟",
-          "key": "jobRole",
-          "placeholder": "Marketing manager",
-          "arabic_placeholder": "مدير تسويق",
-          "text_type": "text"
-        }
-      ]
-    },
+
     {
       "id": 35,
       "name": "Motto Generator",
@@ -1988,30 +2109,7 @@
         }
       ]
     },
-    {
-      "id": 42,
-      "name": "Rewrite General Content",
-      "arabic_name": "إعادة كتابة النص",
-      "description": "Revamp your content with AI-powered rewriting seconds",
-      "arabic_description": "أعد كتابة المحتوى الخاص بك بأدوات الكتابة المدعومة بالـAI في ثوانٍ",
-      "key": "RewriteGeneralContent",
-      "category_name": "Long Documents",
-      "arabic_category_name": "كتابة النصوص",
-      "category": "long_documents",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/longDoc.svg",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/rewriteGeneralContent.svg",
-      "inputs": [
-        {
-          "id": 56,
-          "name": "Enter the content to be rewritten",
-          "arabic_name": "اكتب المحتوى المراد إعادة صياغته ",
-          "key": "content",
-          "placeholder": "I like to take walks in the park with my friends",
-          "arabic_placeholder": "أحب المشي في الحديقة مع أصدقائي",
-          "text_type": "textarea"
-        }
-      ]
-    },
+
     {
       "id": 45,
       "name": "Testimonial & Review",
@@ -2065,63 +2163,6 @@
           "key": "content",
           "placeholder": "I am very angry with you for missing our meeting yesterday it was not nice",
           "arabic_placeholder": "أنا غاضب جدًا منك لأنني غاب عنك لقاء الأمس الذي لم يكن لطيفًا",
-          "text_type": "textarea"
-        }
-      ]
-    },
-    {
-      "id": 46,
-      "name": "Summarize Text",
-      "arabic_name": "تلخيص النص",
-      "description": "Summarize your text and get concise insights instantly",
-      "arabic_description": "استخلاص الأفكار الجوهرية بكفاءة من النصوص",
-      "key": "SummarizeText",
-      "category_name": "Long Documents",
-      "arabic_category_name": "كتابة النصوص",
-      "category": "long_documents",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/longDoc.svg",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/summarizeText.svg",
-      "inputs": [
-        {
-          "id": 62,
-          "name": "Enter the content to be summarized",
-          "arabic_name": "ادخل النص المراد  تلخيصة",
-          "key": "content",
-          "placeholder": "If you are looking for an engaging read, then I highly recommend the book I'm currently reading. From the first page, I was hooked, and I can't seem to put it down. The story is captivating, the characters are multi-dimensional and the writing is absolutely superb. Every page brings something new to the table, and I'm loving every minute of it. What I love most about this book is the way it captures the small moments in life",
-          "arabic_placeholder": "إذا كنت تبحث عن قراءة جذابة ، فأنا أوصي بشدة بالكتاب الذي أقرأه حاليًا. من الصفحة الأولى ، كنت مدمن مخدرات ، ولا يبدو أنه لا يمكنني تركها. القصة آسرة ، والشخصيات متعددة الأبعاد والكتابة رائعة للغاية. كل صفحة تجلب شيئًا جديدًا إلى الطاولة ، وأنا أحب كل دقيقة فيه. أكثر ما أحبه في هذا الكتاب هو الطريقة التي يلتقط بها اللحظات الصغيرة في الحياة",
-          "text_type": "textarea"
-        }
-      ]
-    },
-    {
-      "id": 47,
-      "name": "Real Estate Listing",
-      "arabic_name": "وصف العقارات",
-      "description": "Effortlessly create compelling real estate listings",
-      "arabic_description": "إنشاء قوائم عقارية مقنعة بسهولة",
-      "key": "RealEstateListing",
-      "category_name": "Company Content Writing",
-      "arabic_category_name": "كتابة المحتوى للشركات",
-      "category": "company",
-      "category_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/companyContent.svg",
-      "element_icon": "https://use-case-icons.s3.me-south-1.amazonaws.com/newCases/toCharger.svg",
-      "inputs": [
-        {
-          "id": 63,
-          "name": "What is the name of the property?",
-          "arabic_name": " ما هو نوع العقار",
-          "key": "name",
-          "placeholder": "Al Aryam Tower",
-          "arabic_placeholder": "برج الأريام",
-          "text_type": "text"
-        },
-        {
-          "id": 64,
-          "name": "Give a description of the property your listing",
-          "arabic_name": "عطي وصف للعقار",
-          "key": "description",
-          "placeholder": "20 storey apartment, located at the centre of the city",
-          "arabic_placeholder": "شقة من 20 طابقا تقع في قلب المدينة",
           "text_type": "textarea"
         }
       ]
