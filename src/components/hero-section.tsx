@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowDown } from 'lucide-react';
 
-const techTags = ["Artificial Intelligence", "Full Stack Development", "Embedded Systems"];
+const techTags = ["Artificial Intelligence", "Blockchain Development", "Embedded Systems", "Full Stack Development"];
 
 export default function HeroSection() {
   return (
@@ -12,10 +12,10 @@ export default function HeroSection() {
           Alan Barret
         </Badge>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-headline tracking-tighter mb-4 text-primary">
-          AI & Full Stack Developer
+          R&D Engineer
         </h1>
         <p className="max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground mb-8">
-          Crafting intelligent solutions from cloud to edge. Specializing in machine learning applications and robust, scalable web architectures.
+          Innovative R&D Engineer skilled in AI, blockchain, embedded systems, and full-stack development, creating impactful solutions that drive industry advancements.
         </p>
         <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
           {techTags.map((tag, i) => (

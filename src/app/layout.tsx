@@ -3,8 +3,8 @@ import { Toaster } from "@/components/ui/toaster"
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Alan Barret - AI Developer Portfolio",
-  description: "Portfolio of Alan Barret, an AI & Full Stack Developer and Embedded Systems Engineer.",
+  title: "Alan Barret - R&D Engineer Portfolio",
+  description: "Portfolio of Alan Barret, an R&D Engineer specializing in AI, Blockchain, and Full Stack Development.",
 };
 
 export default function RootLayout({

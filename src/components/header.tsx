@@ -10,7 +10,6 @@ const navLinks = [
   { href: '#experience', label: 'Experience' },
   { href: '#projects', label: 'Projects' },
   { href: '#skills', label: 'Skills' },
-  { href: '#certifications', label: 'Certifications' },
 ];
 
 export default function Header() {
@@ -47,7 +46,7 @@ export default function Header() {
         </nav>
         <div className="hidden md:block">
           <Button asChild>
-            <a href="/alan-barret-cv.pdf" download>Download CV</a>
+            <a href="/alan-barret-resume.pdf" download>Download CV</a>
           </Button>
         </div>
         <div className="md:hidden">
@@ -72,7 +71,7 @@ export default function Header() {
                   ))}
                 </nav>
                 <Button asChild>
-                  <a href="/alan-barret-cv.pdf" download>Download CV</a>
+                  <a href="/alan-barret-resume.pdf" download>Download CV</a>
                 </Button>
               </div>
             </SheetContent>

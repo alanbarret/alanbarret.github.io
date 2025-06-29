@@ -2,7 +2,6 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {
   PythonIcon,
   ReactIcon,
-  YoloIcon,
   PyTorchIcon,
   ScikitLearnIcon,
   TensorFlowIcon,
@@ -10,7 +9,7 @@ import {
   DockerIcon,
   KubernetesIcon
 } from '@/components/icons';
-import { Bot, Cpu, Database, Cloud, Code } from 'lucide-react';
+import { Bot, Cpu, Database, Cloud, Code, LinkIcon } from 'lucide-react';
 import type { ComponentType, SVGProps } from 'react';
 
 type Skill = {
@@ -26,7 +25,9 @@ const skillCategories: { title: string; icon: ComponentType<SVGProps<SVGSVGEleme
       { name: "PyTorch", icon: PyTorchIcon },
       { name: "TensorFlow", icon: TensorFlowIcon },
       { name: "Scikit-learn", icon: ScikitLearnIcon },
-      { name: "YOLO", icon: YoloIcon },
+      { name: "OpenAI API", icon: Bot },
+      { name: "NLP", icon: Bot },
+      { name: "Mistral-7B", icon: Bot },
     ]
   },
   {
@@ -45,8 +46,18 @@ const skillCategories: { title: string; icon: ComponentType<SVGProps<SVGSVGEleme
     skills: [
       { name: "Python", icon: PythonIcon },
       { name: "Node.js", icon: Code },
-      { name: "PostgreSQL", icon: Database },
+      { name: "Flask", icon: Code },
       { name: "Firebase", icon: Cloud },
+    ]
+  },
+   {
+    title: "Blockchain & Web3",
+    icon: LinkIcon,
+    skills: [
+      { name: "Solana", icon: Code },
+      { name: "Metaplex", icon: Code },
+      { name: "NFTs", icon: Code },
+      { name: "Smart Contracts", icon: Code },
     ]
   },
   {
@@ -64,8 +75,8 @@ const skillCategories: { title: string; icon: ComponentType<SVGProps<SVGSVGEleme
     icon: Cpu,
     skills: [
       { name: "C/C++", icon: Code },
+      { name: "Linux", icon: Code },
       { name: "Raspberry Pi", icon: Cpu },
-      { name: "Arduino", icon: Cpu },
       { name: "IoT", icon: Cpu },
     ]
   },

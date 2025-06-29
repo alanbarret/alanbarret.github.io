@@ -4,22 +4,22 @@ import { Badge } from '@/components/ui/badge';
 
 const experiences = [
   {
-    role: "Senior AI Engineer",
+    role: "R&D Engineer",
     company: "Araby.ai",
-    duration: "Jan 2022 - Present",
-    description: "Led the development of NLP and computer vision models for flagship products. Optimized deployment pipelines, resulting in a 40% reduction in inference time. Mentored junior engineers and contributed to the company's open-source initiatives.",
+    duration: "Dec 2021 - Present",
+    description: "Innovating across AI, healthcare, blockchain, and legal tech. Key projects include TradeGPT for financial analysis, an AI Website Generator, Health Kingdom for telemedicine, and the NFT-Plus.me marketplace.",
     logo: "https://placehold.co/100x100.png",
     logoHint: "AI technology",
-    tags: ["PyTorch", "TensorFlow", "Kubernetes", "GCP", "LLMs"],
+    tags: ["AI/ML", "NLP", "Blockchain", "Embedded Systems", "Python", "Solana"],
   },
   {
-    role: "Full Stack Developer",
+    role: "Technical Support Engineer",
     company: "Technowave Group",
-    duration: "Jun 2019 - Dec 2021",
-    description: "Developed and maintained full-stack applications for enterprise clients using React and Node.js. Built and integrated RESTful APIs, managed databases, and ensured application scalability and security.",
+    duration: "Sep 2018 - May 2020",
+    description: "Provided expert technical support for ID card printers, RFID tracking systems, and barcode printers. Proficient in installation, maintenance, and troubleshooting to ensure optimal operational efficiency and customer satisfaction.",
     logo: "https://placehold.co/100x100.png",
-    logoHint: "software development",
-    tags: ["React", "Node.js", "PostgreSQL", "Docker", "AWS"],
+    logoHint: "technology solutions",
+    tags: ["Technical Support", "RFID", "Hardware Troubleshooting", "Customer Service"],
   }
 ];
 
