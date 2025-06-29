@@ -4,13 +4,13 @@ import { Badge } from '@/components/ui/badge';
 
 const experiences = [
   {
-    role: "R&D Engineer",
+    role: "AI Developer",
     company: "Araby.ai",
     duration: "Dec 2021 - Present",
-    description: "Innovating across AI, healthcare, blockchain, and legal tech. Key projects include TradeGPT for financial analysis, an AI Website Generator, Health Kingdom for telemedicine, and the NFT-Plus.me marketplace.",
+    description: "Led the development of cutting-edge AI solutions, including financial analysis with TradeGPT and automated content generation. Specialized in applying NLP and machine learning models to solve complex business problems.",
     logo: "https://placehold.co/100x100.png",
     logoHint: "AI technology",
-    tags: ["AI/ML", "NLP", "Blockchain", "Embedded Systems", "Python", "Solana"],
+    tags: ["AI/ML", "NLP", "Python", "OpenAI API", "LLMs"],
   },
   {
     role: "Technical Support Engineer",

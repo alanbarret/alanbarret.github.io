@@ -9,7 +9,7 @@ import {
   DockerIcon,
   KubernetesIcon
 } from '@/components/icons';
-import { Bot, Cpu, Database, Cloud, Code, LinkIcon } from 'lucide-react';
+import { Bot, Cpu, Database, Cloud, Code, LinkIcon, Eye } from 'lucide-react';
 import type { ComponentType, SVGProps } from 'react';
 
 type Skill = {
@@ -27,7 +27,9 @@ const skillCategories: { title: string; icon: ComponentType<SVGProps<SVGSVGEleme
       { name: "Scikit-learn", icon: ScikitLearnIcon },
       { name: "OpenAI API", icon: Bot },
       { name: "NLP", icon: Bot },
-      { name: "Mistral-7B", icon: Bot },
+      { name: "LLMs", icon: Bot },
+      { name: "LangChain", icon: LinkIcon },
+      { name: "Computer Vision", icon: Eye },
     ]
   },
   {
