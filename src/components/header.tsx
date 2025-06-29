@@ -11,7 +11,6 @@ const navLinks = [
   { href: '#projects', label: 'Projects' },
   { href: '#skills', label: 'Skills' },
   { href: '#certifications', label: 'Certifications' },
-  { href: '#ai-generator', label: 'AI' },
 ];
 
 export default function Header() {
