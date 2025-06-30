@@ -4,45 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Github, ExternalLink } from 'lucide-react';
-
-const projects = [
-  {
-    name: "TradeGPT: AI Financial Analyst",
-    description: "An AI-powered platform for financial analysis, cryptocurrency market understanding, and real-time predictive analytics using OpenAI's assistant APIs.",
-    image: "https://placehold.co/600x400.png",
-    imageHint: "financial charts graphs",
-    tags: ["AI", "Predictive Analytics", "OpenAI", "Python", "Crypto"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    name: "AI Website Generator",
-    description: "A tool that automates web development using AI. It processes user input to generate and structure JSON for website content, integrating OpenAI for content creation.",
-    image: "https://placehold.co/600x400.png",
-    imageHint: "website builder interface",
-    tags: ["AI", "Web Development", "JSON", "OpenAI", "Automation"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    name: "Health Kingdom: AI Telemedicine",
-    description: "A digital healthcare platform utilizing embedded systems and AI for real-time diagnostics. Integrated sensor data with machine learning models for preliminary analysis.",
-    image: "https://placehold.co/600x400.png",
-    imageHint: "telemedicine doctor patient",
-    tags: ["Embedded Systems", "IoT", "AI", "Python", "Computer Vision"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    name: "NFT-Plus.me Marketplace",
-    description: "A decentralized NFT marketplace on the Solana blockchain, integrating the Metaplex framework. Features auction systems for NFTs and other digital assets.",
-    image: "https://placehold.co/600x400.png",
-    imageHint: "nft marketplace art",
-    tags: ["Blockchain", "Solana", "NFT", "Metaplex", "dApps"],
-    github: "#",
-    demo: "#",
-  },
-];
+import { projectsData } from '@/lib/data';
 
 export default function ProjectsSection() {
   return (
@@ -52,7 +14,7 @@ export default function ProjectsSection() {
           Featured Projects
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-          {projects.map((project) => (
+          {projectsData.map((project) => (
             <Card key={project.name} className="overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
               <CardHeader className="p-0">
                 <Image

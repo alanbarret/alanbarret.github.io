@@ -1,24 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowDown } from 'lucide-react';
-
-const techTags = ["Machine Learning", "Deep Learning", "Natural Language Processing", "Python"];
+import { heroData } from '@/lib/data';
 
 export default function HeroSection() {
   return (
     <section id="hero" className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center bg-secondary/30">
       <div className="container mx-auto px-4 md:px-6 text-center">
         <Badge variant="secondary" className="mb-4 font-headline tracking-wider">
-          Alan Barret
+          {heroData.badge}
         </Badge>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-headline tracking-tighter mb-4 text-primary">
-          AI Developer
+          {heroData.headline}
         </h1>
         <p className="max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground mb-8">
-          Dedicated AI Developer creating intelligent solutions with expertise in machine learning, natural language processing, and computer vision.
+          {heroData.description}
         </p>
         <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
-          {techTags.map((tag, i) => (
+          {heroData.tags.map((tag, i) => (
             <div
               key={tag}
               className="animate-tag-entry opacity-0"

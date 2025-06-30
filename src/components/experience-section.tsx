@@ -1,27 +1,7 @@
 import Image from 'next/image';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-
-const experiences = [
-  {
-    role: "AI Developer",
-    company: "Araby.ai",
-    duration: "Dec 2021 - Present",
-    description: "Led the development of cutting-edge AI solutions, including financial analysis with TradeGPT and automated content generation. Specialized in applying NLP and machine learning models to solve complex business problems.",
-    logo: "https://placehold.co/100x100.png",
-    logoHint: "AI technology",
-    tags: ["AI/ML", "NLP", "Python", "OpenAI API", "LLMs"],
-  },
-  {
-    role: "Technical Support Engineer",
-    company: "Technowave Group",
-    duration: "Sep 2018 - May 2020",
-    description: "Provided expert technical support for ID card printers, RFID tracking systems, and barcode printers. Proficient in installation, maintenance, and troubleshooting to ensure optimal operational efficiency and customer satisfaction.",
-    logo: "https://placehold.co/100x100.png",
-    logoHint: "technology solutions",
-    tags: ["Technical Support", "RFID", "Hardware Troubleshooting", "Customer Service"],
-  }
-];
+import { experiencesData } from '@/lib/data';
 
 export default function ExperienceSection() {
   return (
@@ -32,7 +12,7 @@ export default function ExperienceSection() {
         </h2>
         <div className="relative max-w-3xl mx-auto pl-8">
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border"></div>
-          {experiences.map((exp, index) => (
+          {experiencesData.map((exp, index) => (
             <div key={index} className="relative mb-12">
               <div className="absolute left-[-8px] top-1.5 h-4 w-4 rounded-full bg-primary ring-8 ring-background"></div>
               <Card className="ml-8 shadow-md hover:shadow-xl transition-shadow duration-300">

@@ -1,88 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import {
-  PythonIcon,
-  ReactIcon,
-  PyTorchIcon,
-  ScikitLearnIcon,
-  TensorFlowIcon,
-  NextJsIcon,
-  DockerIcon,
-  KubernetesIcon
-} from '@/components/icons';
-import { Bot, Cpu, Database, Cloud, Code, LinkIcon, Eye } from 'lucide-react';
-import type { ComponentType, SVGProps } from 'react';
-
-type Skill = {
-  name: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-};
-
-const skillCategories: { title: string; icon: ComponentType<SVGProps<SVGSVGElement>>, skills: Skill[] }[] = [
-  {
-    title: "AI & Machine Learning",
-    icon: Bot,
-    skills: [
-      { name: "PyTorch", icon: PyTorchIcon },
-      { name: "TensorFlow", icon: TensorFlowIcon },
-      { name: "Scikit-learn", icon: ScikitLearnIcon },
-      { name: "OpenAI API", icon: Bot },
-      { name: "NLP", icon: Bot },
-      { name: "LLMs", icon: Bot },
-      { name: "LangChain", icon: LinkIcon },
-      { name: "Computer Vision", icon: Eye },
-    ]
-  },
-  {
-    title: "Frontend Development",
-    icon: Code,
-    skills: [
-      { name: "React", icon: ReactIcon },
-      { name: "Next.js", icon: NextJsIcon },
-      { name: "HTML5 & CSS3", icon: Code },
-      { name: "TypeScript", icon: Code },
-    ]
-  },
-  {
-    title: "Backend & Databases",
-    icon: Database,
-    skills: [
-      { name: "Python", icon: PythonIcon },
-      { name: "Node.js", icon: Code },
-      { name: "Flask", icon: Code },
-      { name: "Firebase", icon: Cloud },
-    ]
-  },
-   {
-    title: "Blockchain & Web3",
-    icon: LinkIcon,
-    skills: [
-      { name: "Solana", icon: Code },
-      { name: "Metaplex", icon: Code },
-      { name: "NFTs", icon: Code },
-      { name: "Smart Contracts", icon: Code },
-    ]
-  },
-  {
-    title: "DevOps & Cloud",
-    icon: Cloud,
-    skills: [
-      { name: "Docker", icon: DockerIcon },
-      { name: "Kubernetes", icon: KubernetesIcon },
-      { name: "GCP", icon: Cloud },
-      { name: "AWS", icon: Cloud },
-    ]
-  },
-  {
-    title: "Embedded Systems",
-    icon: Cpu,
-    skills: [
-      { name: "C/C++", icon: Code },
-      { name: "Linux", icon: Code },
-      { name: "Raspberry Pi", icon: Cpu },
-      { name: "IoT", icon: Cpu },
-    ]
-  },
-];
+import { skillsData } from '@/lib/data';
 
 export default function SkillsSection() {
   return (
@@ -92,7 +9,7 @@ export default function SkillsSection() {
           Technical Skills
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skillCategories.map((category) => (
+          {skillsData.map((category) => (
             <Card key={category.title} className="shadow-md hover:shadow-xl transition-shadow duration-300">
               <CardHeader className="flex flex-row items-center gap-4">
                 <category.icon className="h-8 w-8 text-primary" />
