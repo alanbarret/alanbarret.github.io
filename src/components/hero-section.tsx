@@ -1,11 +1,20 @@
+"use client";
+
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowDown } from 'lucide-react';
 import { heroData } from '@/lib/data';
+import { motion } from 'framer-motion';
 
 export default function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center bg-secondary/30">
+    <motion.section
+      id="hero"
+      className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center bg-secondary/30"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="container mx-auto px-4 md:px-6 text-center">
         <Badge variant="secondary" className="mb-4 font-headline tracking-wider">
           {heroData.badge}
@@ -40,6 +49,6 @@ export default function HeroSection() {
           </Button>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
