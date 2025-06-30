@@ -16,54 +16,14 @@ import SkillsEditor from "./skills-editor";
 import { savePortfolioData } from "./actions";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, Download } from "lucide-react";
-
-// Interfaces for the admin panel's state
-interface HeroData {
-  badge: string;
-  headline: string;
-  description: string;
-  tags: string[];
-}
-interface Experience {
-  role: string;
-  company: string;
-  duration: string;
-  description: string;
-  logo: string;
-  logoHint: string;
-  tags: string[];
-}
-interface Project {
-  name: string;
-  description: string;
-  image: string;
-  imageHint: string;
-  tags: string[];
-  github: string;
-  demo: string;
-}
-interface Skill {
-  name: string;
-  icon: string;
-}
-interface SkillCategory {
-  title: string;
-  icon: string;
-  skills: Skill[];
-}
-interface RawPortfolioData {
-    hero: HeroData;
-    experiences: Experience[];
-    projects: Project[];
-    skills: SkillCategory[];
-}
+import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory } from "@/lib/types";
 
 
 export default function AdminForm({ initialData }: { initialData: RawPortfolioData }) {
-  const [heroData, setHeroData] = useState<HeroData>(initialData.hero);
-  const [experiences, setExperiences] = useState<Experience[]>(initialData.experiences);
-  const [projects, setProjects] = useState<Project[]>(initialData.projects);
-  const [skills, setSkills] = useState<SkillCategory[]>(initialData.skills);
+  const [heroData, setHeroData] = useState<RawHero>(initialData.hero);
+  const [experiences, setExperiences] = useState<RawExperience[]>(initialData.experiences);
+  const [projects, setProjects] = useState<RawProject[]>(initialData.projects);
+  const [skills, setSkills] = useState<RawSkillCategory[]>(initialData.skills);
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
   const fileInputRef = React.useRef<HTMLInputElement>(null);

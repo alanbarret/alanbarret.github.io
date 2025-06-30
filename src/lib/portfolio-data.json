@@ -2,11 +2,11 @@
   "hero": {
     "badge": "Alan Barret",
     "headline": "AI Developer",
-    "description": "Dedicated AI Developer creating intelligent solutions with expertise in machine learning, natural language processing, and computer vision.",
+    "description": "AI Developer crafting real-world intelligent applications using machine learning, computer vision, NLP, and embedded systems.",
     "tags": [
       "Machine Learning",
-      "Deep Learning",
-      "Natural Language Processing",
+      "Computer Vision",
+      "NLP",
       "Python"
     ]
   },
@@ -15,61 +15,91 @@
       "role": "AI Developer",
       "company": "Araby.ai",
       "duration": "Dec 2021 - Present",
-      "description": "Led the development of cutting-edge AI solutions, including financial analysis with TradeGPT and automated content generation. Specialized in applying NLP and machine learning models to solve complex business problems.",
+      "description": "Leading AI product initiatives such as ArabyGPT and content automation engines. Focused on GPT integration, LangChain RAG pipelines, and building real-time tools for finance, media, and e-commerce sectors.",
       "logo": "https://placehold.co/100x100.png",
       "logoHint": "AI technology",
       "tags": [
-        "AI/ML",
-        "NLP",
-        "Python",
         "OpenAI API",
-        "LLMs"
+        "LangChain",
+        "Python",
+        "LLMs",
+        "NLP"
       ]
     },
     {
       "role": "Technical Support Engineer",
       "company": "Technowave Group",
       "duration": "Sep 2019 - May 2020",
-      "description": "Provided expert technical support for ID card printers, RFID tracking systems, and barcode printers. Proficient in installation, maintenance, and troubleshooting to ensure optimal operational efficiency and customer satisfaction.",
+      "description": "Supported ID card printers, barcode/RFID systems, and mobile scanners. Diagnosed hardware issues and integrated embedded firmware updates.",
       "logo": "https://placehold.co/100x100.png",
       "logoHint": "technology solutions",
       "tags": [
-        "Technical Support",
         "RFID",
-        "Hardware Troubleshooting",
-        "Customer Service"
+        "Hardware",
+        "Embedded Systems",
+        "Support"
       ]
     }
   ],
   "projects": [
     {
-      "name": "TradeGPT: AI Financial Analyst",
-      "description": "An AI-powered platform for financial analysis, cryptocurrency market understanding, and real-time predictive analytics using OpenAI's assistant APIs.",
+      "name": "RugAI: Knot Density Estimator",
+      "description": "AI-powered tool for estimating knots per square centimeter in rug photos using computer vision. Built for rug merchants to automate quality grading.",
       "image": "https://placehold.co/600x400.png",
-      "imageHint": "financial charts graphs",
+      "imageHint": "rug texture AI detection",
       "tags": [
-        "AI",
-        "Predictive Analytics",
-        "OpenAI",
+        "Computer Vision",
+        "YOLO",
         "Python",
-        "Crypto"
+        "OpenCV",
+        "Image Processing"
       ],
-      "github": "https://github.com/fallanangel2305/TradeGPT",
+      "github": "https://github.com/fallanangel2305/RugAI",
       "demo": "#"
     },
     {
-      "name": "AI Website Generator",
-      "description": "A tool that automates web development using AI. It processes user input to generate and structure JSON for website content, integrating OpenAI for content creation.",
+      "name": "ArabyGPT: Internal AI Assistant",
+      "description": "A GPT-powered conversational assistant tailored for internal use at Araby.ai. Handles research, summaries, translation, and knowledge base queries.",
       "image": "https://placehold.co/600x400.png",
-      "imageHint": "website builder interface",
+      "imageHint": "chat interface assistant",
+      "tags": [
+        "LLMs",
+        "LangChain",
+        "OpenAI API",
+        "Python",
+        "Internal Tools"
+      ],
+      "github": "#",
+      "demo": "#"
+    },
+    {
+      "name": "AI Logo Maker",
+      "description": "Tool that creates unique logo designs using AI based on business name and industry. Includes SVG export and style customization.",
+      "image": "https://placehold.co/600x400.png",
+      "imageHint": "logo design interface",
       "tags": [
         "AI",
-        "Web Development",
-        "JSON",
-        "OpenAI",
+        "Design",
+        "SVG",
+        "Web App",
         "Automation"
       ],
-      "github": "https://github.com/fallanangel2305/AI-Website-Generator",
+      "github": "https://github.com/fallanangel2305/ai-logo-generator",
+      "demo": "#"
+    },
+    {
+      "name": "AI Article Writer",
+      "description": "Generates SEO-optimized blog posts and articles using GPT models. Features tone control, keyword injection, and markdown export.",
+      "image": "https://placehold.co/600x400.png",
+      "imageHint": "text editor writing interface",
+      "tags": [
+        "NLP",
+        "OpenAI",
+        "Content Generation",
+        "SEO",
+        "Web Tool"
+      ],
+      "github": "https://github.com/fallanangel2305/ai-article-writer",
       "demo": "#"
     },
     {

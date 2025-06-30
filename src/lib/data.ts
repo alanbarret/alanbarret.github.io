@@ -2,70 +2,8 @@
 import 'server-only';
 import fs from 'fs/promises';
 import path from 'path';
+import type { RawPortfolioData } from '@/lib/types';
 
-import type { ComponentType, SVGProps } from 'react';
-import { Code } from 'lucide-react';
-import { iconMap } from './icon-map';
-
-// Raw data types from JSON file
-interface RawSkill {
-  name: string;
-  icon: string;
-}
-interface RawSkillCategory {
-  title: string;
-  icon: string;
-  skills: RawSkill[];
-}
-interface RawProject {
-  name: string;
-  description: string;
-  image: string;
-  imageHint: string;
-  tags: string[];
-  github: string;
-  demo: string;
-}
-interface RawExperience {
-  role: string;
-  company: string;
-  duration: string;
-  description: string;
-  logo: string;
-  logoHint: string;
-  tags: string[];
-}
-interface RawHero {
-  badge: string;
-  headline: string;
-  description: string;
-  tags: string[];
-}
-export interface RawPortfolioData {
-  hero: RawHero;
-  experiences: RawExperience[];
-  projects: RawProject[];
-  skills: RawSkillCategory[];
-}
-
-// Processed data types with React Icon components
-export type Skill = {
-  name: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-};
-
-export type SkillCategory = {
-  title: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-  skills: Skill[];
-};
-
-export interface PortfolioData {
-  hero: RawHero;
-  experiences: RawExperience[];
-  projects: RawProject[];
-  skills: SkillCategory[];
-}
 
 const dataPath = path.join(process.cwd(), 'src', 'lib', 'portfolio-data.json');
 
@@ -87,32 +25,17 @@ async function getRawPortfolioData(): Promise<RawPortfolioData> {
 }
 
 /**
- * Fetches and processes portfolio data for display on the public-facing site.
- * It replaces string icon identifiers with actual React components.
+ * Fetches portfolio data.
+ * The components are responsible for interpreting the data (e.g. icon strings).
+ * This data is serializable and safe to pass from Server to Client Components.
  */
-export async function getPortfolioData(): Promise<PortfolioData> {
-  const rawData = await getRawPortfolioData();
-
-  const processedSkillsData = rawData.skills.map((category) => ({
-    ...category,
-    icon: iconMap[category.icon] || Code,
-    skills: category.skills.map((skill) => ({
-      ...skill,
-      icon: iconMap[skill.icon] || Code,
-    })),
-  }));
-
-  return {
-    hero: rawData.hero,
-    experiences: rawData.experiences,
-    projects: rawData.projects,
-    skills: processedSkillsData,
-  };
+export async function getPortfolioData(): Promise<RawPortfolioData> {
+  return getRawPortfolioData();
 }
 
 /**
  * Fetches the raw, unprocessed portfolio data, suitable for initializing the admin panel.
  */
 export async function getRawDataForAdmin(): Promise<RawPortfolioData> {
-  return await getRawPortfolioData();
+  return getRawPortfolioData();
 }
