@@ -1,9 +1,17 @@
+
 "use client";
 
 import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { experiencesData } from '@/lib/data';
+
+interface Experience {
+  role: string;
+  company: string;
+  duration: string;
+  description: string;
+  tags: string[];
+}
 
 const timelineVariants = {
   hidden: { opacity: 0 },
@@ -26,7 +34,7 @@ const itemVariants = {
   },
 };
 
-export default function ExperienceSection() {
+export default function ExperienceSection({ data }: { data: Experience[] }) {
   return (
     <section id="experience" className="py-20 lg:py-32 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
@@ -47,7 +55,7 @@ export default function ExperienceSection() {
           viewport={{ once: true, amount: 0.1 }}
         >
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border"></div>
-          {experiencesData.map((exp, index) => (
+          {data.map((exp, index) => (
             <motion.div key={index} className="relative mb-12" variants={itemVariants}>
               <div className="absolute left-[-8px] top-1.5 h-4 w-4 rounded-full bg-primary ring-8 ring-background z-10"></div>
               <div className="absolute left-[-8px] top-1.5 h-4 w-4 rounded-full bg-primary animate-pulse-ring"></div>

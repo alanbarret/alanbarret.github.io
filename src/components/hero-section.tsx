@@ -1,12 +1,20 @@
+
 "use client";
 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowDown } from 'lucide-react';
-import { heroData } from '@/lib/data';
 import { motion } from 'framer-motion';
 
-export default function HeroSection() {
+interface HeroData {
+  badge: string;
+  headline: string;
+  description: string;
+  tags: string[];
+}
+
+export default function HeroSection({ data }: { data: HeroData }) {
+  const { badge, headline, description, tags } = data;
   return (
     <motion.section
       id="hero"
@@ -17,16 +25,16 @@ export default function HeroSection() {
     >
       <div className="container mx-auto px-4 md:px-6 text-center">
         <Badge variant="secondary" className="mb-4 font-headline tracking-wider">
-          {heroData.badge}
+          {badge}
         </Badge>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-headline tracking-tighter mb-4 text-primary">
-          {heroData.headline}
+          {headline}
         </h1>
         <p className="max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground mb-8">
-          {heroData.description}
+          {description}
         </p>
         <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
-          {heroData.tags.map((tag, i) => (
+          {tags.map((tag, i) => (
             <div
               key={tag}
               className="animate-tag-entry opacity-0"

@@ -1,8 +1,20 @@
+
 "use client";
 
+import type { ComponentType, SVGProps } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { skillsData } from '@/lib/data';
+
+// Prop Types
+export type Skill = {
+  name: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
+};
+export type SkillCategory = { 
+  title: string; 
+  icon: ComponentType<SVGProps<SVGSVGElement>>; 
+  skills: Skill[]; 
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -26,7 +38,7 @@ const itemVariants = {
   },
 };
 
-export default function SkillsSection() {
+export default function SkillsSection({ data }: { data: SkillCategory[] }) {
   return (
     <section id="skills" className="py-20 lg:py-32 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
@@ -46,7 +58,7 @@ export default function SkillsSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {skillsData.map((category) => (
+          {data.map((category) => (
             <motion.div key={category.title} variants={itemVariants}>
               <Card className="shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full">
                 <CardHeader className="flex flex-row items-center gap-4">

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -7,7 +8,16 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Github, ExternalLink } from 'lucide-react';
-import { projectsData } from '@/lib/data';
+
+interface Project {
+  name: string;
+  description: string;
+  image: string;
+  imageHint: string;
+  tags: string[];
+  github: string;
+  demo: string;
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,7 +42,7 @@ const itemVariants = {
 };
 
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ data }: { data: Project[] }) {
   return (
     <section id="projects" className="py-20 lg:py-32 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
@@ -52,7 +62,7 @@ export default function ProjectsSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {projectsData.map((project) => (
+          {data.map((project) => (
             <motion.div key={project.name} variants={itemVariants} className="h-full">
               <Card className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group flex flex-col h-full">
                 <CardHeader className="p-0 overflow-hidden">
