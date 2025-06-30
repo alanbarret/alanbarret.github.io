@@ -1,0 +1,31 @@
+
+import {
+  PythonIcon,
+  ReactIcon,
+  PyTorchIcon,
+  ScikitLearnIcon,
+  TensorFlowIcon,
+  NextJsIcon,
+  DockerIcon,
+  KubernetesIcon
+} from '@/components/icons';
+import { Bot, Cpu, Database, Cloud, Code, LinkIcon, Eye } from 'lucide-react';
+import type { ComponentType, SVGProps } from 'react';
+
+export const iconMap: { [key: string]: ComponentType<SVGProps<SVGSVGElement>> } = {
+  Bot,
+  Cpu,
+  Database,
+  Cloud,
+  Code,
+  LinkIcon,
+  Eye,
+  PythonIcon,
+  ReactIcon,
+  PyTorchIcon,
+  ScikitLearnIcon,
+  TensorFlowIcon,
+  NextJsIcon,
+  DockerIcon,
+  KubernetesIcon
+};

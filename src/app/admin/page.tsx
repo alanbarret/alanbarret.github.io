@@ -1,13 +1,8 @@
+
 "use client";
 
-import { useState } from "react";
-import {
-  heroData as initialHeroData,
-  experiencesData as initialExperiencesData,
-  projectsData as initialProjectsData,
-  skillsData as initialSkillsData,
-  SkillCategory,
-} from "@/lib/data";
+import React, { useState } from "react";
+import { portfolioData as initialPortfolioData } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import {
   Tabs,
@@ -19,32 +14,165 @@ import HeroEditor from "./hero-editor";
 import ExperienceEditor from "./experience-editor";
 import ProjectsEditor from "./projects-editor";
 import SkillsEditor from "./skills-editor";
+import { savePortfolioData } from "./actions";
+import { useToast } from "@/hooks/use-toast";
+import { Upload, Download } from "lucide-react";
+
+// Interfaces for the admin panel's state
+interface HeroData {
+  badge: string;
+  headline: string;
+  description: string;
+  tags: string[];
+}
+interface Experience {
+  role: string;
+  company: string;
+  duration: string;
+  description: string;
+  logo: string;
+  logoHint: string;
+  tags: string[];
+}
+interface Project {
+  name: string;
+  description: string;
+  image: string;
+  imageHint: string;
+  tags: string[];
+  github: string;
+  demo: string;
+}
+interface Skill {
+  name: string;
+  icon: string;
+}
+interface SkillCategory {
+  title: string;
+  icon: string;
+  skills: Skill[];
+}
 
 export default function AdminPage() {
-  const [heroData, setHeroData] = useState(initialHeroData);
-  const [experiences, setExperiences] = useState(initialExperiencesData);
-  const [projects, setProjects] = useState(initialProjectsData);
-  const [skills, setSkills] = useState<SkillCategory[]>(initialSkillsData);
+  const [heroData, setHeroData] = useState<HeroData>(initialPortfolioData.hero);
+  const [experiences, setExperiences] = useState<Experience[]>(initialPortfolioData.experiences);
+  const [projects, setProjects] = useState<Project[]>(initialPortfolioData.projects);
+  const [skills, setSkills] = useState<SkillCategory[]>(initialPortfolioData.skills);
+  const [isSaving, setIsSaving] = useState(false);
+  const { toast } = useToast();
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  const handleSaveChanges = () => {
-    console.log("Saving changes...", {
-      heroData,
-      experiences,
-      projects,
-      skills,
-    });
-    alert("Changes saved to console! Check the developer tools.");
-    // In a real application, you would send this data to your backend/database.
+  const handleSaveChanges = async () => {
+    setIsSaving(true);
+    const fullData = {
+      hero: heroData,
+      experiences: experiences,
+      projects: projects,
+      skills: skills,
+    };
+
+    const result = await savePortfolioData(fullData);
+
+    if (result.success) {
+      toast({
+        title: "Success!",
+        description: "Your portfolio has been updated.",
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: result.error || "Something went wrong.",
+        variant: "destructive",
+      });
+    }
+    setIsSaving(false);
+  };
+
+  const handleExport = () => {
+    const fullData = {
+      hero: heroData,
+      experiences: experiences,
+      projects: projects,
+      skills: skills,
+    };
+    const jsonString = JSON.stringify(fullData, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "portfolio-data.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const text = e.target?.result;
+        if (typeof text !== 'string') {
+            throw new Error("File is not readable");
+        }
+        const importedData = JSON.parse(text);
+
+        if (importedData.hero && importedData.experiences && importedData.projects && importedData.skills) {
+          setHeroData(importedData.hero);
+          setExperiences(importedData.experiences);
+          setProjects(importedData.projects);
+          setSkills(importedData.skills);
+          toast({
+            title: "Import Successful",
+            description: "Portfolio data loaded. Don't forget to save.",
+          });
+        } else {
+          throw new Error("Invalid JSON structure.");
+        }
+      } catch (error) {
+        toast({
+          title: "Import Failed",
+          description: error instanceof Error ? error.message : "Could not parse the file.",
+          variant: "destructive",
+        });
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
   };
 
   return (
     <div className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold font-headline">Admin Panel</h1>
-        <Button onClick={handleSaveChanges}>Save All Changes</Button>
+        <div className="flex gap-2">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept=".json"
+              className="hidden"
+            />
+            <Button variant="outline" onClick={handleImportClick}>
+                <Upload className="mr-2 h-4 w-4" /> Import
+            </Button>
+            <Button variant="outline" onClick={handleExport}>
+                <Download className="mr-2 h-4 w-4" /> Export
+            </Button>
+            <Button onClick={handleSaveChanges} disabled={isSaving}>
+                {isSaving ? "Saving..." : "Save All Changes"}
+            </Button>
+        </div>
       </div>
       <p className="text-muted-foreground mb-8">
-        Welcome to the admin panel. Here you can edit the content of your portfolio. Remember to save your changes.
+        Welcome to the admin panel. Here you can edit the content of your portfolio. Remember to save your changes to make them live.
       </p>
 
       <Tabs defaultValue="hero">

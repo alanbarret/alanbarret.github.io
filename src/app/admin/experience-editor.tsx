@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,8 @@ interface Experience {
   company: string;
   duration: string;
   description: string;
+  logo: string;
+  logoHint: string;
   tags: string[];
 }
 
@@ -35,6 +38,8 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
         company: "New Company",
         duration: "Month Year - Present",
         description: "",
+        logo: "https://placehold.co/100x100.png",
+        logoHint: "company logo",
         tags: [],
       },
     ]);
@@ -68,6 +73,14 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
               <div className="space-y-2 col-span-2">
                 <Label>Description</Label>
                 <Textarea value={exp.description} onChange={(e) => handleUpdate(index, 'description', e.target.value)} />
+              </div>
+               <div className="space-y-2">
+                <Label>Logo URL</Label>
+                <Input value={exp.logo} onChange={(e) => handleUpdate(index, 'logo', e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label>Logo AI Hint</Label>
+                <Input value={exp.logoHint} onChange={(e) => handleUpdate(index, 'logoHint', e.target.value)} />
               </div>
               <div className="space-y-2 col-span-2">
                 <Label>Tags (comma separated)</Label>
