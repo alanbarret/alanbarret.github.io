@@ -14,8 +14,9 @@ export default function ExperienceSection() {
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border"></div>
           {experiencesData.map((exp, index) => (
             <div key={index} className="relative mb-12">
-              <div className="absolute left-[-8px] top-1.5 h-4 w-4 rounded-full bg-primary ring-8 ring-background"></div>
-              <Card className="ml-8 shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div className="absolute left-[-8px] top-1.5 h-4 w-4 rounded-full bg-primary ring-8 ring-background z-10"></div>
+              <div className="absolute left-[-8px] top-1.5 h-4 w-4 rounded-full bg-primary animate-pulse-ring"></div>
+              <Card className="ml-8 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <CardHeader>
                   <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                     <CardTitle className="text-xl font-bold">{exp.role}</CardTitle>

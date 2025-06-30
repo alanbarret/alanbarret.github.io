@@ -15,14 +15,14 @@ export default function ProjectsSection() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
           {projectsData.map((project) => (
-            <Card key={project.name} className="overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
-              <CardHeader className="p-0">
+            <Card key={project.name} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group flex flex-col">
+              <CardHeader className="p-0 overflow-hidden">
                 <Image
                   src={project.image}
                   alt={project.name}
                   width={600}
                   height={400}
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint={project.imageHint}
                 />
               </CardHeader>

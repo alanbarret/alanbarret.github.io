@@ -10,7 +10,7 @@ export default function SkillsSection() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillsData.map((category) => (
-            <Card key={category.title} className="shadow-md hover:shadow-xl transition-shadow duration-300">
+            <Card key={category.title} className="shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <CardHeader className="flex flex-row items-center gap-4">
                 <category.icon className="h-8 w-8 text-primary" />
                 <CardTitle>{category.title}</CardTitle>
@@ -18,7 +18,7 @@ export default function SkillsSection() {
               <CardContent>
                 <ul className="grid grid-cols-2 gap-4">
                   {category.skills.map((skill) => (
-                    <li key={skill.name} className="flex items-center gap-3">
+                    <li key={skill.name} className="flex items-center gap-3 p-1 -m-1 rounded-lg transition-colors hover:bg-secondary">
                       <skill.icon className="h-6 w-6 text-accent" />
                       <span className="text-muted-foreground">{skill.name}</span>
                     </li>
