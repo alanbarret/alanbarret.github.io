@@ -85,18 +85,22 @@ export default function ProjectsSection({ data }: { data: Project[] }) {
                   </div>
                 </CardContent>
                 <CardFooter className="p-6 pt-0 flex gap-4">
-                  <Button asChild variant="outline">
-                    <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                      <Github />
-                      GitHub
-                    </Link>
-                  </Button>
-                  <Button asChild>
-                    <Link href={project.demo} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink />
-                      Live Demo
-                    </Link>
-                  </Button>
+                  {project.github && project.github !== '#' && (
+                    <Button asChild variant="outline">
+                      <Link href={project.github} target="_blank" rel="noopener noreferrer">
+                        <Github />
+                        GitHub
+                      </Link>
+                    </Button>
+                  )}
+                  {project.demo && project.demo !== '#' && (
+                    <Button asChild>
+                      <Link href={project.demo} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink />
+                        Live Demo
+                      </Link>
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             </motion.div>
