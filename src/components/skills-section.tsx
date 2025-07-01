@@ -13,6 +13,7 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.15,
+      delayChildren: 0.2,
     },
   },
 };
@@ -32,9 +33,9 @@ const itemVariants = {
 export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
   return (
     <section id="skills" className="py-20 lg:py-32 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="section-container">
         <motion.h2 
-          className="text-3xl md:text-4xl font-bold font-headline text-center mb-12"
+          className="text-3xl md:text-4xl font-bold font-headline text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -53,20 +54,26 @@ export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
             const CategoryIcon = iconMap[category.icon] || Code;
             return (
               <motion.div key={category.title} variants={itemVariants}>
-                <Card className="shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full">
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    <CategoryIcon className="h-8 w-8 text-primary" />
-                    <CardTitle>{category.title}</CardTitle>
+                <Card className="shadow-md transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 h-full bg-card/50 backdrop-blur-sm">
+                  <CardHeader className="flex flex-row items-center gap-4 pb-4">
+                    <div className="p-2 bg-accent rounded-lg">
+                        <CategoryIcon className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle className="text-xl">{category.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="grid grid-cols-2 gap-4">
                       {category.skills.map((skill) => {
                         const SkillIcon = iconMap[skill.icon] || Code;
                         return (
-                          <li key={skill.name} className="flex items-center gap-3 p-1 -m-1 rounded-lg transition-colors hover:bg-secondary">
-                            <SkillIcon className="h-6 w-6 text-accent" />
-                            <span className="text-muted-foreground">{skill.name}</span>
-                          </li>
+                          <motion.li 
+                            key={skill.name} 
+                            className="flex items-center gap-3 p-2 -m-1 rounded-lg transition-colors hover:bg-secondary"
+                            whileHover={{ scale: 1.05 }}
+                          >
+                            <SkillIcon className="h-5 w-5 text-accent-foreground" />
+                            <span className="text-muted-foreground text-sm">{skill.name}</span>
+                          </motion.li>
                         );
                       })}
                     </ul>

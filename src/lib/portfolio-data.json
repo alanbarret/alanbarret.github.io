@@ -1,12 +1,12 @@
 {
   "hero": {
-    "badge": "Alan Barret",
-    "headline": "AI Developer",
-    "description": "AI Developer crafting real-world intelligent applications using machine learning, computer vision, NLP, and embedded systems.",
+    "badge": "AI & Machine Learning Engineer",
+    "headline": "Building Intelligent Systems",
+    "description": "I specialize in creating production-ready AI applications, transforming complex data into actionable insights and intelligent user experiences.",
     "tags": [
-      "Machine Learning",
+      "Generative AI",
+      "RAG Pipelines",
       "Computer Vision",
-      "NLP",
       "Python"
     ]
   },
@@ -15,33 +15,63 @@
       "role": "AI Developer",
       "company": "Araby.ai",
       "duration": "Dec 2021 - Present",
-      "description": "Leading AI product initiatives such as ArabyGPT and content automation engines. Focused on GPT integration, LangChain RAG pipelines, and building real-time tools for finance, media, and e-commerce sectors.",
+      "description": "Architected and deployed enterprise-grade AI solutions, including ArabyGPT and content automation engines. Specialized in fine-tuning LLMs, developing scalable RAG pipelines with LangChain, and integrating real-time AI tools for diverse sectors.",
       "logo": "https://placehold.co/100x100.png",
-      "logoHint": "AI technology",
+      "logoHint": "AI technology company",
       "tags": [
-        "OpenAI API",
+        "LLM Fine-Tuning",
         "LangChain",
+        "RAG",
         "Python",
-        "LLMs",
-        "NLP"
+        "GenAI"
       ]
     },
     {
       "role": "Technical Support Engineer",
       "company": "Technowave Group",
       "duration": "Sep 2019 - May 2020",
-      "description": "Supported ID card printers, barcode/RFID systems, and mobile scanners. Diagnosed hardware issues and integrated embedded firmware updates.",
+      "description": "Provided expert support for specialized hardware including ID card printers and RFID systems. Gained hands-on experience in hardware diagnostics, firmware integration, and embedded systems troubleshooting.",
       "logo": "https://placehold.co/100x100.png",
-      "logoHint": "technology solutions",
+      "logoHint": "technology solutions provider",
       "tags": [
         "RFID",
         "Hardware",
         "Embedded Systems",
-        "Support"
+        "Firmware"
       ]
     }
   ],
   "projects": [
+    {
+      "name": "RAG-Powered Financial Analyst Chatbot",
+      "description": "An intelligent chatbot that ingests and analyzes real-time financial reports using a Retrieval-Augmented Generation (RAG) pipeline. Provides investors with summaries and actionable insights.",
+      "image": "https://placehold.co/600x400.png",
+      "imageHint": "financial chart data",
+      "tags": [
+        "LangChain",
+        "RAG",
+        "LLM",
+        "Vector DB",
+        "Python"
+      ],
+      "github": "#",
+      "demo": "#"
+    },
+    {
+      "name": "Generative Art Studio",
+      "description": "A web application that allows users to create unique, high-resolution visual art by providing text prompts. Powered by latent diffusion models and provides various style controls.",
+      "image": "https://placehold.co/600x400.png",
+      "imageHint": "abstract generative art",
+      "tags": [
+        "Generative AI",
+        "Diffusion Models",
+        "PyTorch",
+        "Next.js",
+        "Image Generation"
+      ],
+      "github": "https://github.com/fallanangel2305/ai-logo-generator",
+      "demo": "#"
+    },
     {
       "name": "RugAI: Knot Density Estimator",
       "description": "AI-powered tool for estimating knots per square centimeter in rug photos using computer vision. Built for rug merchants to automate quality grading.",
@@ -58,51 +88,6 @@
       "demo": "https://huggingface.co/spaces/alanbarret/RUGAI"
     },
     {
-      "name": "ArabyGPT: Internal AI Assistant",
-      "description": "A GPT-powered conversational assistant tailored for internal use at Araby.ai. Handles research, summaries, translation, and knowledge base queries.",
-      "image": "https://www.araby.ai/_next/static/media/brand.a58b1e36.png",
-      "imageHint": "chat interface assistant",
-      "tags": [
-        "LLMs",
-        "LangChain",
-        "OpenAI API",
-        "Python",
-        "Internal Tools"
-      ],
-      "github": "",
-      "demo": "https://araby.ai"
-    },
-    {
-      "name": "AI Logo Maker",
-      "description": "Tool that creates unique logo designs using AI based on business name and industry. Includes SVG export and style customization.",
-      "image": "https://placehold.co/600x400.png",
-      "imageHint": "logo design interface",
-      "tags": [
-        "AI",
-        "Design",
-        "SVG",
-        "Web App",
-        "Automation"
-      ],
-      "github": "https://github.com/fallanangel2305/ai-logo-generator",
-      "demo": "#"
-    },
-    {
-      "name": "AI Article Writer",
-      "description": "Generates SEO-optimized blog posts and articles using GPT models. Features tone control, keyword injection, and markdown export.",
-      "image": "https://placehold.co/600x400.png",
-      "imageHint": "text editor writing interface",
-      "tags": [
-        "NLP",
-        "OpenAI",
-        "Content Generation",
-        "SEO",
-        "Web Tool"
-      ],
-      "github": "https://github.com/fallanangel2305/ai-article-writer",
-      "demo": "#"
-    },
-    {
       "name": "AI Research Paper Generator",
       "description": "Web-based Streamlit app that generates academic-style AI research papers using GPT. Useful for mock papers, educational outlines, or brainstorming scientific topics.",
       "image": "https://placehold.co/600x400.png",
@@ -116,170 +101,55 @@
       ],
       "github": "https://github.com/alanbarret/AI-Research-Paper-Gen",
       "demo": "https://ai-research-paper.streamlit.app/"
-    },
-    {
-      "name": "NFT-Plus.me Marketplace",
-      "description": "A decentralized NFT marketplace on the Solana blockchain, integrating the Metaplex framework. Features auction systems for NFTs and other digital assets.",
-      "image": "https://placehold.co/600x400.png",
-      "imageHint": "nft marketplace art",
-      "tags": [
-        "Blockchain",
-        "Solana",
-        "NFT",
-        "Metaplex",
-        "dApps"
-      ],
-      "github": "https://github.com/fallanangel2305/NFT-Plus.me-Marketplace-for-Digital-Collectibles",
-      "demo": "#"
     }
   ],
   "skills": [
     {
       "title": "AI & Machine Learning",
-      "icon": "Bot",
+      "icon": "BrainCircuit",
       "skills": [
-        {
-          "name": "PyTorch",
-          "icon": "PyTorchIcon"
-        },
-        {
-          "name": "TensorFlow",
-          "icon": "TensorFlowIcon"
-        },
-        {
-          "name": "Scikit-learn",
-          "icon": "ScikitLearnIcon"
-        },
-        {
-          "name": "OpenAI API",
-          "icon": "Bot"
-        },
-        {
-          "name": "NLP",
-          "icon": "Bot"
-        },
-        {
-          "name": "LLMs",
-          "icon": "Bot"
-        },
-        {
-          "name": "LangChain",
-          "icon": "LinkIcon"
-        },
-        {
-          "name": "Computer Vision",
-          "icon": "Eye"
-        }
+        { "name": "PyTorch", "icon": "PyTorchIcon" },
+        { "name": "TensorFlow", "icon": "TensorFlowIcon" },
+        { "name": "Scikit-learn", "icon": "ScikitLearnIcon" },
+        { "name": "LangChain", "icon": "LinkIcon" },
+        { "name": "OpenCV", "icon": "Eye" },
+        { "name": "Hugging Face", "icon": "Bot" }
       ]
     },
     {
-      "title": "Frontend Development",
+      "title": "Generative AI & NLP",
+      "icon": "Sparkles",
+      "skills": [
+        { "name": "LLM Fine-Tuning", "icon": "Bot" },
+        { "name": "RAG Pipelines", "icon": "FileText" },
+        { "name": "Vector Databases", "icon": "Database" },
+        { "name": "Prompt Engineering", "icon": "Code" },
+        { "name": "Diffusion Models", "icon": "Eye" },
+        { "name": "OpenAI API", "icon": "Bot" }
+      ]
+    },
+    {
+      "title": "Languages & Web Tech",
       "icon": "Code",
       "skills": [
-        {
-          "name": "React",
-          "icon": "ReactIcon"
-        },
-        {
-          "name": "Next.js",
-          "icon": "NextJsIcon"
-        },
-        {
-          "name": "HTML5 & CSS3",
-          "icon": "Code"
-        },
-        {
-          "name": "TypeScript",
-          "icon": "Code"
-        }
-      ]
-    },
-    {
-      "title": "Backend & Databases",
-      "icon": "Database",
-      "skills": [
-        {
-          "name": "Python",
-          "icon": "PythonIcon"
-        },
-        {
-          "name": "Node.js",
-          "icon": "Code"
-        },
-        {
-          "name": "Flask",
-          "icon": "Code"
-        },
-        {
-          "name": "Firebase",
-          "icon": "Cloud"
-        }
-      ]
-    },
-    {
-      "title": "Blockchain & Web3",
-      "icon": "LinkIcon",
-      "skills": [
-        {
-          "name": "Solana",
-          "icon": "Code"
-        },
-        {
-          "name": "Metaplex",
-          "icon": "Code"
-        },
-        {
-          "name": "NFTs",
-          "icon": "Code"
-        },
-        {
-          "name": "Smart Contracts",
-          "icon": "Code"
-        }
+        { "name": "Python", "icon": "PythonIcon" },
+        { "name": "TypeScript", "icon": "Code" },
+        { "name": "Next.js / React", "icon": "NextJsIcon" },
+        { "name": "Node.js", "icon": "Code" },
+        { "name": "Flask", "icon": "Wind" },
+        { "name": "Firebase", "icon": "Cloud" }
       ]
     },
     {
       "title": "DevOps & Cloud",
       "icon": "Cloud",
       "skills": [
-        {
-          "name": "Docker",
-          "icon": "DockerIcon"
-        },
-        {
-          "name": "Kubernetes",
-          "icon": "KubernetesIcon"
-        },
-        {
-          "name": "GCP",
-          "icon": "Cloud"
-        },
-        {
-          "name": "AWS",
-          "icon": "Cloud"
-        }
-      ]
-    },
-    {
-      "title": "Embedded Systems",
-      "icon": "Cpu",
-      "skills": [
-        {
-          "name": "C/C++",
-          "icon": "Code"
-        },
-        {
-          "name": "Linux",
-          "icon": "Code"
-        },
-        {
-          "name": "Raspberry Pi",
-          "icon": "Cpu"
-        },
-        {
-          "name": "IoT",
-          "icon": "Cpu"
-        }
+        { "name": "Docker", "icon": "DockerIcon" },
+        { "name": "Kubernetes", "icon": "KubernetesIcon" },
+        { "name": "GCP", "icon": "Cloud" },
+        { "name": "AWS", "icon": "Cloud" },
+        { "name": "CI/CD", "icon": "Code" },
+        { "name": "Linux", "icon": "Cpu" }
       ]
     }
   ]

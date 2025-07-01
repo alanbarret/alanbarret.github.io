@@ -45,9 +45,9 @@ const itemVariants = {
 export default function ProjectsSection({ data }: { data: Project[] }) {
   return (
     <section id="projects" className="py-20 lg:py-32 bg-secondary/30 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="section-container">
         <motion.h2 
-          className="text-3xl md:text-4xl font-bold font-headline text-center mb-12"
+          className="text-3xl md:text-4xl font-bold font-headline text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -56,7 +56,7 @@ export default function ProjectsSection({ data }: { data: Project[] }) {
           Featured Projects
         </motion.h2>
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -64,37 +64,37 @@ export default function ProjectsSection({ data }: { data: Project[] }) {
         >
           {data.map((project) => (
             <motion.div key={project.name} variants={itemVariants} className="h-full">
-              <Card className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group flex flex-col h-full">
-                <CardHeader className="p-0 overflow-hidden">
+              <Card className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 group flex flex-col h-full bg-card/50 backdrop-blur-sm">
+                <CardHeader className="p-0 border-b aspect-video overflow-hidden">
                   <Image
                     src={project.image}
                     alt={project.name}
                     width={600}
                     height={400}
-                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     data-ai-hint={project.imageHint}
                   />
                 </CardHeader>
                 <CardContent className="p-6 flex-grow">
                   <CardTitle className="text-xl font-bold mb-2">{project.name}</CardTitle>
-                  <p className="text-muted-foreground mb-4">{project.description}</p>
+                  <p className="text-muted-foreground mb-4 text-sm">{project.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
                       <Badge key={tag} variant="secondary">{tag}</Badge>
                     ))}
                   </div>
                 </CardContent>
-                <CardFooter className="p-6 pt-0 flex gap-4">
+                <CardFooter className="p-6 pt-0 flex items-center gap-4">
                   {project.github && project.github !== '#' && (
-                    <Button asChild variant="outline">
+                    <Button asChild variant="outline" size="sm">
                       <Link href={project.github} target="_blank" rel="noopener noreferrer">
                         <Github />
-                        GitHub
+                        Source
                       </Link>
                     </Button>
                   )}
                   {project.demo && project.demo !== '#' && (
-                    <Button asChild>
+                    <Button asChild size="sm">
                       <Link href={project.demo} target="_blank" rel="noopener noreferrer">
                         <ExternalLink />
                         Live Demo

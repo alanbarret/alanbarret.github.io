@@ -9,7 +9,7 @@ import {
   DockerIcon,
   KubernetesIcon
 } from '@/components/icons';
-import { Bot, Cpu, Database, Cloud, Code, LinkIcon, Eye } from 'lucide-react';
+import { Bot, Cpu, Database, Cloud, Code, Link as LinkIcon, Eye, BrainCircuit, Sparkles, Wind, FileText } from 'lucide-react';
 import type { ComponentType, SVGProps } from 'react';
 
 export const iconMap: { [key: string]: ComponentType<SVGProps<SVGSVGElement>> } = {
@@ -20,6 +20,10 @@ export const iconMap: { [key: string]: ComponentType<SVGProps<SVGSVGElement>> } 
   Code,
   LinkIcon,
   Eye,
+  BrainCircuit,
+  Sparkles,
+  Wind,
+  FileText,
   PythonIcon,
   ReactIcon,
   PyTorchIcon,

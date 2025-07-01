@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Code2 } from 'lucide-react';
+import { Menu, BrainCircuit } from 'lucide-react';
 
 const navLinks = [
   { href: '#experience', label: 'Experience' },
@@ -32,12 +32,12 @@ export default function Header() {
         scrolled ? 'bg-background/80 backdrop-blur-sm border-b' : 'bg-transparent'
       }`}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2 font-bold font-headline text-lg">
-          <Code2 className="h-6 w-6 text-primary" />
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+        <Link href="/" className="flex items-center gap-2 font-bold font-headline text-xl">
+          <BrainCircuit className="h-7 w-7 text-primary" />
           <span>Alan Barret</span>
         </Link>
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-8 text-sm">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} className="nav-link">
               {link.label}
@@ -60,12 +60,12 @@ export default function Header() {
             <SheetContent side="right">
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2 font-bold font-headline text-lg" onClick={closeSheet}>
-                  <Code2 className="h-6 w-6 text-primary" />
+                  <BrainCircuit className="h-6 w-6 text-primary" />
                   <span>Alan Barret</span>
                 </Link>
                 <nav className="flex flex-col gap-4">
                   {navLinks.map((link) => (
-                    <Link key={link.href} href={link.href} className="nav-link text-lg" onClick={closeSheet}>
+                    <Link key={link.href} href={link.href} className="text-lg" onClick={closeSheet}>
                       {link.label}
                     </Link>
                   ))}

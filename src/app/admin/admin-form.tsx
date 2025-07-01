@@ -141,8 +141,8 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         Welcome to the admin panel. Here you can edit the content of your portfolio. Remember to save your changes to make them live.
       </p>
 
-      <Tabs defaultValue="hero">
-        <TabsList className="grid w-full grid-cols-4">
+      <Tabs defaultValue="hero" className="w-full">
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           <TabsTrigger value="hero">Hero Section</TabsTrigger>
           <TabsTrigger value="experience">Experience</TabsTrigger>
           <TabsTrigger value="projects">Projects</TabsTrigger>
