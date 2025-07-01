@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -5,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from 'next/image';
+import React from 'react';
 
 interface Project {
   name: string;
@@ -22,6 +25,8 @@ interface ProjectsEditorProps {
 }
 
 export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
+  const fileInputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
+
   const handleUpdate = (index: number, field: keyof Project, value: string | string[]) => {
     const newData = [...data];
     // @ts-ignore
@@ -48,6 +53,19 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
     setData(data.filter((_, i) => i !== index));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        if (typeof loadEvent.target?.result === 'string') {
+          handleUpdate(index, 'image', loadEvent.target.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -66,8 +84,18 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                 <Textarea value={project.description} onChange={(e) => handleUpdate(index, 'description', e.target.value)} />
               </div>
               <div className="space-y-2">
-                <Label>Image URL</Label>
-                <Input value={project.image} onChange={(e) => handleUpdate(index, 'image', e.target.value)} />
+                <Label>Project Image</Label>
+                <div className="flex items-center gap-4">
+                  <Image src={project.image} alt={project.name} width={80} height={50} className="rounded-md border object-cover"/>
+                  <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()}>Upload</Button>
+                  <input
+                    type="file"
+                    ref={el => fileInputRefs.current[index] = el}
+                    onChange={(e) => handleFileChange(e, index)}
+                    className="hidden"
+                    accept="image/*"
+                  />
+                </div>
               </div>
               <div className="space-y-2">
                 <Label>Image AI Hint</Label>
