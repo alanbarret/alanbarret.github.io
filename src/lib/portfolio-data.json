@@ -54,13 +54,13 @@
         "OpenCV",
         "Image Processing"
       ],
-      "github": "https://github.com/fallanangel2305/RugAI",
+      "github": "",
       "demo": "https://huggingface.co/spaces/alanbarret/RUGAI"
     },
     {
       "name": "ArabyGPT: Internal AI Assistant",
       "description": "A GPT-powered conversational assistant tailored for internal use at Araby.ai. Handles research, summaries, translation, and knowledge base queries.",
-      "image": "https://placehold.co/600x400.png",
+      "image": "https://www.araby.ai/_next/static/media/brand.a58b1e36.png",
       "imageHint": "chat interface assistant",
       "tags": [
         "LLMs",
@@ -69,8 +69,8 @@
         "Python",
         "Internal Tools"
       ],
-      "github": "#",
-      "demo": "#"
+      "github": "",
+      "demo": "https://araby.ai"
     },
     {
       "name": "AI Logo Maker",
