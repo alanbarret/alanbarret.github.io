@@ -55,7 +55,7 @@
         "Image Processing"
       ],
       "github": "https://github.com/fallanangel2305/RugAI",
-      "demo": "#"
+      "demo": "https://huggingface.co/spaces/alanbarret/RUGAI"
     },
     {
       "name": "ArabyGPT: Internal AI Assistant",
@@ -103,19 +103,19 @@
       "demo": "#"
     },
     {
-      "name": "Health Kingdom: AI Telemedicine",
-      "description": "A digital healthcare platform utilizing embedded systems and AI for real-time diagnostics. Integrated sensor data with machine learning models for preliminary analysis.",
+      "name": "AI Research Paper Generator",
+      "description": "Web-based Streamlit app that generates academic-style AI research papers using GPT. Useful for mock papers, educational outlines, or brainstorming scientific topics.",
       "image": "https://placehold.co/600x400.png",
-      "imageHint": "telemedicine doctor patient",
+      "imageHint": "research paper writing app interface",
       "tags": [
-        "Embedded Systems",
-        "IoT",
-        "AI",
-        "Python",
-        "Computer Vision"
+        "NLP",
+        "Streamlit",
+        "GPT",
+        "Research",
+        "AI"
       ],
-      "github": "https://github.com/fallanangel2305/Health-Kingdom-AI-Telemedicine-and-Embedded-System",
-      "demo": "#"
+      "github": "https://github.com/alanbarret/AI-Research-Paper-Gen",
+      "demo": "https://ai-research-paper.streamlit.app/"
     },
     {
       "name": "NFT-Plus.me Marketplace",

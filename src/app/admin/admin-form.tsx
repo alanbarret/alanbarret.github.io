@@ -127,10 +127,10 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
               className="hidden"
             />
             <Button variant="outline" onClick={handleImportClick}>
-                <Upload className="mr-2 h-4 w-4" /> Import
+                <Download className="mr-2 h-4 w-4" /> Import
             </Button>
             <Button variant="outline" onClick={handleExport}>
-                <Download className="mr-2 h-4 w-4" /> Export
+                <Upload className="mr-2 h-4 w-4" /> Export
             </Button>
             <Button onClick={handleSaveChanges} disabled={isSaving}>
                 {isSaving ? "Saving..." : "Save All Changes"}
