@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
 import React from 'react';
 
@@ -100,7 +100,7 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
                    </Button>
                    <input
                      type="file"
-                     ref={(el) => {fileInputRefs.current[index] = el}}
+                     ref={(el) => { fileInputRefs.current[index] = el; }}
                      onChange={(e) => handleFileChange(e, index)}
                      className="hidden"
                      accept="image/*"
