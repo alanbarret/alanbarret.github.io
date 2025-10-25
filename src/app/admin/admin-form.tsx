@@ -13,7 +13,6 @@ import HeroEditor from "./hero-editor";
 import ExperienceEditor from "./experience-editor";
 import ProjectsEditor from "./projects-editor";
 import SkillsEditor from "./skills-editor";
-import { savePortfolioData } from "./actions";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, Download, LogOut } from "lucide-react";
 import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory } from "@/lib/types";
@@ -25,36 +24,9 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
   const [experiences, setExperiences] = useState<RawExperience[]>(initialData.experiences);
   const [projects, setProjects] = useState<RawProject[]>(initialData.projects);
   const [skills, setSkills] = useState<RawSkillCategory[]>(initialData.skills);
-  const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const router = useRouter();
-
-  const handleSaveChanges = async () => {
-    setIsSaving(true);
-    const fullData = {
-      hero: heroData,
-      experiences: experiences,
-      projects: projects,
-      skills: skills,
-    };
-
-    const result = await savePortfolioData(fullData);
-
-    if (result.success) {
-      toast({
-        title: "Success!",
-        description: "Your portfolio has been updated.",
-      });
-    } else {
-      toast({
-        title: "Error",
-        description: result.error || "Something went wrong.",
-        variant: "destructive",
-      });
-    }
-    setIsSaving(false);
-  };
 
   const handleExport = () => {
     const fullData = {
@@ -73,6 +45,10 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    toast({
+      title: "Export Successful",
+      description: "portfolio-data.json has been downloaded.",
+    });
   };
   
   const handleImportClick = () => {
@@ -99,7 +75,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
           setSkills(importedData.skills);
           toast({
             title: "Import Successful",
-            description: "Portfolio data loaded. Don't forget to save.",
+            description: "Portfolio data has been loaded from the file.",
           });
         } else {
           throw new Error("Invalid JSON structure.");
@@ -129,7 +105,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         <div>
           <h1 className="text-3xl font-bold font-headline">Admin Panel</h1>
           <p className="text-muted-foreground mt-1">
-            Edit the content of your portfolio. Remember to save your changes.
+            Edit your portfolio content below. Use Export to save your changes.
           </p>
         </div>
         <div className="flex flex-wrap gap-2 w-full sm:w-auto">
@@ -141,13 +117,10 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
               className="hidden"
             />
             <Button className="w-full sm:w-auto" variant="outline" onClick={handleImportClick}>
-                <Download className="mr-2 h-4 w-4" /> Import
+                <Download className="mr-2 h-4 w-4" /> Import JSON
             </Button>
-            <Button className="w-full sm:w-auto" variant="outline" onClick={handleExport}>
-                <Upload className="mr-2 h-4 w-4" /> Export
-            </Button>
-            <Button className="w-full sm:w-auto" onClick={handleSaveChanges} disabled={isSaving}>
-                {isSaving ? "Saving..." : "Save Changes"}
+            <Button className="w-full sm:w-auto" onClick={handleExport}>
+                <Upload className="mr-2 h-4 w-4" /> Export JSON
             </Button>
             <Button className="w-full sm:w-auto" variant="destructive" onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" /> Logout
