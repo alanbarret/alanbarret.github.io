@@ -100,7 +100,7 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
                    </Button>
                    <input
                      type="file"
-                     ref={el => fileInputRefs.current[index] = el}
+                     ref={(el) => {fileInputRefs.current[index] = el}}
                      onChange={(e) => handleFileChange(e, index)}
                      className="hidden"
                      accept="image/*"

@@ -90,7 +90,7 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                   <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()}>Upload</Button>
                   <input
                     type="file"
-                    ref={el => fileInputRefs.current[index] = el}
+                    ref={el => {fileInputRefs.current[index] = el}}
                     onChange={(e) => handleFileChange(e, index)}
                     className="hidden"
                     accept="image/*"
