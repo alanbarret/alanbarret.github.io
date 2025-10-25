@@ -15,8 +15,9 @@ import ProjectsEditor from "./projects-editor";
 import SkillsEditor from "./skills-editor";
 import { savePortfolioData } from "./actions";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, Download } from "lucide-react";
+import { Upload, Download, LogOut } from "lucide-react";
 import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory } from "@/lib/types";
+import { useRouter } from "next/navigation";
 
 
 export default function AdminForm({ initialData }: { initialData: RawPortfolioData }) {
@@ -27,6 +28,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const handleSaveChanges = async () => {
     setIsSaving(true);
@@ -113,12 +115,24 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
     reader.readAsText(file);
     event.target.value = '';
   };
+  
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("portfolio-admin-auth");
+      router.push("/login");
+    }
+  };
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold font-headline">Admin Panel</h1>
-        <div className="flex gap-2">
+    <div className="container mx-auto py-10 px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+          <h1 className="text-3xl font-bold font-headline">Admin Panel</h1>
+          <p className="text-muted-foreground mt-1">
+            Edit the content of your portfolio. Remember to save your changes.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             <input
               type="file"
               ref={fileInputRef}
@@ -126,24 +140,24 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
               accept=".json"
               className="hidden"
             />
-            <Button variant="outline" onClick={handleImportClick}>
+            <Button className="w-full sm:w-auto" variant="outline" onClick={handleImportClick}>
                 <Download className="mr-2 h-4 w-4" /> Import
             </Button>
-            <Button variant="outline" onClick={handleExport}>
+            <Button className="w-full sm:w-auto" variant="outline" onClick={handleExport}>
                 <Upload className="mr-2 h-4 w-4" /> Export
             </Button>
-            <Button onClick={handleSaveChanges} disabled={isSaving}>
-                {isSaving ? "Saving..." : "Save All Changes"}
+            <Button className="w-full sm:w-auto" onClick={handleSaveChanges} disabled={isSaving}>
+                {isSaving ? "Saving..." : "Save Changes"}
+            </Button>
+            <Button className="w-full sm:w-auto" variant="destructive" onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" /> Logout
             </Button>
         </div>
       </div>
-      <p className="text-muted-foreground mb-8">
-        Welcome to the admin panel. Here you can edit the content of your portfolio. Remember to save your changes to make them live.
-      </p>
 
       <Tabs defaultValue="hero" className="w-full">
-        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-          <TabsTrigger value="hero">Hero Section</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+          <TabsTrigger value="hero">Hero</TabsTrigger>
           <TabsTrigger value="experience">Experience</TabsTrigger>
           <TabsTrigger value="projects">Projects</TabsTrigger>
           <TabsTrigger value="skills">Skills</TabsTrigger>
@@ -164,3 +178,4 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
     </div>
   );
 }
+
