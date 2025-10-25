@@ -1,43 +1,60 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { BrainCircuit } from 'lucide-react';
+import { useAuth, useUser } from '@/firebase';
+import { signInAnonymously } from 'firebase/auth';
 
 export default function LoginPage() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const { toast } = useToast();
+    const auth = useAuth();
+    const { user, isUserLoading } = useUser();
 
-    const handleLogin = (e: React.FormEvent) => {
+    useEffect(() => {
+        // If user is already logged in, redirect to admin
+        if (!isUserLoading && user) {
+            router.replace('/admin');
+        }
+    }, [user, isUserLoading, router]);
+
+
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
 
-        // Simple hardcoded credentials
-        if (username === 'alan' && password === 'myportfoliowebsite') {
-            localStorage.setItem('portfolio-admin-auth', 'true');
+        try {
+            await signInAnonymously(auth);
             toast({
                 title: 'Login Successful',
-                description: 'Welcome back, Alan!',
+                description: 'Welcome to the admin panel!',
             });
             router.push('/admin');
-        } else {
+        } catch (error) {
+             const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
             toast({
                 title: 'Login Failed',
-                description: 'Invalid username or password.',
+                description: `Could not sign in anonymously. ${errorMessage}`,
                 variant: 'destructive',
             });
             setIsLoading(false);
         }
     };
+
+    if (isUserLoading || user) {
+        // Show a loading state or nothing while redirecting
+        return (
+             <div className="flex min-h-screen items-center justify-center bg-secondary/30">
+                <p>Loading...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-secondary/30">
@@ -47,34 +64,12 @@ export default function LoginPage() {
                         <BrainCircuit className="h-8 w-8 text-primary" />
                         <CardTitle className="text-2xl">Admin Login</CardTitle>
                     </div>
-                    <CardDescription>Enter your credentials to access the admin panel.</CardDescription>
+                    <CardDescription>Click below to sign in and manage your portfolio.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleLogin} className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="username">Username</Label>
-                            <Input
-                                id="username"
-                                type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
-                                placeholder="alan"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                placeholder="********"
-                            />
-                        </div>
                         <Button type="submit" className="w-full" disabled={isLoading}>
-                            {isLoading ? 'Logging in...' : 'Login'}
+                            {isLoading ? 'Signing in...' : 'Sign In Anonymously'}
                         </Button>
                     </form>
                 </CardContent>

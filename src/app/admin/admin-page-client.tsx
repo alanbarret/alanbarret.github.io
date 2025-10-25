@@ -1,25 +1,25 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import AdminForm from './admin-form';
 import type { RawPortfolioData } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUser } from '@/firebase';
+import { usePortfolioData } from '@/lib/data';
 
-function AdminAuthWrapper({ children }: { children: React.ReactNode }) {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-    const router = useRouter();
+export default function AdminPageClient() {
+    const { user, isUserLoading } = useUser();
+    const { data: initialData, isLoading: isDataLoading } = usePortfolioData();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        const authStatus = localStorage.getItem('portfolio-admin-auth');
-        if (authStatus === 'true') {
-            setIsAuthenticated(true);
-        } else {
-            router.replace('/login');
+        // We consider the user authenticated if the Firebase user object exists.
+        if (!isUserLoading) {
+            setIsAuthenticated(!!user);
         }
-    }, [router]);
+    }, [user, isUserLoading]);
 
-    if (isAuthenticated === null) {
+    if (isUserLoading || isDataLoading || !isAuthenticated) {
         return (
             <div className="container mx-auto py-10">
                 <div className="space-y-4">
@@ -34,28 +34,17 @@ function AdminAuthWrapper({ children }: { children: React.ReactNode }) {
         );
     }
 
-    return <>{children}</>;
-}
-
-
-export default function AdminPageClient({ initialData }: { initialData: RawPortfolioData | null }) {
-    
     return (
-        <AdminAuthWrapper>
-            {!initialData ? (
+        <>
+            {initialData ? (
+                <AdminForm initialData={initialData} />
+            ) : (
                  <div className="container mx-auto py-10">
-                    <div className="space-y-4">
-                        <Skeleton className="h-12 w-1/3" />
-                        <Skeleton className="h-8 w-1/2" />
-                        <div className="mt-8 space-y-4">
-                            <Skeleton className="h-10 w-full" />
-                            <Skeleton className="h-64 w-full" />
-                        </div>
+                    <div className="text-center">
+                        <p>Could not load portfolio data. Please try again later.</p>
                     </div>
                 </div>
-            ) : (
-                <AdminForm initialData={initialData} />
             )}
-        </AdminAuthWrapper>
+        </>
     );
 }

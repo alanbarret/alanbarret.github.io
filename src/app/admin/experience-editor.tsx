@@ -7,7 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
+import { useFirebaseStorage } from '@/firebase/storage';
+import { useUser } from '@/firebase';
+import { useToast } from "@/hooks/use-toast";
+import { Loader } from "lucide-react";
 
 interface Experience {
   role: string;
@@ -26,6 +30,10 @@ interface ExperienceEditorProps {
 
 export default function ExperienceEditor({ data, setData }: ExperienceEditorProps) {
   const fileInputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
+  const { user } = useUser();
+  const { uploadFile } = useFirebaseStorage();
+  const { toast } = useToast();
+  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
 
   const handleUpdate = (index: number, field: keyof Experience, value: string | string[]) => {
     const newData = [...data];
@@ -53,16 +61,27 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
     setData(data.filter((_, i) => i !== index));
   };
   
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (loadEvent) => {
-        if (typeof loadEvent.target?.result === 'string') {
-          handleUpdate(index, 'logo', loadEvent.target.result);
-        }
-      };
-      reader.readAsDataURL(file);
+    if (file && user) {
+      setUploadingIndex(index);
+      try {
+        const path = `portfolio-assets/${user.uid}/${Date.now()}-${file.name}`;
+        const downloadURL = await uploadFile(path, file);
+        handleUpdate(index, 'logo', downloadURL);
+         toast({
+          title: "Upload Successful",
+          description: "Your image has been uploaded.",
+        });
+      } catch (error) {
+        toast({
+          title: "Upload Failed",
+          description: "Could not upload the image.",
+          variant: "destructive",
+        });
+      } finally {
+        setUploadingIndex(null);
+      }
     }
   };
 
@@ -95,12 +114,13 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
                  <Label>Company Logo</Label>
                  <div className="flex items-center gap-4">
                    <Image src={exp.logo} alt="Company Logo" width={40} height={40} className="rounded-md bg-muted object-cover" />
-                   <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()}>
-                     Upload
+                   <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()} disabled={uploadingIndex === index}>
+                     {uploadingIndex === index ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
+                     {uploadingIndex === index ? 'Uploading...' : 'Upload'}
                    </Button>
                    <input
                      type="file"
-                     ref={(el) => { fileInputRefs.current[index] = el; }}
+                     ref={el => { fileInputRefs.current[index] = el; }}
                      onChange={(e) => handleFileChange(e, index)}
                      className="hidden"
                      accept="image/*"

@@ -1,328 +1,85 @@
+
 {
   "entities": {
-    "Project": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Project",
+    "Portfolio": {
+      "title": "Portfolio",
       "type": "object",
-      "description": "Represents a project in the AI Developer's portfolio.",
+      "description": "Represents the entire portfolio data structure.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Project entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the project."
-        },
-        "description": {
-          "type": "string",
-          "description": "A detailed description of the project."
-        },
-        "imageUrl": {
-          "type": "string",
-          "description": "URL of the image representing the project.",
-          "format": "uri"
-        },
-        "techTags": {
-          "type": "array",
-          "description": "Array of tech tags associated with the project.",
-          "items": {
-            "type": "string"
+        "hero": {
+          "type": "object",
+          "properties": {
+            "badge": { "type": "string" },
+            "headline": { "type": "string" },
+            "description": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" } }
           }
         },
-        "githubUrl": {
-          "type": "string",
-          "description": "URL to the project's GitHub repository.",
-          "format": "uri"
+        "experiences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "company": { "type": "string" },
+              "duration": { "type": "string" },
+              "description": { "type": "string" },
+              "logo": { "type": "string", "format": "uri" },
+              "logoHint": { "type": "string" },
+              "tags": { "type": "array", "items": { "type": "string" } }
+            }
+          }
         },
-        "demoUrl": {
-          "type": "string",
-          "description": "URL to the project's live demo, if available.",
-          "format": "uri"
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "image": { "type": "string", "format": "uri" },
+              "imageHint": { "type": "string" },
+              "tags": { "type": "array", "items": { "type": "string" } },
+              "github": { "type": "string", "format": "uri" },
+              "demo": { "type": "string", "format": "uri" }
+            }
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "icon": { "type": "string" },
+              "skills": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "icon": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
         }
-      },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "imageUrl",
-        "techTags",
-        "githubUrl"
-      ]
-    },
-    "Experience": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Experience",
-      "type": "object",
-      "description": "Represents a work experience entry in the developer's timeline.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Experience entity."
-        },
-        "role": {
-          "type": "string",
-          "description": "The role held at the company."
-        },
-        "company": {
-          "type": "string",
-          "description": "The name of the company."
-        },
-        "startDate": {
-          "type": "string",
-          "description": "The start date of the employment.",
-          "format": "date-time"
-        },
-        "endDate": {
-          "type": "string",
-          "description": "The end date of the employment. Null if currently employed.",
-          "format": "date-time"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the responsibilities and achievements in the role."
-        }
-      },
-      "required": [
-        "id",
-        "role",
-        "company",
-        "startDate",
-        "description"
-      ]
-    },
-    "Skill": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Skill",
-      "type": "object",
-      "description": "Represents a skill possessed by the developer.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Skill entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the skill (e.g., Python, React)."
-        },
-        "category": {
-          "type": "string",
-          "description": "The category of the skill (e.g., Programming Languages, Frameworks)."
-        },
-        "iconUrl": {
-          "type": "string",
-          "description": "URL to an icon representing the skill.",
-          "format": "uri"
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "category",
-        "iconUrl"
-      ]
-    },
-    "Certification": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Certification",
-      "type": "object",
-      "description": "Represents a certification earned by the developer.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Certification entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the certification."
-        },
-        "issuingOrganization": {
-          "type": "string",
-          "description": "The organization that issued the certification."
-        },
-        "issueDate": {
-          "type": "string",
-          "description": "The date the certification was issued.",
-          "format": "date-time"
-        },
-        "expirationDate": {
-          "type": "string",
-          "description": "The date the certification expires, if applicable.",
-          "format": "date-time"
-        },
-        "credentialUrl": {
-          "type": "string",
-          "description": "URL to the online credential or verification page.",
-          "format": "uri"
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "issuingOrganization",
-        "issueDate"
-      ]
-    },
-    "AiToneSuggestion": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "AiToneSuggestion",
-      "type": "object",
-      "description": "Represents a suggested project description generated by AI with a tailored tone.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the AiToneSuggestion entry."
-        },
-        "projectId": {
-          "type": "string",
-          "description": "Reference to Project (Relationship: Project 1:N AiToneSuggestion)"
-        },
-        "suggestedText": {
-          "type": "string",
-          "description": "The text suggested by the AI."
-        },
-        "tone": {
-          "type": "string",
-          "description": "The tone of the suggested text."
-        }
-      },
-      "required": [
-        "id",
-        "projectId",
-        "suggestedText",
-        "tone"
-      ]
+      }
     }
   },
   "auth": {
-    "providers": [
-      "password",
-      "anonymous"
-    ]
+    "providers": ["anonymous"]
   },
   "firestore": {
-    "structure": [
-      {
-        "path": "/users/{userId}",
-        "definition": {
-          "entityName": "user",
-          "schema": {
-            "$ref": "#/backend/entities/user"
-          },
-          "description": "Base path for all user-specific data. Only the authenticated user can access their own data.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/projects/{projectId}",
-        "definition": {
-          "entityName": "Project",
-          "schema": {
-            "$ref": "#/backend/entities/Project"
-          },
-          "description": "Stores project details for a given user.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            },
-            {
-              "name": "projectId",
-              "description": "The unique identifier of the project."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/projects/{projectId}/aiToneSuggestions/{aiToneSuggestionId}",
-        "definition": {
-          "entityName": "AiToneSuggestion",
-          "schema": {
-            "$ref": "#/backend/entities/AiToneSuggestion"
-          },
-          "description": "Stores AI tone suggestions for a specific project.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            },
-            {
-              "name": "projectId",
-              "description": "The unique identifier of the project."
-            },
-            {
-              "name": "aiToneSuggestionId",
-              "description": "The unique identifier of the AI tone suggestion."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/experience/{experienceId}",
-        "definition": {
-          "entityName": "Experience",
-          "schema": {
-            "$ref": "#/backend/entities/Experience"
-          },
-          "description": "Stores experience entries for a given user.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            },
-            {
-              "name": "experienceId",
-              "description": "The unique identifier of the experience entry."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/skills/{skillId}",
-        "definition": {
-          "entityName": "Skill",
-          "schema": {
-            "$ref": "#/backend/entities/Skill"
-          },
-          "description": "Stores skills for a given user.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            },
-            {
-              "name": "skillId",
-              "description": "The unique identifier of the skill."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/certifications/{certificationId}",
-        "definition": {
-          "entityName": "Certification",
-          "schema": {
-            "$ref": "#/backend/entities/Certification"
-          },
-          "description": "Stores certifications for a given user.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            },
-            {
-              "name": "certificationId",
-              "description": "The unique identifier of the certification."
-            }
-          ]
-        }
-      }
-    ],
-    "reasoning": "To support the Alan Barret - AI Developer Portfolio application, which involves storing and managing Projects, Experience, Skills, Certifications and AI generated tone suggestions, the following Firestore data structure is recommended. This design focuses on simplicity, security, and scalability, aligning with the core design principles outlined. Since we're dealing with a static website that needs to save changes, we'll structure the data in a way that makes it easy to manage and query.\n\n**Authorization Independence (CRITICAL):**  All data is essentially 'owned' by a single user (the portfolio owner).  Therefore, we'll use path-based ownership under a `/users/{userId}` collection. No collaborative access is required, simplifying the security rules.\n\n**Structural Segregation (Homogeneous Security Posture):** Each top-level collection under `/users/{userId}` (e.g., `projects`, `experience`, `skills`, `certifications`) will contain documents of the same type and with similar access requirements. This greatly simplifies security rules.\n\n**Access Modeling (Standardization and Consistency):** Path-based ownership (`/users/{userId}/projects/{projectId}`) is the primary access control mechanism. This is the simplest and most secure model for this use case.\n\n**QAPs (Rules are not Filters):** The structure enables secure `list` operations because all data under a user's path is considered private to that user. Listing projects, skills, etc., is secure as long as the rules enforce that only the authenticated user can access their own `/users/{userId}` path.\n\nThe `AiToneSuggestion` subcollection is nested under projects to signify the parent child relation, since a project can have multiple AI tone suggestions."
+    "/portfolio/{docId}": {
+      "schema": { "$ref": "#/entities/Portfolio" },
+      "description": "Stores the portfolio data in a single document."
+    }
+  },
+  "storage": {
+    "/portfolio-assets/{userId}/{fileName}": {
+      "description": "Stores uploaded images for the portfolio."
+    }
   }
 }

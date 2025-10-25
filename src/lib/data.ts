@@ -1,41 +1,54 @@
 
-import 'server-only';
-import fs from 'fs/promises';
-import path from 'path';
+'use client';
+import { useState, useEffect }_from_'react';
+import { doc, onSnapshot, getFirestore } from 'firebase/firestore';
+import { initializeFirebase } from '@/firebase';
 import type { RawPortfolioData } from '@/lib/types';
 
+// Initialize Firebase on the client
+const { firestore } = initializeFirebase();
 
-const dataPath = path.join(process.cwd(), 'src', 'lib', 'portfolio-data.json');
-
-async function getRawPortfolioData(): Promise<RawPortfolioData> {
-  try {
-    const fileContent = await fs.readFile(dataPath, 'utf-8');
-    const data = JSON.parse(fileContent);
-    return data;
-  } catch (error) {
-    console.error('Error reading portfolio data:', error);
-    // Return a default/empty structure if the file is missing or corrupt
-    return {
-      hero: { badge: '', headline: '', description: '', tags: [] },
-      experiences: [],
-      projects: [],
-      skills: [],
-    };
-  }
-}
+const emptyData: RawPortfolioData = {
+  hero: { badge: '', headline: '', description: '', tags: [] },
+  experiences: [],
+  projects: [],
+  skills: [],
+};
 
 /**
- * Fetches portfolio data.
- * The components are responsible for interpreting the data (e.g. icon strings).
- * This data is serializable and safe to pass from Server to Client Components.
+ * Custom hook to subscribe to portfolio data from Firestore.
  */
-export async function getPortfolioData(): Promise<RawPortfolioData> {
-  return getRawPortfolioData();
-}
+export function usePortfolioData() {
+  const [data, setData] = useState<RawPortfolioData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-/**
- * Fetches the raw, unprocessed portfolio data, suitable for initializing the admin panel.
- */
-export async function getRawDataForAdmin(): Promise<RawPortfolioData> {
-  return getRawPortfolioData();
+  useEffect(() => {
+    if (!firestore) {
+      setError(new Error("Firestore is not initialized."));
+      setIsLoading(false);
+      return;
+    }
+    
+    const docRef = doc(firestore, 'portfolio', 'main');
+    
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setData(docSnap.data() as RawPortfolioData);
+      } else {
+        // If the document doesn't exist, we can use empty data.
+        setData(emptyData);
+      }
+      setIsLoading(false);
+    }, (err) => {
+      console.error("Error fetching portfolio data:", err);
+      setError(err);
+      setIsLoading(false);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  return { data, isLoading, error };
 }
