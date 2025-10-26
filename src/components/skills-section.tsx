@@ -6,6 +6,8 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { iconMap } from '@/lib/icon-map';
 import { Code } from 'lucide-react';
 import type { RawSkillCategory, RawSkill } from '@/lib/types';
+import Image from 'next/image';
+import { useState } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,29 +33,32 @@ const itemVariants = {
 };
 
 const Devicon = ({ skill }: { skill: RawSkill }) => {
-  const deviconName = skill.name.toLowerCase().replace(/\./g, '');
-  const iconClass = `devicon-${deviconName}-plain`;
+  const [imgError, setImgError] = useState(false);
 
-  // For skills like Next.js where the plain version might not exist or look good
-  const specialCases: { [key: string]: string } = {
-    'nextjs': 'devicon-nextjs-original',
-    'typescript': 'devicon-typescript-plain',
-    'nodejs': 'devicon-nodejs-plain',
-    'react': 'devicon-react-original',
-  };
+  const deviconName = skill.name.toLowerCase()
+    .replace(/\./g, 'dot') // e.g. .NET -> dotnet
+    .replace(/\+/g, 'plus'); // e.g. C++ -> cplusplus
 
-  const finalClass = specialCases[deviconName] || iconClass;
+  const iconUrl = `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${deviconName}/${deviconName}-original.svg`;
 
-  // Devicon stylesheet doesn't provide a good way to check if an icon exists.
-  // A simple fallback to Lucide's Code icon if the icon name from DB is not a devicon
-  const LucideFallback = iconMap[skill.icon] || Code;
-  
-  // Simple heuristic: if the icon name from DB is a custom one from our map, use it. Otherwise, assume devicon.
-  if (iconMap[skill.icon] && skill.icon !== 'Code') {
-     return <LucideFallback className="h-5 w-5 text-accent-foreground" />;
-  }
+  const FallbackIcon = iconMap[skill.icon] || Code;
 
-  return <i className={`${finalClass} text-2xl text-accent-foreground`}></i>;
+  return (
+    <>
+      {imgError ? (
+        <FallbackIcon className="h-5 w-5 text-accent-foreground" />
+      ) : (
+        <Image
+          src={iconUrl}
+          alt={`${skill.name} icon`}
+          width={20}
+          height={20}
+          className="h-5 w-5 text-accent-foreground"
+          onError={() => setImgError(true)}
+        />
+      )}
+    </>
+  );
 };
 
 
@@ -113,3 +118,4 @@ export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
     </section>
   );
 }
+
