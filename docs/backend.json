@@ -100,10 +100,5 @@
         "schema": { "$ref": "#/entities/UserProfile" },
         "description": "Stores public profile information for each user."
     }
-  },
-  "storage": {
-    "/portfolio-assets/{userId}/{fileName}": {
-      "description": "Stores uploaded images for the portfolio."
-    }
   }
 }

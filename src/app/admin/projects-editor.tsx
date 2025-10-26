@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { useFirebaseStorage } from '@/firebase/storage';
-import { useUser } from '@/firebase';
 import { useToast } from "@/hooks/use-toast";
 import { Loader } from "lucide-react";
 
@@ -31,10 +29,8 @@ interface ProjectsEditorProps {
 
 export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
   const fileInputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
-  const { user } = useUser();
-  const { uploadFile } = useFirebaseStorage();
   const { toast } = useToast();
-  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+  const [convertingIndex, setConvertingIndex] = useState<number | null>(null);
 
   const handleUpdate = (index: number, field: keyof Project, value: string | string[]) => {
     const newData = [...data];
@@ -64,25 +60,28 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0];
-    if (file && user) {
-        setUploadingIndex(index);
-        try {
-            const path = `portfolio-assets/${user.uid}/${Date.now()}-${file.name}`;
-            const downloadURL = await uploadFile(path, file);
-            handleUpdate(index, 'image', downloadURL);
-            toast({
-                title: "Upload Successful",
-                description: "Your image has been uploaded.",
-            });
-        } catch (error: any) {
-            toast({
-                title: "Upload Failed",
-                description: error.message || "Could not upload the image.",
-                variant: "destructive",
-            });
-        } finally {
-            setUploadingIndex(null);
-        }
+    if (file) {
+      setConvertingIndex(index);
+      try {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result as string;
+          handleUpdate(index, 'image', base64String);
+           toast({
+            title: "Image Ready",
+            description: "Image converted to Base64. Click 'Save to Cloud' to save.",
+          });
+          setConvertingIndex(null);
+        };
+        reader.readAsDataURL(file);
+      } catch (error: any) {
+          toast({
+              title: "Conversion Failed",
+              description: error.message || "Could not convert the image.",
+              variant: "destructive",
+          });
+          setConvertingIndex(null);
+      }
     }
   };
 
@@ -107,9 +106,9 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                 <Label>Project Image</Label>
                 <div className="flex items-center gap-4">
                   <Image src={project.image} alt={project.name} width={80} height={50} className="rounded-md border object-cover"/>
-                  <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()} disabled={uploadingIndex === index}>
-                     {uploadingIndex === index ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
-                     {uploadingIndex === index ? 'Uploading...' : 'Upload'}
+                  <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()} disabled={convertingIndex === index}>
+                     {convertingIndex === index ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
+                     {convertingIndex === index ? 'Converting...' : 'New Image'}
                   </Button>
                   <input
                     type="file"

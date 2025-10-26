@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { useFirebaseStorage } from '@/firebase/storage';
-import { useUser } from '@/firebase';
 import { useToast } from "@/hooks/use-toast";
 import { Loader } from "lucide-react";
 
@@ -30,10 +28,8 @@ interface ExperienceEditorProps {
 
 export default function ExperienceEditor({ data, setData }: ExperienceEditorProps) {
   const fileInputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
-  const { user } = useUser();
-  const { uploadFile } = useFirebaseStorage();
   const { toast } = useToast();
-  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+  const [convertingIndex, setConvertingIndex] = useState<number | null>(null);
 
   const handleUpdate = (index: number, field: keyof Experience, value: string | string[]) => {
     const newData = [...data];
@@ -63,24 +59,27 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
   
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0];
-    if (file && user) {
-      setUploadingIndex(index);
+    if (file) {
+      setConvertingIndex(index);
       try {
-        const path = `portfolio-assets/${user.uid}/${Date.now()}-${file.name}`;
-        const downloadURL = await uploadFile(path, file);
-        handleUpdate(index, 'logo', downloadURL);
-         toast({
-          title: "Upload Successful",
-          description: "Your image has been uploaded.",
-        });
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result as string;
+          handleUpdate(index, 'logo', base64String);
+          toast({
+            title: "Image Ready",
+            description: "Image converted to Base64. Click 'Save to Cloud' to save.",
+          });
+          setConvertingIndex(null);
+        };
+        reader.readAsDataURL(file);
       } catch (error: any) {
         toast({
-          title: "Upload Failed",
-          description: error.message || "Could not upload the image.",
+          title: "Conversion Failed",
+          description: error.message || "Could not convert the image.",
           variant: "destructive",
         });
-      } finally {
-        setUploadingIndex(null);
+        setConvertingIndex(null);
       }
     }
   };
@@ -114,9 +113,9 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
                  <Label>Company Logo</Label>
                  <div className="flex items-center gap-4">
                    <Image src={exp.logo} alt="Company Logo" width={40} height={40} className="rounded-md bg-muted object-cover" />
-                   <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()} disabled={uploadingIndex === index}>
-                     {uploadingIndex === index ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
-                     {uploadingIndex === index ? 'Uploading...' : 'Upload'}
+                   <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()} disabled={convertingIndex === index}>
+                     {convertingIndex === index ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
+                     {convertingIndex === index ? 'Converting...' : 'New Image'}
                    </Button>
                    <input
                      type="file"
