@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { iconMap } from '@/lib/icon-map';
 import { Code } from 'lucide-react';
-import type { RawSkillCategory } from '@/lib/types';
+import type { RawSkillCategory, RawSkill } from '@/lib/types';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,6 +29,33 @@ const itemVariants = {
     }
   },
 };
+
+const Devicon = ({ skill }: { skill: RawSkill }) => {
+  const deviconName = skill.name.toLowerCase().replace(/\./g, '');
+  const iconClass = `devicon-${deviconName}-plain`;
+
+  // For skills like Next.js where the plain version might not exist or look good
+  const specialCases: { [key: string]: string } = {
+    'nextjs': 'devicon-nextjs-original',
+    'typescript': 'devicon-typescript-plain',
+    'nodejs': 'devicon-nodejs-plain',
+    'react': 'devicon-react-original',
+  };
+
+  const finalClass = specialCases[deviconName] || iconClass;
+
+  // Devicon stylesheet doesn't provide a good way to check if an icon exists.
+  // A simple fallback to Lucide's Code icon if the icon name from DB is not a devicon
+  const LucideFallback = iconMap[skill.icon] || Code;
+  
+  // Simple heuristic: if the icon name from DB is a custom one from our map, use it. Otherwise, assume devicon.
+  if (iconMap[skill.icon] && skill.icon !== 'Code') {
+     return <LucideFallback className="h-5 w-5 text-accent-foreground" />;
+  }
+
+  return <i className={`${finalClass} text-2xl text-accent-foreground`}></i>;
+};
+
 
 export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
   return (
@@ -64,14 +91,13 @@ export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
                   <CardContent>
                     <ul className="grid grid-cols-2 gap-4">
                       {category.skills.map((skill) => {
-                        const SkillIcon = iconMap[skill.icon] || Code;
                         return (
                           <motion.li 
                             key={skill.name} 
                             className="flex items-center gap-3 p-2 -m-1 rounded-lg transition-colors hover:bg-secondary"
                             whileHover={{ scale: 1.05 }}
                           >
-                            <SkillIcon className="h-5 w-5 text-accent-foreground" />
+                            <Devicon skill={skill} />
                             <span className="text-muted-foreground text-sm">{skill.name}</span>
                           </motion.li>
                         );
