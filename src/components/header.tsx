@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -46,7 +47,7 @@ export default function Header() {
         </nav>
         <div className="hidden md:block">
           <Button asChild>
-            <Link href="/resume" target="_blank">Download CV</Link>
+            <Link href="/resume" target="_blank">View CV</Link>
           </Button>
         </div>
         <div className="md:hidden">
@@ -77,7 +78,7 @@ export default function Header() {
                   ))}
                 </nav>
                 <Button asChild>
-                   <Link href="/resume" target="_blank">Download CV</Link>
+                   <Link href="/resume" target="_blank">View CV</Link>
                 </Button>
               </div>
             </SheetContent>

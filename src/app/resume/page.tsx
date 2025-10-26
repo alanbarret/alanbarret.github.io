@@ -1,8 +1,10 @@
+
 'use client';
 import { usePortfolioData } from '@/lib/data';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Mail, Phone, Linkedin, Github, ExternalLink } from 'lucide-react';
+import { Mail, Phone, Linkedin, Github, ExternalLink, Printer } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const ResumeSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
   <section className="mb-8">
@@ -40,8 +42,20 @@ export default function ResumePage() {
 
   const { hero, experiences, projects, skills } = data;
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8 lg:p-12 bg-background print:bg-white text-foreground print:text-black font-body">
+      <div className="flex justify-between items-center mb-10 no-print">
+          <h1 className="text-4xl font-bold font-headline">Resume</h1>
+           <Button onClick={handlePrint}>
+            <Printer className="mr-2 h-4 w-4" />
+            Print to PDF
+          </Button>
+      </div>
+      
       <header className="text-center mb-10">
         <h1 className="text-5xl font-bold font-headline">Alan Barret</h1>
         <p className="text-xl text-muted-foreground print:text-gray-600 mt-2">{hero.badge}</p>
