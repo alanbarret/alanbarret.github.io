@@ -28,7 +28,7 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 print:hidden ${
         scrolled ? 'bg-background/80 backdrop-blur-sm border-b' : 'bg-transparent'
       }`}
     >
@@ -46,7 +46,7 @@ export default function Header() {
         </nav>
         <div className="hidden md:block">
           <Button asChild>
-            <a href="/alan-barret-resume.pdf" download>Download CV</a>
+            <Link href="/resume" target="_blank">Download CV</Link>
           </Button>
         </div>
         <div className="md:hidden">
@@ -71,7 +71,7 @@ export default function Header() {
                   ))}
                 </nav>
                 <Button asChild>
-                  <a href="/alan-barret-resume.pdf" download>Download CV</a>
+                   <Link href="/resume" target="_blank">Download CV</Link>
                 </Button>
               </div>
             </SheetContent>
