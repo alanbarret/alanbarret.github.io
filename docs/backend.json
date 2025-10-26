@@ -66,15 +66,31 @@
           }
         }
       }
+    },
+    "UserProfile": {
+        "title": "User Profile",
+        "description": "Represents a user's public profile data.",
+        "type": "object",
+        "properties": {
+            "uid": { "type": "string", "description": "The user's unique ID." },
+            "email": { "type": "string", "description": "The user's email address." },
+            "displayName": { "type": "string", "description": "The user's display name." },
+            "createdAt": { "type": "string", "format": "date-time", "description": "The timestamp when the user was created." }
+        },
+        "required": ["uid", "email", "createdAt"]
     }
   },
   "auth": {
-    "providers": ["anonymous"]
+    "providers": ["email-password"]
   },
   "firestore": {
     "/portfolio/{docId}": {
       "schema": { "$ref": "#/entities/Portfolio" },
       "description": "Stores the portfolio data in a single document."
+    },
+    "/users/{userId}": {
+        "schema": { "$ref": "#/entities/UserProfile" },
+        "description": "Stores public profile information for each user."
     }
   },
   "storage": {
