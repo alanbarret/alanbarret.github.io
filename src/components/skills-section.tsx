@@ -35,18 +35,27 @@ const itemVariants = {
 const Devicon = ({ skill }: { skill: RawSkill }) => {
   const [imgError, setImgError] = useState(false);
 
-  const deviconName = skill.name.toLowerCase()
-    .replace(/\./g, 'dot') // e.g. .NET -> dotnet
-    .replace(/\+/g, 'plus'); // e.g. C++ -> cplusplus
+  const specialNames: { [key: string]: string } = {
+      'node.js': 'nodejs',
+      'next.js / react': 'nextjs',
+      'next.js': 'nextjs',
+      'react': 'react',
+      'scikit-learn': 'scikitlearn',
+  };
+
+  const deviconName = (specialNames[skill.name.toLowerCase()] || skill.name.toLowerCase())
+    .replace(/\./g, 'dot')
+    .replace(/\+/g, 'plus');
 
   const iconUrl = `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${deviconName}/${deviconName}-original.svg`;
-
+  const iconFontClass = `devicon-${deviconName}-original`;
+  
   const FallbackIcon = iconMap[skill.icon] || Code;
 
   return (
     <>
       {imgError ? (
-        <FallbackIcon className="h-5 w-5 text-accent-foreground" />
+         <i className={`${iconFontClass} text-xl text-accent-foreground`}></i>
       ) : (
         <Image
           src={iconUrl}
@@ -55,6 +64,7 @@ const Devicon = ({ skill }: { skill: RawSkill }) => {
           height={20}
           className="h-5 w-5 text-accent-foreground"
           onError={() => setImgError(true)}
+          unoptimized // Required for external SVGs in Next.js export
         />
       )}
     </>
@@ -118,4 +128,5 @@ export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
     </section>
   );
 }
+
 
