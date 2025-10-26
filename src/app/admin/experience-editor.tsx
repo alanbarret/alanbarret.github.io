@@ -94,11 +94,11 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
         {data.map((exp, index) => (
           <Card key={index} className="p-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-1 md:col-span-1">
                 <Label>Role</Label>
                 <Input value={exp.role} onChange={(e) => handleUpdate(index, 'role', e.target.value)} />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-1 md:col-span-1">
                 <Label>Company</Label>
                 <Input value={exp.company} onChange={(e) => handleUpdate(index, 'company', e.target.value)} />
               </div>
@@ -110,7 +110,7 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
                 <Label>Description</Label>
                 <Textarea value={exp.description} onChange={(e) => handleUpdate(index, 'description', e.target.value)} />
               </div>
-               <div className="space-y-2">
+               <div className="space-y-2 col-span-2 sm:col-span-1">
                  <Label>Company Logo</Label>
                  <div className="flex items-center gap-4">
                    <Image src={exp.logo} alt="Company Logo" width={40} height={40} className="rounded-md bg-muted object-cover" />
@@ -127,7 +127,7 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
                    />
                  </div>
                </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>Logo AI Hint</Label>
                 <Input value={exp.logoHint} onChange={(e) => handleUpdate(index, 'logoHint', e.target.value)} />
               </div>

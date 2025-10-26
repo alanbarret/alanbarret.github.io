@@ -103,7 +103,7 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                 <Label>Description</Label>
                 <Textarea value={project.description} onChange={(e) => handleUpdate(index, 'description', e.target.value)} />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>Project Image</Label>
                 <div className="flex items-center gap-4">
                   <Image src={project.image} alt={project.name} width={80} height={50} className="rounded-md border object-cover"/>
@@ -120,15 +120,15 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                   />
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>Image AI Hint</Label>
                 <Input value={project.imageHint} onChange={(e) => handleUpdate(index, 'imageHint', e.target.value)} />
               </div>
-               <div className="space-y-2">
+               <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>GitHub URL</Label>
                 <Input value={project.github} onChange={(e) => handleUpdate(index, 'github', e.target.value)} />
               </div>
-               <div className="space-y-2">
+               <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>Live Demo URL</Label>
                 <Input value={project.demo} onChange={(e) => handleUpdate(index, 'demo', e.target.value)} />
               </div>

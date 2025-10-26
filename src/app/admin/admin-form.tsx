@@ -198,7 +198,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
             Edit your portfolio content below. Changes are saved to the cloud.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <Button className="w-full sm:w-auto" onClick={handleSaveChanges} disabled={isSaving}>
                 <Save className="mr-2 h-4 w-4" /> {isSaving ? "Saving..." : "Save to Cloud"}
             </Button>
@@ -212,7 +212,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
       </div>
 
       <Tabs defaultValue="hero" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto">
           <TabsTrigger value="hero">Hero</TabsTrigger>
           <TabsTrigger value="experience">Experience</TabsTrigger>
           <TabsTrigger value="projects">Projects</TabsTrigger>
