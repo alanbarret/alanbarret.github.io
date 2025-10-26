@@ -1,6 +1,6 @@
 
 'use client';
-import { useState, useEffect }_from_'react';
+import { useState, useEffect } from 'react';
 import { doc, onSnapshot, getFirestore } from 'firebase/firestore';
 import { initializeFirebase } from '@/firebase';
 import type { RawPortfolioData } from '@/lib/types';
