@@ -3,18 +3,21 @@
 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import type { RawHero, RawContact } from '@/lib/types';
+
 
 interface HeroData {
-  badge: string;
-  headline: string;
-  description: string;
-  tags: string[];
+  hero: RawHero;
+  contact: RawContact | null;
 }
 
 export default function HeroSection({ data }: { data: HeroData }) {
-  const { badge, headline, description, tags } = data;
+  const { hero, contact } = data;
+  const { badge, headline, description, tags } = hero;
+
   return (
     <motion.section
       id="hero"
@@ -52,13 +55,42 @@ export default function HeroSection({ data }: { data: HeroData }) {
           {description}
         </motion.p>
         
+        <motion.div
+          className="flex justify-center gap-4 mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          {contact?.github && (
+            <Button asChild variant="outline" className="bg-background/10 backdrop-blur-sm">
+              <Link href={contact.github} target="_blank" rel="noopener noreferrer">
+                <Github className="mr-2 h-4 w-4" /> GitHub
+              </Link>
+            </Button>
+          )}
+          {contact?.linkedin && (
+             <Button asChild variant="outline" className="bg-background/10 backdrop-blur-sm">
+              <Link href={contact.linkedin} target="_blank" rel="noopener noreferrer">
+                <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
+              </Link>
+            </Button>
+          )}
+          {contact?.email && (
+             <Button asChild variant="outline" className="bg-background/10 backdrop-blur-sm">
+              <a href={`mailto:${contact.email}`}>
+                <Mail className="mr-2 h-4 w-4" /> Email
+              </a>
+            </Button>
+          )}
+        </motion.div>
+
         <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
           {tags.map((tag, i) => (
             <motion.div
               key={tag}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
+              transition={{ delay: 0.6 + i * 0.1, duration: 0.5 }}
             >
               <Badge
                 variant="outline"
