@@ -34,11 +34,11 @@ const emptyData: RawPortfolioData = {
 };
 
 export default function AdminForm({ initialData }: { initialData: RawPortfolioData | null }) {
-  const [heroData, setHeroData] = useState<RawHero>(emptyData.hero);
-  const [experiences, setExperiences] = useState<RawExperience[]>(emptyData.experiences);
-  const [projects, setProjects] = useState<RawProject[]>(emptyData.projects);
-  const [skills, setSkills] = useState<RawSkillCategory[]>(emptyData.skills);
-  const [contactData, setContactData] = useState<RawContact>(emptyData.contact);
+  const [heroData, setHeroData] = useState<RawHero>(initialData?.hero || emptyData.hero);
+  const [experiences, setExperiences] = useState<RawExperience[]>(initialData?.experiences || emptyData.experiences);
+  const [projects, setProjects] = useState<RawProject[]>(initialData?.projects || emptyData.projects);
+  const [skills, setSkills] = useState<RawSkillCategory[]>(initialData?.skills || emptyData.skills);
+  const [contactData, setContactData] = useState<RawContact>(initialData?.contact || emptyData.contact);
   const [isSaving, setIsSaving] = useState(false);
   const [isSeeding, setIsSeeding] = useState(false);
   const [isDataReady, setIsDataReady] = useState(false);
@@ -50,13 +50,15 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
   
   useEffect(() => {
     if (initialData) {
-      setHeroData(initialData.hero);
-      setExperiences(initialData.experiences);
-      setProjects(initialData.projects);
-      setSkills(initialData.skills);
-      setContactData(initialData.contact);
+      // Ensure all parts of initialData exist before setting state
+      setHeroData(initialData.hero || emptyData.hero);
+      setExperiences(initialData.experiences || emptyData.experiences);
+      setProjects(initialData.projects || emptyData.projects);
+      setSkills(initialData.skills || emptyData.skills);
+      setContactData(initialData.contact || emptyData.contact);
       setIsDataReady(true);
     } else {
+      // Still set ready to true, form will just use empty data
       setIsDataReady(true);
     }
   }, [initialData]);
