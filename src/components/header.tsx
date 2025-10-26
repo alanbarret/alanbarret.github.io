@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, BrainCircuit } from 'lucide-react';
 
 const navLinks = [
@@ -28,7 +29,7 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 print:hidden ${
         scrolled ? 'bg-background/80 backdrop-blur-sm border-b' : 'bg-transparent'
       }`}
     >
@@ -46,7 +47,7 @@ export default function Header() {
         </nav>
         <div className="hidden md:block">
           <Button asChild>
-            <a href="/alan-barret-resume.pdf" download>Download CV</a>
+            <Link href="/resume" target="_blank">View CV</Link>
           </Button>
         </div>
         <div className="md:hidden">
@@ -58,6 +59,12 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
+               <SheetHeader className="sr-only">
+                  <SheetTitle>Mobile Menu</SheetTitle>
+                  <SheetDescription>
+                    Navigation links for the portfolio.
+                  </SheetDescription>
+                </SheetHeader>
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2 font-bold font-headline text-lg" onClick={closeSheet}>
                   <BrainCircuit className="h-6 w-6 text-primary" />
@@ -71,7 +78,7 @@ export default function Header() {
                   ))}
                 </nav>
                 <Button asChild>
-                  <a href="/alan-barret-resume.pdf" download>Download CV</a>
+                   <Link href="/resume" target="_blank">View CV</Link>
                 </Button>
               </div>
             </SheetContent>

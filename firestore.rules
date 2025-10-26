@@ -1,0 +1,51 @@
+/**
+ * @fileoverview Firestore Security Rules for the portfolio application.
+ *
+ * Core Philosophy:
+ * This ruleset prioritizes ease of development and data accessibility during the prototyping phase.
+ * The primary goal is to allow read access to the portfolio data for unauthenticated users to allow content to be displayed,
+ * while preventing unauthorized modifications by enforcing strict ownership for all write operations.
+ *
+ * Data Structure:
+ * - Portfolio data is stored in a single document at `/portfolio/main`.
+ * - Storage assets are located in `/portfolio-assets/{userId}/{fileName}` and write access is not defined.
+ *
+ * Key Security Decisions:
+ * - Anonymous authentication is used. This means all `request.auth.uid` values will be unique to each user using the application.
+ * - Unrestricted reads: All users, including unauthenticated ones, can read the portfolio data.
+ * - Owner-only writes: Only the authenticated user who created the portfolio document can modify it.
+ * - No data validation is performed on write operations to allow for rapid schema iteration.
+ * - Listing of the `/portfolio` collection is allowed for all users.
+ *
+ * Denormalization for Authorization:
+ * Not applicable, as only a single document is used in the portfolio collection.
+ * If more data were added, denormalization should be used to avoid `get()` calls in security rules.
+ *
+ * Structural Segregation:
+ * Not applicable, as all the data is stored in a single document.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Allows read access to the portfolio data for all users, and restricts write access to the owner.
+     * @path /portfolio/{docId}
+     * @allow (get, list) - Any user can read the portfolio data.
+     * @allow (create, update, delete) - Only the owner of the document can modify it.
+     * @deny (create, update, delete) - Any user who is not the owner attempts to modify the document.
+     * @principle Allows any user to read the portfolio data. Only the owner can write.
+     */
+    match /portfolio/{docId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    // Define helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+  }
+}

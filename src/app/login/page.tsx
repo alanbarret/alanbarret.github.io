@@ -1,43 +1,79 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { BrainCircuit } from 'lucide-react';
+import { BrainCircuit, Loader2 } from 'lucide-react';
+import { useAuth, useUser } from '@/firebase';
+import { 
+  signInWithEmailAndPassword
+} from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { useFirebase } from '@/firebase';
 
 export default function LoginPage() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    
     const router = useRouter();
     const { toast } = useToast();
+    const auth = useAuth();
+    const { user, isUserLoading } = useUser();
 
-    const handleLogin = (e: React.FormEvent) => {
+    useEffect(() => {
+        // If user is already logged in, redirect to admin
+        if (!isUserLoading && user) {
+            router.replace('/admin');
+        }
+    }, [user, isUserLoading, router]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
 
-        // Simple hardcoded credentials
-        if (username === 'alan' && password === 'myportfoliowebsite') {
-            localStorage.setItem('portfolio-admin-auth', 'true');
+        if (!email || !password) {
+            toast({
+                title: 'Missing Fields',
+                description: 'Please enter both email and password.',
+                variant: 'destructive'
+            });
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
             toast({
                 title: 'Login Successful',
-                description: 'Welcome back, Alan!',
+                description: 'Welcome back!',
             });
             router.push('/admin');
-        } else {
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
             toast({
                 title: 'Login Failed',
-                description: 'Invalid username or password.',
+                description: errorMessage,
                 variant: 'destructive',
             });
+        } finally {
             setIsLoading(false);
         }
     };
+
+    if (isUserLoading || user) {
+        // Show a loading state or nothing while redirecting
+        return (
+             <div className="flex min-h-screen items-center justify-center bg-secondary/30">
+                <p>Loading...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-secondary/30">
@@ -47,19 +83,19 @@ export default function LoginPage() {
                         <BrainCircuit className="h-8 w-8 text-primary" />
                         <CardTitle className="text-2xl">Admin Login</CardTitle>
                     </div>
-                    <CardDescription>Enter your credentials to access the admin panel.</CardDescription>
+                    <CardDescription>Enter your credentials below.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleLogin} className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="username">Username</Label>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                         <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
                             <Input
-                                id="username"
-                                type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                id="email"
+                                type="email"
+                                placeholder="m@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
-                                placeholder="alan"
                             />
                         </div>
                         <div className="space-y-2">
@@ -70,11 +106,11 @@ export default function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                placeholder="********"
                             />
                         </div>
                         <Button type="submit" className="w-full" disabled={isLoading}>
-                            {isLoading ? 'Logging in...' : 'Login'}
+                            {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                            {isLoading ? 'Processing...' : 'Sign In'}
                         </Button>
                     </form>
                 </CardContent>

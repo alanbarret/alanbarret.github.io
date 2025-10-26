@@ -164,3 +164,16 @@
     animation: aurora 20s linear infinite;
     opacity: 0.5;
 }
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  .print-only {
+    display: block;
+  }
+  .no-print, .print\:hidden {
+    display: none;
+  }
+}

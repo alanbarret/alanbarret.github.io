@@ -1,8 +1,8 @@
 
-import { getRawDataForAdmin } from '@/lib/data';
 import AdminPageClient from './admin-page-client';
 
 export default async function AdminPage() {
-    const initialData = await getRawDataForAdmin();
-    return <AdminPageClient initialData={initialData} />;
+    // This page is now a simple wrapper. 
+    // Data fetching and auth checking are handled on the client.
+    return <AdminPageClient />;
 }

@@ -1,0 +1,104 @@
+
+{
+  "entities": {
+    "Portfolio": {
+      "title": "Portfolio",
+      "type": "object",
+      "description": "Represents the entire portfolio data structure.",
+      "properties": {
+        "hero": {
+          "type": "object",
+          "properties": {
+            "badge": { "type": "string" },
+            "headline": { "type": "string" },
+            "description": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "experiences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "company": { "type": "string" },
+              "duration": { "type": "string" },
+              "description": { "type": "string" },
+              "logo": { "type": "string", "format": "uri" },
+              "logoHint": { "type": "string" },
+              "tags": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "image": { "type": "string", "format": "uri" },
+              "imageHint": { "type": "string" },
+              "tags": { "type": "array", "items": { "type": "string" } },
+              "github": { "type": "string", "format": "uri" },
+              "demo": { "type": "string", "format": "uri" }
+            }
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "icon": { "type": "string" },
+              "skills": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "icon": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string" },
+            "github": { "type": "string", "format": "uri" },
+            "linkedin": { "type": "string", "format": "uri" }
+          }
+        }
+      }
+    },
+    "UserProfile": {
+        "title": "User Profile",
+        "description": "Represents a user's public profile data.",
+        "type": "object",
+        "properties": {
+            "uid": { "type": "string", "description": "The user's unique ID." },
+            "email": { "type": "string", "description": "The user's email address." },
+            "displayName": { "type": "string", "description": "The user's display name." },
+            "createdAt": { "type": "string", "format": "date-time", "description": "The timestamp when the user was created." }
+        },
+        "required": ["uid", "email", "createdAt"]
+    }
+  },
+  "auth": {
+    "providers": ["email-password"]
+  },
+  "firestore": {
+    "/portfolio/{docId}": {
+      "schema": { "$ref": "#/entities/Portfolio" },
+      "description": "Stores the portfolio data in a single document."
+    },
+    "/users/{userId}": {
+        "schema": { "$ref": "#/entities/UserProfile" },
+        "description": "Stores public profile information for each user."
+    }
+  }
+}

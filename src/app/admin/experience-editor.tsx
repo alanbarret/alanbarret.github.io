@@ -7,7 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
+import { useToast } from "@/hooks/use-toast";
+import { Loader } from "lucide-react";
 
 interface Experience {
   role: string;
@@ -26,6 +28,8 @@ interface ExperienceEditorProps {
 
 export default function ExperienceEditor({ data, setData }: ExperienceEditorProps) {
   const fileInputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
+  const { toast } = useToast();
+  const [convertingIndex, setConvertingIndex] = useState<number | null>(null);
 
   const handleUpdate = (index: number, field: keyof Experience, value: string | string[]) => {
     const newData = [...data];
@@ -53,16 +57,30 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
     setData(data.filter((_, i) => i !== index));
   };
   
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (loadEvent) => {
-        if (typeof loadEvent.target?.result === 'string') {
-          handleUpdate(index, 'logo', loadEvent.target.result);
-        }
-      };
-      reader.readAsDataURL(file);
+      setConvertingIndex(index);
+      try {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result as string;
+          handleUpdate(index, 'logo', base64String);
+          toast({
+            title: "Image Ready",
+            description: "Image converted to Base64. Click 'Save to Cloud' to save.",
+          });
+          setConvertingIndex(null);
+        };
+        reader.readAsDataURL(file);
+      } catch (error: any) {
+        toast({
+          title: "Conversion Failed",
+          description: error.message || "Could not convert the image.",
+          variant: "destructive",
+        });
+        setConvertingIndex(null);
+      }
     }
   };
 
@@ -75,11 +93,11 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
         {data.map((exp, index) => (
           <Card key={index} className="p-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-1 md:col-span-1">
                 <Label>Role</Label>
                 <Input value={exp.role} onChange={(e) => handleUpdate(index, 'role', e.target.value)} />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-1 md:col-span-1">
                 <Label>Company</Label>
                 <Input value={exp.company} onChange={(e) => handleUpdate(index, 'company', e.target.value)} />
               </div>
@@ -91,23 +109,24 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
                 <Label>Description</Label>
                 <Textarea value={exp.description} onChange={(e) => handleUpdate(index, 'description', e.target.value)} />
               </div>
-               <div className="space-y-2">
+               <div className="space-y-2 col-span-2 sm:col-span-1">
                  <Label>Company Logo</Label>
                  <div className="flex items-center gap-4">
                    <Image src={exp.logo} alt="Company Logo" width={40} height={40} className="rounded-md bg-muted object-cover" />
-                   <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()}>
-                     Upload
+                   <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()} disabled={convertingIndex === index}>
+                     {convertingIndex === index ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
+                     {convertingIndex === index ? 'Converting...' : 'New Image'}
                    </Button>
                    <input
                      type="file"
-                     ref={(el) => { fileInputRefs.current[index] = el; }}
+                     ref={el => { fileInputRefs.current[index] = el; }}
                      onChange={(e) => handleFileChange(e, index)}
                      className="hidden"
                      accept="image/*"
                    />
                  </div>
                </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>Logo AI Hint</Label>
                 <Input value={exp.logoHint} onChange={(e) => handleUpdate(index, 'logoHint', e.target.value)} />
               </div>

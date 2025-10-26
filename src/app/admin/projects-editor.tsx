@@ -7,7 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
+import { useToast } from "@/hooks/use-toast";
+import { Loader } from "lucide-react";
+
 
 interface Project {
   name: string;
@@ -26,6 +29,8 @@ interface ProjectsEditorProps {
 
 export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
   const fileInputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
+  const { toast } = useToast();
+  const [convertingIndex, setConvertingIndex] = useState<number | null>(null);
 
   const handleUpdate = (index: number, field: keyof Project, value: string | string[]) => {
     const newData = [...data];
@@ -53,16 +58,30 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
     setData(data.filter((_, i) => i !== index));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (loadEvent) => {
-        if (typeof loadEvent.target?.result === 'string') {
-          handleUpdate(index, 'image', loadEvent.target.result);
-        }
-      };
-      reader.readAsDataURL(file);
+      setConvertingIndex(index);
+      try {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result as string;
+          handleUpdate(index, 'image', base64String);
+           toast({
+            title: "Image Ready",
+            description: "Image converted to Base64. Click 'Save to Cloud' to save.",
+          });
+          setConvertingIndex(null);
+        };
+        reader.readAsDataURL(file);
+      } catch (error: any) {
+          toast({
+              title: "Conversion Failed",
+              description: error.message || "Could not convert the image.",
+              variant: "destructive",
+          });
+          setConvertingIndex(null);
+      }
     }
   };
 
@@ -83,11 +102,14 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                 <Label>Description</Label>
                 <Textarea value={project.description} onChange={(e) => handleUpdate(index, 'description', e.target.value)} />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>Project Image</Label>
                 <div className="flex items-center gap-4">
                   <Image src={project.image} alt={project.name} width={80} height={50} className="rounded-md border object-cover"/>
-                  <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()}>Upload</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={() => fileInputRefs.current[index]?.click()} disabled={convertingIndex === index}>
+                     {convertingIndex === index ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
+                     {convertingIndex === index ? 'Converting...' : 'New Image'}
+                  </Button>
                   <input
                     type="file"
                     ref={el => {fileInputRefs.current[index] = el}}
@@ -97,15 +119,15 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                   />
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>Image AI Hint</Label>
                 <Input value={project.imageHint} onChange={(e) => handleUpdate(index, 'imageHint', e.target.value)} />
               </div>
-               <div className="space-y-2">
+               <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>GitHub URL</Label>
                 <Input value={project.github} onChange={(e) => handleUpdate(index, 'github', e.target.value)} />
               </div>
-               <div className="space-y-2">
+               <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label>Live Demo URL</Label>
                 <Input value={project.demo} onChange={(e) => handleUpdate(index, 'demo', e.target.value)} />
               </div>

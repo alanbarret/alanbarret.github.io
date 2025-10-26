@@ -5,7 +5,9 @@ import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { iconMap } from '@/lib/icon-map';
 import { Code } from 'lucide-react';
-import type { RawSkillCategory } from '@/lib/types';
+import type { RawSkillCategory, RawSkill } from '@/lib/types';
+import Image from 'next/image';
+import { useState } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,6 +31,43 @@ const itemVariants = {
     }
   },
 };
+
+const Devicon = ({ skill }: { skill: RawSkill }) => {
+  const [imgError, setImgError] = useState(false);
+
+  const specialNames: { [key: string]: string } = {
+      'node.js': 'nodejs',
+      'next.js / react': 'nextjs',
+      'next.js': 'nextjs',
+      'react': 'react',
+      'scikit-learn': 'scikitlearn',
+  };
+
+  const deviconName = (specialNames[skill.name.toLowerCase()] || skill.name.toLowerCase())
+    .replace(/\./g, 'dot')
+    .replace(/\+/g, 'plus');
+
+  const iconUrl = `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${deviconName}/${deviconName}-original.svg`;
+  
+  const FallbackIcon = iconMap[skill.icon] || Code;
+
+  if (imgError) {
+    return <FallbackIcon className="h-5 w-5 text-accent-foreground" />;
+  }
+
+  return (
+    <Image
+      src={iconUrl}
+      alt={`${skill.name} icon`}
+      width={20}
+      height={20}
+      className="h-5 w-5 text-accent-foreground"
+      onError={() => setImgError(true)}
+      unoptimized // Required for external SVGs in Next.js export
+    />
+  );
+};
+
 
 export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
   return (
@@ -64,14 +103,13 @@ export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
                   <CardContent>
                     <ul className="grid grid-cols-2 gap-4">
                       {category.skills.map((skill) => {
-                        const SkillIcon = iconMap[skill.icon] || Code;
                         return (
                           <motion.li 
                             key={skill.name} 
                             className="flex items-center gap-3 p-2 -m-1 rounded-lg transition-colors hover:bg-secondary"
                             whileHover={{ scale: 1.05 }}
                           >
-                            <SkillIcon className="h-5 w-5 text-accent-foreground" />
+                            <Devicon skill={skill} />
                             <span className="text-muted-foreground text-sm">{skill.name}</span>
                           </motion.li>
                         );
@@ -87,3 +125,6 @@ export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
     </section>
   );
 }
+
+
+
