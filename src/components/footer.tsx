@@ -1,8 +1,10 @@
+
 import Link from 'next/link';
 import { Github, Linkedin } from 'lucide-react';
 import { Button } from './ui/button';
+import type { RawContact } from '@/lib/types';
 
-export default function Footer() {
+export default function Footer({ contact }: { contact: RawContact | null }) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -12,16 +14,20 @@ export default function Footer() {
           © {currentYear} Alan Barret. All rights reserved.
         </p>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="https://github.com/fallanangel2305" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <Github className="h-5 w-5" />
-            </Link>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="https://linkedin.com/in/alan-barret-55a743173" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <Linkedin className="h-5 w-5" />
-            </Link>
-          </Button>
+          {contact?.github && (
+            <Button variant="ghost" size="icon" asChild>
+              <Link href={contact.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <Github className="h-5 w-5" />
+              </Link>
+            </Button>
+          )}
+          {contact?.linkedin && (
+            <Button variant="ghost" size="icon" asChild>
+              <Link href={contact.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <Linkedin className="h-5 w-5" />
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </footer>

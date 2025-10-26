@@ -13,9 +13,10 @@ import HeroEditor from "./hero-editor";
 import ExperienceEditor from "./experience-editor";
 import ProjectsEditor from "./projects-editor";
 import SkillsEditor from "./skills-editor";
+import ContactEditor from "./contact-editor";
 import { useToast } from "@/hooks/use-toast";
 import { UploadCloud, LogOut, Save, Database } from "lucide-react";
-import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory } from "@/lib/types";
+import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory, RawContact } from "@/lib/types";
 import { useAuth, useFirebase, errorEmitter, FirestorePermissionError, type SecurityRuleContext } from "@/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
@@ -29,6 +30,7 @@ const emptyData: RawPortfolioData = {
   experiences: [],
   projects: [],
   skills: [],
+  contact: { email: '', github: '', linkedin: '' },
 };
 
 export default function AdminForm({ initialData }: { initialData: RawPortfolioData | null }) {
@@ -36,6 +38,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
   const [experiences, setExperiences] = useState<RawExperience[]>(emptyData.experiences);
   const [projects, setProjects] = useState<RawProject[]>(emptyData.projects);
   const [skills, setSkills] = useState<RawSkillCategory[]>(emptyData.skills);
+  const [contactData, setContactData] = useState<RawContact>(emptyData.contact);
   const [isSaving, setIsSaving] = useState(false);
   const [isSeeding, setIsSeeding] = useState(false);
   const [isDataReady, setIsDataReady] = useState(false);
@@ -51,11 +54,10 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
       setExperiences(initialData.experiences);
       setProjects(initialData.projects);
       setSkills(initialData.skills);
+      setContactData(initialData.contact);
       setIsDataReady(true);
     } else {
-      // If initialData is null (still loading or doesn't exist),
-      // we can decide what to show. For seeding, it's fine.
-      setIsDataReady(true); // Allow rendering the form for seeding
+      setIsDataReady(true);
     }
   }, [initialData]);
 
@@ -67,6 +69,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
       experiences: experiences,
       projects: projects,
       skills: skills,
+      contact: contactData,
     };
 
     if (!firestore) {
@@ -121,13 +124,15 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
 
     const docRef = doc(firestore, "portfolio", "main");
     
-    setDoc(docRef, initialJsonData, { merge: true })
+    const dataToSeed = initialJsonData as RawPortfolioData;
+    
+    setDoc(docRef, dataToSeed, { merge: true })
       .then(() => {
-        // Manually update state after seeding to reflect changes immediately
-        setHeroData(initialJsonData.hero);
-        setExperiences(initialJsonData.experiences);
-        setProjects(initialJsonData.projects);
-        setSkills(initialJsonData.skills);
+        setHeroData(dataToSeed.hero);
+        setExperiences(dataToSeed.experiences);
+        setProjects(dataToSeed.projects);
+        setSkills(dataToSeed.skills);
+        setContactData(dataToSeed.contact);
         toast({
           title: "Database Seeded!",
           description: "Initial portfolio data has been saved to the cloud.",
@@ -138,7 +143,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         const permissionError = new FirestorePermissionError({
             path: docRef.path,
             operation: 'create',
-            requestResourceData: initialJsonData,
+            requestResourceData: dataToSeed,
         } satisfies SecurityRuleContext);
         
         errorEmitter.emit('permission-error', permissionError);
@@ -207,11 +212,12 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
       </div>
 
       <Tabs defaultValue="hero" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
           <TabsTrigger value="hero">Hero</TabsTrigger>
           <TabsTrigger value="experience">Experience</TabsTrigger>
           <TabsTrigger value="projects">Projects</TabsTrigger>
           <TabsTrigger value="skills">Skills</TabsTrigger>
+          <TabsTrigger value="contact">Contact</TabsTrigger>
         </TabsList>
         <TabsContent value="hero">
           <HeroEditor data={heroData} setData={setHeroData} />
@@ -224,6 +230,9 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         </TabsContent>
         <TabsContent value="skills">
           <SkillsEditor data={skills} setData={setSkills} />
+        </TabsContent>
+        <TabsContent value="contact">
+          <ContactEditor data={contactData} setData={setContactData} />
         </TabsContent>
       </Tabs>
     </div>

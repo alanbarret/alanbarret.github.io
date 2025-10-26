@@ -13,6 +13,7 @@ const emptyData: RawPortfolioData = {
   experiences: [],
   projects: [],
   skills: [],
+  contact: { email: '', github: '', linkedin: '' },
 };
 
 /**

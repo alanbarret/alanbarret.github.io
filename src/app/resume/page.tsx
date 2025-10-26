@@ -40,7 +40,7 @@ export default function ResumePage() {
     )
   }
 
-  const { hero, experiences, projects, skills } = data;
+  const { hero, experiences, projects, skills, contact } = data;
 
   const handlePrint = () => {
     window.print();
@@ -60,17 +60,17 @@ export default function ResumePage() {
         <h1 className="text-5xl font-bold font-headline">Alan Barret</h1>
         <p className="text-xl text-muted-foreground print:text-gray-600 mt-2">{hero.badge}</p>
         <div className="flex justify-center items-center gap-6 mt-4 text-muted-foreground print:text-gray-600 text-sm">
-          <a href="mailto:alan.barret2305@gmail.com" className="flex items-center gap-2 hover:text-primary">
+          <a href={`mailto:${contact.email}`} className="flex items-center gap-2 hover:text-primary">
             <Mail className="h-4 w-4" />
-            alan.barret2305@gmail.com
+            {contact.email}
           </a>
-          <a href="https://linkedin.com/in/alan-barret-55a743173" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary">
+          <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary">
             <Linkedin className="h-4 w-4" />
-            linkedin.com/in/alan-barret-55a743173
+            LinkedIn
           </a>
-          <a href="https://github.com/fallanangel2305" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary">
+          <a href={contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary">
             <Github className="h-4 w-4" />
-            github.com/fallanangel2305
+            GitHub
           </a>
         </div>
       </header>

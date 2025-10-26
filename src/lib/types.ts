@@ -1,3 +1,4 @@
+
 export interface RawSkill {
   name: string;
   icon: string;
@@ -36,9 +37,16 @@ export interface RawHero {
   tags: string[];
 }
 
+export interface RawContact {
+  email: string;
+  github: string;
+  linkedin: string;
+}
+
 export interface RawPortfolioData {
   hero: RawHero;
   experiences: RawExperience[];
   projects: RawProject[];
   skills: RawSkillCategory[];
+  contact: RawContact;
 }

@@ -34,12 +34,12 @@ export default function Home() {
              <Skeleton className="h-64 w-full" />
           </div>
         </main>
-        <Footer />
+        <Footer contact={null}/>
       </div>
     );
   }
 
-  const { hero, experiences, projects, skills } = portfolioData;
+  const { hero, experiences, projects, skills, contact } = portfolioData;
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -50,7 +50,7 @@ export default function Home() {
         <ProjectsSection data={projects} />
         <SkillsSection data={skills} />
       </main>
-      <Footer />
+      <Footer contact={contact}/>
     </div>
   );
 }

@@ -64,6 +64,14 @@
               }
             }
           }
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string" },
+            "github": { "type": "string", "format": "uri" },
+            "linkedin": { "type": "string", "format": "uri" }
+          }
         }
       }
     },

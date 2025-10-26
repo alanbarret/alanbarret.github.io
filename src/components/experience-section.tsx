@@ -58,41 +58,44 @@ export default function ExperienceSection({ data }: { data: Experience[] }) {
           viewport={{ once: true, amount: 0.1 }}
         >
           <div className="absolute left-4 top-0 h-full w-0.5 bg-border -translate-x-1/2"></div>
-          {data.map((exp, index) => (
-            <motion.div key={index} className="relative pl-12 mb-12" variants={itemVariants}>
-              <div className="absolute left-4 top-1 h-4 w-4 rounded-full bg-primary ring-4 ring-background -translate-x-1/2 z-10 animate-pulse-dot"></div>
-              <div className="absolute left-4 top-1 h-4 w-4 rounded-full bg-primary/50 -translate-x-1/2 animate-pulse-ring"></div>
-              <Card className="shadow-md transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border border-transparent hover:border-primary/20">
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                      <Image 
-                          src={exp.logo}
-                          alt={`${exp.company} logo`}
-                          width={40}
-                          height={40}
-                          className="rounded-lg bg-muted object-cover mt-1"
-                          data-ai-hint={exp.logoHint}
-                      />
-                      <div className="flex-grow">
-                          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-y-1 mb-1">
-                            <CardTitle className="text-xl font-bold">{exp.role}</CardTitle>
-                            <Badge variant="outline" className="w-fit text-sm">{exp.duration}</Badge>
-                          </div>
-                          <CardDescription className="text-lg font-semibold text-primary">{exp.company}</CardDescription>
-                      </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-4">{exp.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {exp.tags.map(tag => (
-                      <Badge key={tag} variant="secondary">{tag}</Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+          {data.map((exp, index) => {
+            const logoSrc = exp.logo;
+            return (
+              <motion.div key={index} className="relative pl-12 mb-12" variants={itemVariants}>
+                <div className="absolute left-4 top-1 h-4 w-4 rounded-full bg-primary ring-4 ring-background -translate-x-1/2 z-10 animate-pulse-dot"></div>
+                <div className="absolute left-4 top-1 h-4 w-4 rounded-full bg-primary/50 -translate-x-1/2 animate-pulse-ring"></div>
+                <Card className="shadow-md transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border border-transparent hover:border-primary/20">
+                  <CardHeader>
+                    <div className="flex items-start gap-4">
+                        <Image 
+                            src={logoSrc}
+                            alt={`${exp.company} logo`}
+                            width={40}
+                            height={40}
+                            className="rounded-lg bg-muted object-cover mt-1"
+                            data-ai-hint={exp.logoHint}
+                        />
+                        <div className="flex-grow">
+                            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-y-1 mb-1">
+                              <CardTitle className="text-xl font-bold">{exp.role}</CardTitle>
+                              <Badge variant="outline" className="w-fit text-sm">{exp.duration}</Badge>
+                            </div>
+                            <CardDescription className="text-lg font-semibold text-primary">{exp.company}</CardDescription>
+                        </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-4">{exp.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {exp.tags.map(tag => (
+                        <Badge key={tag} variant="secondary">{tag}</Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )
+          })}
         </motion.div>
       </div>
     </section>

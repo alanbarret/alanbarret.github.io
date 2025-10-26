@@ -62,12 +62,14 @@ export default function ProjectsSection({ data }: { data: Project[] }) {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {data.map((project) => (
+          {data.map((project) => {
+            const imageSrc = project.image;
+            return (
             <motion.div key={project.name} variants={itemVariants} className="h-full">
               <Card className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 group flex flex-col h-full bg-card/50 backdrop-blur-sm">
                 <CardHeader className="p-0 border-b aspect-video overflow-hidden">
                   <Image
-                    src={project.image}
+                    src={imageSrc}
                     alt={project.name}
                     width={600}
                     height={400}
@@ -104,9 +106,10 @@ export default function ProjectsSection({ data }: { data: Project[] }) {
                 </CardFooter>
               </Card>
             </motion.div>
-          ))}
+          )})}
         </motion.div>
       </div>
     </section>
   );
 }
+
