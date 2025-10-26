@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
-import { Loader } from "lucide-react";
+import { Loader, Trash } from "lucide-react";
 
 interface Experience {
   role: string;
@@ -91,7 +91,7 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
       </CardHeader>
       <CardContent className="space-y-6">
         {data.map((exp, index) => (
-          <Card key={index} className="p-4">
+          <Card key={index} className="p-4 bg-secondary/30">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Role</Label>
@@ -136,7 +136,9 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
               </div>
             </div>
             <div className="mt-4 flex justify-end">
-              <Button variant="destructive" size="sm" onClick={() => handleDelete(index)}>Delete</Button>
+              <Button variant="destructive" size="sm" onClick={() => handleDelete(index)}>
+                <Trash className="mr-2 h-4 w-4" /> Delete
+              </Button>
             </div>
           </Card>
         ))}

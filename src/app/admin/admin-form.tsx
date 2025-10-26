@@ -98,7 +98,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
             path: docRef.path,
             operation: 'update',
             requestResourceData: fullData,
-        } satisfies SecurityRuleContext);
+        });
         
         errorEmitter.emit('permission-error', permissionError);
         
