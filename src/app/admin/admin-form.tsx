@@ -16,7 +16,7 @@ import SkillsEditor from "./skills-editor";
 import { useToast } from "@/hooks/use-toast";
 import { UploadCloud, LogOut, Save } from "lucide-react";
 import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory } from "@/lib/types";
-import { useAuth, useFirebase } from "@/firebase";
+import { useAuth, useFirebase, errorEmitter, FirestorePermissionError, type SecurityRuleContext } from "@/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -42,25 +42,45 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
       skills: skills,
     };
 
-    try {
-        if (!firestore) throw new Error("Firestore not initialized");
-        const docRef = doc(firestore, "portfolio", "main");
-        await setDoc(docRef, fullData, { merge: true });
+    if (!firestore) {
+      toast({
+        title: "Save Failed",
+        description: "Firestore not initialized.",
+        variant: "destructive",
+      });
+      setIsSaving(false);
+      return;
+    }
+
+    const docRef = doc(firestore, "portfolio", "main");
+    
+    // Non-blocking write with permission error handling
+    setDoc(docRef, fullData, { merge: true })
+      .then(() => {
         toast({
-            title: "Success!",
-            description: "Your portfolio has been saved to the cloud.",
+          title: "Success!",
+          description: "Your portfolio has been saved to the cloud.",
         });
-    } catch (error) {
-        console.error("Error saving data:", error);
-        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+        setIsSaving(false);
+      })
+      .catch((serverError) => {
+        const permissionError = new FirestorePermissionError({
+            path: docRef.path,
+            operation: 'update',
+            requestResourceData: fullData,
+        } satisfies SecurityRuleContext);
+        
+        // Emit the contextual error
+        errorEmitter.emit('permission-error', permissionError);
+        
+        // Also show a user-facing toast, but without the verbose error
         toast({
             title: "Save Failed",
-            description: `Could not save data to Firebase. ${errorMessage}`,
+            description: "You don't have permission to save these changes.",
             variant: "destructive",
         });
-    } finally {
         setIsSaving(false);
-    }
+      });
   };
   
   const handleLogout = async () => {
