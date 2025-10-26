@@ -14,12 +14,13 @@ import ExperienceEditor from "./experience-editor";
 import ProjectsEditor from "./projects-editor";
 import SkillsEditor from "./skills-editor";
 import { useToast } from "@/hooks/use-toast";
-import { UploadCloud, LogOut, Save } from "lucide-react";
+import { UploadCloud, LogOut, Save, Database } from "lucide-react";
 import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory } from "@/lib/types";
 import { useAuth, useFirebase, errorEmitter, FirestorePermissionError, type SecurityRuleContext } from "@/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import initialJsonData from '@/lib/portfolio-data.json';
 
 
 export default function AdminForm({ initialData }: { initialData: RawPortfolioData }) {
@@ -28,6 +29,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
   const [projects, setProjects] = useState<RawProject[]>(initialData.projects);
   const [skills, setSkills] = useState<RawSkillCategory[]>(initialData.skills);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSeeding, setIsSeeding] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const { firestore } = useFirebase();
@@ -54,7 +56,6 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
 
     const docRef = doc(firestore, "portfolio", "main");
     
-    // Non-blocking write with permission error handling
     setDoc(docRef, fullData, { merge: true })
       .then(() => {
         toast({
@@ -70,10 +71,8 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
             requestResourceData: fullData,
         } satisfies SecurityRuleContext);
         
-        // Emit the contextual error
         errorEmitter.emit('permission-error', permissionError);
         
-        // Also show a user-facing toast, but without the verbose error
         toast({
             title: "Save Failed",
             description: "You don't have permission to save these changes.",
@@ -83,6 +82,51 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
       });
   };
   
+  const handleSeedDatabase = async () => {
+    setIsSeeding(true);
+     if (!firestore) {
+      toast({
+        title: "Seed Failed",
+        description: "Firestore not initialized.",
+        variant: "destructive",
+      });
+      setIsSeeding(false);
+      return;
+    }
+
+    const docRef = doc(firestore, "portfolio", "main");
+    
+    setDoc(docRef, initialJsonData, { merge: true })
+      .then(() => {
+        // Manually update state after seeding to reflect changes immediately
+        setHeroData(initialJsonData.hero);
+        setExperiences(initialJsonData.experiences);
+        setProjects(initialJsonData.projects);
+        setSkills(initialJsonData.skills);
+        toast({
+          title: "Database Seeded!",
+          description: "Initial portfolio data has been saved to the cloud.",
+        });
+        setIsSeeding(false);
+      })
+      .catch((serverError) => {
+        const permissionError = new FirestorePermissionError({
+            path: docRef.path,
+            operation: 'create',
+            requestResourceData: initialJsonData,
+        } satisfies SecurityRuleContext);
+        
+        errorEmitter.emit('permission-error', permissionError);
+        
+        toast({
+            title: "Seed Failed",
+            description: "You don't have permission to perform this action.",
+            variant: "destructive",
+        });
+        setIsSeeding(false);
+      });
+  };
+
   const handleLogout = async () => {
     try {
         await signOut(auth);
@@ -112,6 +156,9 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             <Button className="w-full sm:w-auto" onClick={handleSaveChanges} disabled={isSaving}>
                 <Save className="mr-2 h-4 w-4" /> {isSaving ? "Saving..." : "Save to Cloud"}
+            </Button>
+            <Button className="w-full sm:w-auto" variant="outline" onClick={handleSeedDatabase} disabled={isSeeding}>
+                <Database className="mr-2 h-4 w-4" /> {isSeeding ? "Seeding..." : "Seed Database"}
             </Button>
             <Button className="w-full sm:w-auto" variant="destructive" onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" /> Logout
