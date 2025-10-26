@@ -48,26 +48,23 @@ const Devicon = ({ skill }: { skill: RawSkill }) => {
     .replace(/\+/g, 'plus');
 
   const iconUrl = `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${deviconName}/${deviconName}-original.svg`;
-  const iconFontClass = `devicon-${deviconName}-original`;
   
   const FallbackIcon = iconMap[skill.icon] || Code;
 
+  if (imgError) {
+    return <FallbackIcon className="h-5 w-5 text-accent-foreground" />;
+  }
+
   return (
-    <>
-      {imgError ? (
-         <i className={`${iconFontClass} text-xl text-accent-foreground`}></i>
-      ) : (
-        <Image
-          src={iconUrl}
-          alt={`${skill.name} icon`}
-          width={20}
-          height={20}
-          className="h-5 w-5 text-accent-foreground"
-          onError={() => setImgError(true)}
-          unoptimized // Required for external SVGs in Next.js export
-        />
-      )}
-    </>
+    <Image
+      src={iconUrl}
+      alt={`${skill.name} icon`}
+      width={20}
+      height={20}
+      className="h-5 w-5 text-accent-foreground"
+      onError={() => setImgError(true)}
+      unoptimized // Required for external SVGs in Next.js export
+    />
   );
 };
 
@@ -128,5 +125,6 @@ export default function SkillsSection({ data }: { data: RawSkillCategory[] }) {
     </section>
   );
 }
+
 
 
