@@ -21,7 +21,6 @@ import { useAuth, useFirebase, errorEmitter, FirestorePermissionError, type Secu
 import { doc, setDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import initialJsonData from '@/lib/portfolio-data.json';
 import { Skeleton } from "@/components/ui/skeleton";
 
 
@@ -40,7 +39,6 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
   const [skills, setSkills] = useState<RawSkillCategory[]>(initialData?.skills || emptyData.skills);
   const [contactData, setContactData] = useState<RawContact>(initialData?.contact || emptyData.contact);
   const [isSaving, setIsSaving] = useState(false);
-  const [isSeeding, setIsSeeding] = useState(false);
   const [isDataReady, setIsDataReady] = useState(false);
 
   const { toast } = useToast();
@@ -111,53 +109,6 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         setIsSaving(false);
       });
   };
-  
-  const handleSeedDatabase = async () => {
-    setIsSeeding(true);
-     if (!firestore) {
-      toast({
-        title: "Seed Failed",
-        description: "Firestore not initialized.",
-        variant: "destructive",
-      });
-      setIsSeeding(false);
-      return;
-    }
-
-    const docRef = doc(firestore, "portfolio", "main");
-    
-    const dataToSeed = initialJsonData as RawPortfolioData;
-    
-    setDoc(docRef, dataToSeed, { merge: true })
-      .then(() => {
-        setHeroData(dataToSeed.hero);
-        setExperiences(dataToSeed.experiences);
-        setProjects(dataToSeed.projects);
-        setSkills(dataToSeed.skills);
-        setContactData(dataToSeed.contact);
-        toast({
-          title: "Database Seeded!",
-          description: "Initial portfolio data has been saved to the cloud.",
-        });
-        setIsSeeding(false);
-      })
-      .catch((serverError) => {
-        const permissionError = new FirestorePermissionError({
-            path: docRef.path,
-            operation: 'create',
-            requestResourceData: dataToSeed,
-        } satisfies SecurityRuleContext);
-        
-        errorEmitter.emit('permission-error', permissionError);
-        
-        toast({
-            title: "Seed Failed",
-            description: "You don't have permission to perform this action.",
-            variant: "destructive",
-        });
-        setIsSeeding(false);
-      });
-  };
 
   const handleLogout = async () => {
     try {
@@ -203,9 +154,6 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <Button className="w-full sm:w-auto" onClick={handleSaveChanges} disabled={isSaving}>
                 <Save className="mr-2 h-4 w-4" /> {isSaving ? "Saving..." : "Save to Cloud"}
-            </Button>
-            <Button className="w-full sm:w-auto" variant="outline" onClick={handleSeedDatabase} disabled={isSeeding}>
-                <Database className="mr-2 h-4 w-4" /> {isSeeding ? "Seeding..." : "Seed Database"}
             </Button>
             <Button className="w-full sm:w-auto" variant="destructive" onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" /> Logout
