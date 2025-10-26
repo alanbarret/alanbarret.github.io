@@ -74,10 +74,10 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                 title: "Upload Successful",
                 description: "Your image has been uploaded.",
             });
-        } catch (error) {
+        } catch (error: any) {
             toast({
                 title: "Upload Failed",
-                description: "Could not upload the image.",
+                description: error.message || "Could not upload the image.",
                 variant: "destructive",
             });
         } finally {
