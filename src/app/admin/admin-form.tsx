@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tabs,
@@ -21,19 +21,44 @@ import { doc, setDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import initialJsonData from '@/lib/portfolio-data.json';
+import { Skeleton } from "@/components/ui/skeleton";
 
 
-export default function AdminForm({ initialData }: { initialData: RawPortfolioData }) {
-  const [heroData, setHeroData] = useState<RawHero>(initialData.hero);
-  const [experiences, setExperiences] = useState<RawExperience[]>(initialData.experiences);
-  const [projects, setProjects] = useState<RawProject[]>(initialData.projects);
-  const [skills, setSkills] = useState<RawSkillCategory[]>(initialData.skills);
+const emptyData: RawPortfolioData = {
+  hero: { badge: '', headline: '', description: '', tags: [] },
+  experiences: [],
+  projects: [],
+  skills: [],
+};
+
+export default function AdminForm({ initialData }: { initialData: RawPortfolioData | null }) {
+  const [heroData, setHeroData] = useState<RawHero>(emptyData.hero);
+  const [experiences, setExperiences] = useState<RawExperience[]>(emptyData.experiences);
+  const [projects, setProjects] = useState<RawProject[]>(emptyData.projects);
+  const [skills, setSkills] = useState<RawSkillCategory[]>(emptyData.skills);
   const [isSaving, setIsSaving] = useState(false);
   const [isSeeding, setIsSeeding] = useState(false);
+  const [isDataReady, setIsDataReady] = useState(false);
+
   const { toast } = useToast();
   const router = useRouter();
   const { firestore } = useFirebase();
   const auth = useAuth();
+  
+  useEffect(() => {
+    if (initialData) {
+      setHeroData(initialData.hero);
+      setExperiences(initialData.experiences);
+      setProjects(initialData.projects);
+      setSkills(initialData.skills);
+      setIsDataReady(true);
+    } else {
+      // If initialData is null (still loading or doesn't exist),
+      // we can decide what to show. For seeding, it's fine.
+      setIsDataReady(true); // Allow rendering the form for seeding
+    }
+  }, [initialData]);
+
 
   const handleSaveChanges = async () => {
     setIsSaving(true);
@@ -143,6 +168,21 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         });
     }
   };
+  
+  if (!isDataReady) {
+    return (
+        <div className="container mx-auto py-10">
+            <div className="space-y-4">
+                <Skeleton className="h-12 w-1/3" />
+                <Skeleton className="h-8 w-1/2" />
+                <div className="mt-8 space-y-4">
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-64 w-full" />
+                </div>
+            </div>
+        </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-10 px-4">

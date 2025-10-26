@@ -6,20 +6,22 @@ import type { RawPortfolioData } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/firebase';
 import { usePortfolioData } from '@/lib/data';
+import { useRouter } from 'next/navigation';
 
 export default function AdminPageClient() {
     const { user, isUserLoading } = useUser();
     const { data: initialData, isLoading: isDataLoading } = usePortfolioData();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
-        // We consider the user authenticated if the Firebase user object exists.
-        if (!isUserLoading) {
-            setIsAuthenticated(!!user);
+        // Redirect to login if auth check is done and there's no user
+        if (!isUserLoading && !user) {
+            router.replace('/login');
         }
-    }, [user, isUserLoading]);
+    }, [user, isUserLoading, router]);
 
-    if (isUserLoading || isDataLoading || !isAuthenticated) {
+    // Show loading skeleton only while checking authentication
+    if (isUserLoading) {
         return (
             <div className="container mx-auto py-10">
                 <div className="space-y-4">
@@ -33,18 +35,14 @@ export default function AdminPageClient() {
             </div>
         );
     }
+    
+    // Once auth is checked, if there's a user, show the form.
+    // The form itself can handle the case where initialData is loading or null.
+    if (user) {
+         // Pass the potentially null initialData to the form
+        return <AdminForm initialData={initialData} />;
+    }
 
-    return (
-        <>
-            {initialData ? (
-                <AdminForm initialData={initialData} />
-            ) : (
-                 <div className="container mx-auto py-10">
-                    <div className="text-center">
-                        <p>Could not load portfolio data. Please try again later.</p>
-                    </div>
-                </div>
-            )}
-        </>
-    );
+    // If no user and not loading, it's about to redirect, so show nothing or a minimal loader.
+    return null;
 }
