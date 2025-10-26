@@ -2,7 +2,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { doc, onSnapshot, getFirestore } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase';
+import { initializeFirebase, errorEmitter, FirestorePermissionError } from '@/firebase';
 import type { RawPortfolioData } from '@/lib/types';
 
 // Initialize Firebase on the client
@@ -41,8 +41,16 @@ export function usePortfolioData() {
       }
       setIsLoading(false);
     }, (err) => {
-      console.error("Error fetching portfolio data:", err);
-      setError(err);
+      const permissionError = new FirestorePermissionError({
+          path: docRef.path,
+          operation: 'get',
+      });
+      
+      // Emit the contextual error
+      errorEmitter.emit('permission-error', permissionError);
+      
+      // Also set local error state for UI feedback if needed
+      setError(permissionError);
       setIsLoading(false);
     });
 
