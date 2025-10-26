@@ -73,7 +73,7 @@ export default function SkillsEditor({ data, setData }: SkillsEditorProps) {
         </p>
         <div className="space-y-4">
           {data.map((category, catIndex) => (
-            <Card key={catIndex} className="p-4 bg-secondary/50">
+            <Card key={catIndex} className="p-4 bg-secondary/30">
               <div className="flex justify-between items-center mb-4 gap-4">
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-grow">
                     <div className="space-y-2">

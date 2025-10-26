@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
-import { Loader } from "lucide-react";
+import { Loader, Trash } from "lucide-react";
 
 
 interface Project {
@@ -92,17 +92,17 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         {data.map((project, index) => (
-          <Card key={index} className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2 col-span-2">
+          <Card key={index} className="p-4 bg-secondary/30">
+            <div className="space-y-4">
+              <div className="space-y-2">
                 <Label>Project Name</Label>
                 <Input value={project.name} onChange={(e) => handleUpdate(index, 'name', e.target.value)} />
               </div>
-              <div className="space-y-2 col-span-2">
+              <div className="space-y-2">
                 <Label>Description</Label>
                 <Textarea value={project.description} onChange={(e) => handleUpdate(index, 'description', e.target.value)} />
               </div>
-              <div className="space-y-2 col-span-2 sm:col-span-1">
+              <div className="space-y-2">
                 <Label>Project Image</Label>
                 <div className="flex items-center gap-4">
                   <Image src={project.image} alt={project.name} width={80} height={50} className="rounded-md border object-cover"/>
@@ -119,25 +119,27 @@ export default function ProjectsEditor({ data, setData }: ProjectsEditorProps) {
                   />
                 </div>
               </div>
-              <div className="space-y-2 col-span-2 sm:col-span-1">
+              <div className="space-y-2">
                 <Label>Image AI Hint</Label>
                 <Input value={project.imageHint} onChange={(e) => handleUpdate(index, 'imageHint', e.target.value)} />
               </div>
-               <div className="space-y-2 col-span-2 sm:col-span-1">
+               <div className="space-y-2">
                 <Label>GitHub URL</Label>
                 <Input value={project.github} onChange={(e) => handleUpdate(index, 'github', e.target.value)} />
               </div>
-               <div className="space-y-2 col-span-2 sm:col-span-1">
+               <div className="space-y-2">
                 <Label>Live Demo URL</Label>
                 <Input value={project.demo} onChange={(e) => handleUpdate(index, 'demo', e.target.value)} />
               </div>
-              <div className="space-y-2 col-span-2">
+              <div className="space-y-2">
                 <Label>Tags (comma separated)</Label>
                 <Input value={project.tags.join(', ')} onChange={(e) => handleUpdate(index, 'tags', e.target.value.split(',').map(t => t.trim()))} />
               </div>
             </div>
             <div className="mt-4 flex justify-end">
-              <Button variant="destructive" size="sm" onClick={() => handleDelete(index)}>Delete</Button>
+              <Button variant="destructive" size="sm" onClick={() => handleDelete(index)}>
+                <Trash className="mr-2 h-4 w-4" /> Delete
+              </Button>
             </div>
           </Card>
         ))}

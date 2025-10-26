@@ -17,7 +17,8 @@ import ContactEditor from "./contact-editor";
 import { useToast } from "@/hooks/use-toast";
 import { UploadCloud, LogOut, Save, Database } from "lucide-react";
 import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory, RawContact } from "@/lib/types";
-import { useAuth, useFirebase, errorEmitter, FirestorePermissionError, type SecurityRuleContext } from "@/firebase";
+import { useAuth, useFirebase, errorEmitter, FirestorePermissionError } from "@/firebase";
+import { type SecurityRuleContext } from "@/firebase/errors";
 import { doc, setDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -97,7 +98,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
             path: docRef.path,
             operation: 'update',
             requestResourceData: fullData,
-        } satisfies SecurityRuleContext);
+        });
         
         errorEmitter.emit('permission-error', permissionError);
         

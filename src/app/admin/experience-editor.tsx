@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
-import { Loader } from "lucide-react";
+import { Loader, Trash } from "lucide-react";
 
 interface Experience {
   role: string;
@@ -91,25 +91,25 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
       </CardHeader>
       <CardContent className="space-y-6">
         {data.map((exp, index) => (
-          <Card key={index} className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2 col-span-1 md:col-span-1">
+          <Card key={index} className="p-4 bg-secondary/30">
+            <div className="space-y-4">
+              <div className="space-y-2">
                 <Label>Role</Label>
                 <Input value={exp.role} onChange={(e) => handleUpdate(index, 'role', e.target.value)} />
               </div>
-              <div className="space-y-2 col-span-1 md:col-span-1">
+              <div className="space-y-2">
                 <Label>Company</Label>
                 <Input value={exp.company} onChange={(e) => handleUpdate(index, 'company', e.target.value)} />
               </div>
-              <div className="space-y-2 col-span-2">
+              <div className="space-y-2">
                 <Label>Duration</Label>
                 <Input value={exp.duration} onChange={(e) => handleUpdate(index, 'duration', e.target.value)} />
               </div>
-              <div className="space-y-2 col-span-2">
+              <div className="space-y-2">
                 <Label>Description</Label>
                 <Textarea value={exp.description} onChange={(e) => handleUpdate(index, 'description', e.target.value)} />
               </div>
-               <div className="space-y-2 col-span-2 sm:col-span-1">
+               <div className="space-y-2">
                  <Label>Company Logo</Label>
                  <div className="flex items-center gap-4">
                    <Image src={exp.logo} alt="Company Logo" width={40} height={40} className="rounded-md bg-muted object-cover" />
@@ -126,17 +126,19 @@ export default function ExperienceEditor({ data, setData }: ExperienceEditorProp
                    />
                  </div>
                </div>
-              <div className="space-y-2 col-span-2 sm:col-span-1">
+              <div className="space-y-2">
                 <Label>Logo AI Hint</Label>
                 <Input value={exp.logoHint} onChange={(e) => handleUpdate(index, 'logoHint', e.target.value)} />
               </div>
-              <div className="space-y-2 col-span-2">
+              <div className="space-y-2">
                 <Label>Tags (comma separated)</Label>
                 <Input value={exp.tags.join(', ')} onChange={(e) => handleUpdate(index, 'tags', e.target.value.split(',').map(t => t.trim()))} />
               </div>
             </div>
             <div className="mt-4 flex justify-end">
-              <Button variant="destructive" size="sm" onClick={() => handleDelete(index)}>Delete</Button>
+              <Button variant="destructive" size="sm" onClick={() => handleDelete(index)}>
+                <Trash className="mr-2 h-4 w-4" /> Delete
+              </Button>
             </div>
           </Card>
         ))}
