@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, BrainCircuit } from 'lucide-react';
+import { Menu, Bot } from 'lucide-react';
 
 const navLinks = [
   { href: '#experience', label: 'Experience' },
@@ -35,7 +35,7 @@ export default function Header() {
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 font-bold font-headline text-xl">
-          <BrainCircuit className="h-7 w-7 text-primary" />
+          <Bot className="h-7 w-7 text-primary" />
           <span>Alan Barret</span>
         </Link>
         <nav className="hidden md:flex items-center gap-8 text-sm">
@@ -67,7 +67,7 @@ export default function Header() {
                 </SheetHeader>
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2 font-bold font-headline text-lg" onClick={closeSheet}>
-                  <BrainCircuit className="h-6 w-6 text-primary" />
+                  <Bot className="h-6 w-6 text-primary" />
                   <span>Alan Barret</span>
                 </Link>
                 <nav className="flex flex-col gap-4">
