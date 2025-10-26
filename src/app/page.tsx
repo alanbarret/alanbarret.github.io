@@ -8,6 +8,7 @@ import SkillsSection from "@/components/skills-section";
 import Footer from "@/components/footer";
 import { usePortfolioData } from "@/lib/data";
 import { Skeleton } from "@/components/ui/skeleton";
+import ContactSection from "@/components/contact-section";
 
 export default function Home() {
   const { data: portfolioData, isLoading } = usePortfolioData();
@@ -49,6 +50,7 @@ export default function Home() {
         <ExperienceSection data={experiences} />
         <ProjectsSection data={projects} />
         <SkillsSection data={skills} />
+        <ContactSection data={contact} />
       </main>
       <Footer contact={contact}/>
     </div>
