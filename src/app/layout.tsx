@@ -7,6 +7,9 @@ import { FirebaseClientProvider } from "@/firebase";
 export const metadata: Metadata = {
   title: "Alan Barret - AI Developer Portfolio",
   description: "Portfolio of Alan Barret, an AI Developer specializing in Machine Learning, NLP, and building intelligent applications.",
+  verification: {
+  google: "v_nXApckzvD_wJ8JYr7-fHj6_suPhl6P1GyOPw22ttQ",
+  },
 };
 
 export default function RootLayout({
