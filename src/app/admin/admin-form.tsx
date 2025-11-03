@@ -14,11 +14,11 @@ import ExperienceEditor from "./experience-editor";
 import ProjectsEditor from "./projects-editor";
 import SkillsEditor from "./skills-editor";
 import ContactEditor from "./contact-editor";
+import EducationEditor from "./education-editor";
 import { useToast } from "@/hooks/use-toast";
 import { UploadCloud, LogOut, Save, Database } from "lucide-react";
-import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory, RawContact } from "@/lib/types";
-import { useAuth, useFirebase, errorEmitter, FirestorePermissionError } from "@/firebase";
-import { type SecurityRuleContext } from "@/firebase/errors";
+import type { RawPortfolioData, RawHero, RawExperience, RawProject, RawSkillCategory, RawContact, RawEducation } from "@/lib/types";
+import { useAuth, useFirebase, errorEmitter, FirestorePermissionError, type SecurityRuleContext } from "@/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,7 @@ const emptyData: RawPortfolioData = {
   experiences: [],
   projects: [],
   skills: [],
+  education: [],
   contact: { email: '', github: '', linkedin: '' },
 };
 
@@ -38,6 +39,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
   const [experiences, setExperiences] = useState<RawExperience[]>(initialData?.experiences || emptyData.experiences);
   const [projects, setProjects] = useState<RawProject[]>(initialData?.projects || emptyData.projects);
   const [skills, setSkills] = useState<RawSkillCategory[]>(initialData?.skills || emptyData.skills);
+  const [education, setEducation] = useState<RawEducation[]>(initialData?.education || emptyData.education);
   const [contactData, setContactData] = useState<RawContact>(initialData?.contact || emptyData.contact);
   const [isSaving, setIsSaving] = useState(false);
   const [isDataReady, setIsDataReady] = useState(false);
@@ -54,6 +56,7 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
       setExperiences(initialData.experiences || emptyData.experiences);
       setProjects(initialData.projects || emptyData.projects);
       setSkills(initialData.skills || emptyData.skills);
+      setEducation(initialData.education || emptyData.education);
       setContactData(initialData.contact || emptyData.contact);
       setIsDataReady(true);
     } else {
@@ -65,11 +68,12 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
 
   const handleSaveChanges = async () => {
     setIsSaving(true);
-    const fullData = {
+    const fullData: RawPortfolioData = {
       hero: heroData,
       experiences: experiences,
       projects: projects,
       skills: skills,
+      education: education,
       contact: contactData,
     };
 
@@ -163,11 +167,12 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
       </div>
 
       <Tabs defaultValue="hero" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 h-auto">
           <TabsTrigger value="hero">Hero</TabsTrigger>
           <TabsTrigger value="experience">Experience</TabsTrigger>
           <TabsTrigger value="projects">Projects</TabsTrigger>
           <TabsTrigger value="skills">Skills</TabsTrigger>
+          <TabsTrigger value="education">Education</TabsTrigger>
           <TabsTrigger value="contact">Contact</TabsTrigger>
         </TabsList>
         <TabsContent value="hero">
@@ -181,6 +186,9 @@ export default function AdminForm({ initialData }: { initialData: RawPortfolioDa
         </TabsContent>
         <TabsContent value="skills">
           <SkillsEditor data={skills} setData={setSkills} />
+        </TabsContent>
+        <TabsContent value="education">
+          <EducationEditor data={education} setData={setEducation} />
         </TabsContent>
         <TabsContent value="contact">
           <ContactEditor data={contactData} setData={setContactData} />

@@ -13,6 +13,7 @@ const emptyData: RawPortfolioData = {
   experiences: [],
   projects: [],
   skills: [],
+  education: [],
   contact: { email: '', github: '', linkedin: '' },
 };
 
@@ -35,7 +36,12 @@ export function usePortfolioData() {
     
     const unsubscribe = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
-        setData(docSnap.data() as RawPortfolioData);
+        const portfolioData = docSnap.data() as RawPortfolioData;
+        // Ensure education is an array, even if it's missing from Firestore
+        if (!portfolioData.education) {
+          portfolioData.education = [];
+        }
+        setData(portfolioData);
       } else {
         // If the document doesn't exist, we can use empty data.
         setData(emptyData);
