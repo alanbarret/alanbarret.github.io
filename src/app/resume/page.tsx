@@ -79,21 +79,6 @@ export default function ResumePage() {
         <p className="text-base leading-relaxed">{hero.description}</p>
       </ResumeSection>
 
-      {education && education.length > 0 && (
-          <ResumeSection title="Education">
-              {education.map((edu, index) => (
-                  <div key={index}>
-                      <div className="flex justify-between items-baseline">
-                          <h3 className="text-lg font-bold">{edu.degree}</h3>
-                          <span className="text-sm text-muted-foreground print:text-gray-500">{edu.duration}</span>
-                      </div>
-                      <p className="text-md font-semibold text-primary mb-2">{edu.institution}</p>
-                      {edu.description && <p className="text-base text-muted-foreground print:text-gray-700 leading-relaxed">{edu.description}</p>}
-                  </div>
-              ))}
-          </ResumeSection>
-      )}
-
       <ResumeSection title="Professional Experience">
         {experiences.map((exp, index) => (
           <div key={index}>
@@ -129,6 +114,21 @@ export default function ResumePage() {
           </div>
         ))}
       </ResumeSection>
+
+      {education && education.length > 0 && (
+          <ResumeSection title="Education">
+              {education.map((edu, index) => (
+                  <div key={index}>
+                      <div className="flex justify-between items-baseline">
+                          <h3 className="text-lg font-bold">{edu.degree}</h3>
+                          <span className="text-sm text-muted-foreground print:text-gray-500">{edu.duration}</span>
+                      </div>
+                      <p className="text-md font-semibold text-primary mb-2">{edu.institution}</p>
+                      {edu.description && <p className="text-base text-muted-foreground print:text-gray-700 leading-relaxed">{edu.description}</p>}
+                  </div>
+              ))}
+          </ResumeSection>
+      )}
 
       <ResumeSection title="Technical Skills">
         <div className="space-y-3">
