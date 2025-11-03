@@ -65,6 +65,18 @@
             }
           }
         },
+        "education": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "degree": { "type": "string" },
+                    "institution": { "type": "string" },
+                    "duration": { "type": "string" },
+                    "description": { "type": "string" }
+                }
+            }
+        },
         "contact": {
           "type": "object",
           "properties": {

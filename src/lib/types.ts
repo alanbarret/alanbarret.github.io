@@ -43,10 +43,18 @@ export interface RawContact {
   linkedin: string;
 }
 
+export interface RawEducation {
+  degree: string;
+  institution: string;
+  duration: string;
+  description: string;
+}
+
 export interface RawPortfolioData {
   hero: RawHero;
   experiences: RawExperience[];
   projects: RawProject[];
   skills: RawSkillCategory[];
+  education: RawEducation[];
   contact: RawContact;
 }
